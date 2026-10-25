@@ -1,0 +1,43 @@
+# "Jouw top 5" per rol. route = pad na #/ in het playbook.
+digital-lead:
+  - { route: waarom, waarom: De kern van de kanteling, en wat die vraagt van leiderschap }
+  - { route: model, waarom: Het hele model in één beeld }
+  - { route: sturen, waarom: Van projectbudget naar productbudget }
+  - { route: ritme/pi-planning, waarom: Jouw rol als business owner }
+  - { route: rollen/digital-lead, waarom: Wat er voor jou verandert }
+product-manager:
+  - { route: rollen/product-manager, waarom: Wat er voor jou verandert }
+  - { route: model, waarom: Waar de productgroep in het model zit }
+  - { route: ritme/pi-planning, waarom: Jij presenteert de visie }
+  - { route: sturen, waarom: Prioriteren met WSJF }
+  - { route: waarom, waarom: Het verhaal achter de kanteling }
+product-owner:
+  - { route: rollen/product-owner, waarom: Wat er voor jou verandert }
+  - { route: ritme, waarom: Jouw ritme in drie ringen }
+  - { route: ritme/refinement, waarom: Werk klaarmaken met het team }
+  - { route: ritme/iteratie-review, waarom: Feedback ophalen }
+  - { route: waarom, waarom: Het verhaal achter de kanteling }
+team-coach:
+  - { route: rollen/team-coach, waarom: Wat er voor jou verandert }
+  - { route: ritme, waarom: Het ritme dat jij bewaakt }
+  - { route: ritme/retrospective, waarom: Samen verbeteren }
+  - { route: ritme/daily, waarom: Kort en nuttig afstemmen }
+  - { route: ritme/pi-planning, waarom: Teams begeleiden in de breakouts }
+architect:
+  - { route: rollen/architect, waarom: Wat er voor jou verandert }
+  - { route: model, waarom: Het hele model in één beeld }
+  - { route: ritme/pi-planning, waarom: Jij presenteert de architectuurvisie }
+  - { route: sturen, waarom: Guardrails en kaders }
+  - { route: ritme/systeemdemo, waarom: Technische samenhang zien }
+teamlid:
+  - { route: waarom, waarom: Waarom we anders gaan werken }
+  - { route: rollen/teamlid, waarom: Wat er voor jou verandert }
+  - { route: ritme, waarom: Jouw ritme in drie ringen }
+  - { route: ritme/daily, waarom: Elke dag even afstemmen }
+  - { route: ritme/retrospective, waarom: Samen verbeteren }
+business-stakeholder:
+  - { route: waarom, waarom: Waarom we anders gaan werken }
+  - { route: rollen/business-stakeholder, waarom: Wat er voor jou verandert }
+  - { route: ritme/systeemdemo, waarom: Elke twee weken het resultaat zien }
+  - { route: sturen, waarom: Hoe ideeën epics worden }
+  - { route: model, waarom: Het hele model in één beeld }
