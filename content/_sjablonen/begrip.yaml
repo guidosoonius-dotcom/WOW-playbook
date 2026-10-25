@@ -1,0 +1,6 @@
+# Voeg toe aan content/data/begrippen.yaml
+- id: voorbeeld-begrip
+  term: voorbeeldbegrip
+  synoniemen: [voorbeeldbegrippen]
+  safe_term: SAFe-term
+  uitleg: Korte uitleg in één of twee zinnen (max. 220 tekens).

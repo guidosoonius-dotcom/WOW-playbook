@@ -1,0 +1,31 @@
+name: Playbook bouwen en testen
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Content controleren
+        run: npm run content:check
+      - run: npm run check
+      - run: npm run build
+      - name: Rooktest in Chromium
+        run: |
+          npm install --no-save playwright
+          npx playwright install --with-deps chromium
+          npm run smoke
+      - name: Playbook als download beschikbaar maken
+        uses: actions/upload-artifact@v4
+        with:
+          name: samen-digitaal-playbook
+          path: dist/samen-digitaal-playbook.html

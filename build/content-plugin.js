@@ -19,14 +19,20 @@ const TYPE_REQUIRED = {
   laag: ['samenvatting', 'niveau', 'doel', 'beslist_over'],
   rol: ['samenvatting', 'laag', 'niveau_label', 'in_een_zin', 'verantwoordelijkheden', 'niet_meer', 'werkt_samen_met', 'events'],
   event: ['samenvatting', 'cadans', 'wanneer', 'duur', 'doel', 'deelnemers', 'output', 'goed_als', 'valkuilen'],
-  explainer: ['scene', 'duur', 'stappen']
+  explainer: ['scene', 'duur', 'stappen'],
+  dilemma: ['situatie', 'vraag', 'opties', 'leerpunt']
 };
 
+const BESLIS_CODES = { B: 'Beslist', A: 'Adviseert', U: 'Voert uit', I: 'Wordt geïnformeerd' };
+const KWALITEIT = ['beste', 'kan', 'valkuil'];
+const MIJLPAAL_STATUS = ['afgerond', 'bezig', 'gepland'];
+
 // Routes die buiten de content om bestaan (pagina's in src/pages).
-const STATIC_ROUTES = ['', 'waarom', 'model', 'rollen', 'ritme', 'sturen', 'woordenlijst', 'over'];
+const STATIC_ROUTES = ['', 'waarom', 'model', 'rollen', 'ritme', 'sturen', 'woordenlijst', 'over', 'beslissen', 'doen', 'doen/dilemmas', 'doen/teamscan', 'transitie'];
 
 function walk(dir) {
-  return readdirSync(dir).flatMap((name) => {
+  // Mappen die met _ beginnen (zoals _sjablonen) zijn hulpmateriaal en geen content.
+  return readdirSync(dir).filter((name) => !name.startsWith('_') && !name.startsWith('.')).flatMap((name) => {
     const full = join(dir, name);
     return statSync(full).isDirectory() ? walk(full) : [full];
   });
@@ -155,6 +161,45 @@ export function loadContent(root = process.cwd()) {
   for (const p of byType('pagina')) {
     if (p.explainer) check(explainerIds.has(p.explainer), `${p._file}: explainer "${p.explainer}" bestaat niet`);
   }
+  for (const d of byType('dilemma')) {
+    const opties = Array.isArray(d.opties) ? d.opties : [];
+    check(opties.length >= 2 && opties.length <= 4, `${d._file}: een dilemma heeft 2 tot 4 opties`);
+    check(opties.filter((o) => o.kwaliteit === 'beste').length === 1, `${d._file}: precies één optie moet kwaliteit "beste" hebben`);
+    opties.forEach((o, i) => {
+      check(o.tekst && o.feedback, `${d._file}: optie ${i + 1} mist "tekst" of "feedback"`);
+      check(KWALITEIT.includes(o.kwaliteit), `${d._file}: optie ${i + 1} heeft kwaliteit "${o.kwaliteit}" (kies uit ${KWALITEIT.join(', ')})`);
+    });
+    for (const r of d.rollen ?? []) check(rolIds.has(r), `${d._file}: onbekende rol "${r}"`);
+  }
+
+  const beslissingen = data.beslismatrix ?? [];
+  beslissingen.forEach((b, i) => {
+    const waar = `content/data/beslismatrix.yaml (besluit ${i + 1}${b?.besluit ? `: "${b.besluit}"` : ''})`;
+    check(b?.besluit && b?.thema, `${waar}: "besluit" en "thema" zijn verplicht`);
+    if (b?.laag) check(laagIds.has(b.laag), `${waar}: laag "${b.laag}" bestaat niet`);
+    const codes = Object.entries(b?.rollen ?? {});
+    check(codes.length > 0, `${waar}: geef per rol een code (${Object.keys(BESLIS_CODES).join('/')})`);
+    check(codes.filter(([, c]) => c === 'B').length === 1, `${waar}: precies één rol beslist (code B)`);
+    for (const [rol, code] of codes) {
+      check(rolIds.has(rol), `${waar}: onbekende rol "${rol}"`);
+      check(BESLIS_CODES[code], `${waar}: code "${code}" bij ${rol} is ongeldig (kies uit ${Object.keys(BESLIS_CODES).join(', ')})`);
+    }
+  });
+
+  const scan = data.teamscan;
+  if (scan) {
+    check(Array.isArray(scan.dimensies) && scan.dimensies.length >= 3, 'content/data/teamscan.yaml: minimaal 3 dimensies nodig voor het radardiagram');
+    for (const dim of scan.dimensies ?? []) {
+      check(dim.id && dim.naam && Array.isArray(dim.vragen) && dim.vragen.length, `content/data/teamscan.yaml: dimensie "${dim.naam ?? dim.id}" mist id, naam of vragen`);
+      check(dim.laag && dim.hoog, `content/data/teamscan.yaml: dimensie "${dim.naam}" mist duiding "laag" of "hoog"`);
+    }
+  }
+
+  (data.transitie ?? []).forEach((m, i) => {
+    check(m.fase !== undefined && m.titel && m.wat, `content/data/transitie.yaml: mijlpaal ${i + 1} mist fase, titel of wat`);
+    check(MIJLPAAL_STATUS.includes(m.status), `content/data/transitie.yaml: mijlpaal "${m.titel}" heeft status "${m.status}" (kies uit ${MIJLPAAL_STATUS.join(', ')})`);
+    for (const r of m.voor_wie ?? []) check(rolIds.has(r), `content/data/transitie.yaml: onbekende rol "${r}" bij "${m.titel}"`);
+  });
 
   const routes = new Set([
     ...STATIC_ROUTES,
@@ -164,6 +209,9 @@ export function loadContent(root = process.cwd()) {
   for (const [rol, stappen] of Object.entries(data.routes ?? {})) {
     check(rolIds.has(rol), `content/data/routes.yaml: onbekende rol "${rol}"`);
     for (const s of stappen) check(routes.has(s.route), `content/data/routes.yaml: route "${s.route}" bij ${rol} bestaat niet`);
+  }
+  for (const d of byType('dilemma')) {
+    for (const r of d.verwijst_naar ?? []) check(routes.has(r), `${d._file}: verwijst_naar "${r}" is geen bestaande pagina`);
   }
   for (const b of data.begrippen ?? []) {
     check(b.id && b.term && b.uitleg, `content/data/begrippen.yaml: begrip ${b.id ?? '?'} mist id, term of uitleg`);
@@ -175,8 +223,8 @@ export function loadContent(root = process.cwd()) {
   }
 
   const begrippen = (data.begrippen ?? []).slice().sort((a, b) => a.term.localeCompare(b.term, 'nl'));
-  const out = { rollen: [], events: [], lagen: [], paginas: [], explainers: [] };
-  const plural = { rol: 'rollen', event: 'events', laag: 'lagen', pagina: 'paginas', explainer: 'explainers' };
+  const out = { rollen: [], events: [], lagen: [], paginas: [], explainers: [], dilemmas: [] };
+  const plural = { rol: 'rollen', event: 'events', laag: 'lagen', pagina: 'paginas', explainer: 'explainers', dilemma: 'dilemmas' };
   for (const item of items) {
     const { _file, body, ...rest } = item;
     out[plural[item.type]].push({ ...rest, html: body ? linkTerms(marked.parse(body), begrippen) : '' });
@@ -190,7 +238,11 @@ export function loadContent(root = process.cwd()) {
     begrippen,
     verschuivingen: data.verschuivingen ?? [],
     routes: data.routes ?? {},
-    changelog: data.changelog ?? []
+    changelog: data.changelog ?? [],
+    beslismatrix: beslissingen,
+    beslisCodes: BESLIS_CODES,
+    teamscan: scan ?? null,
+    transitie: data.transitie ?? []
   };
 }
 

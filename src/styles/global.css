@@ -287,3 +287,15 @@ button {
 .lijst li {
   margin-bottom: 6px;
 }
+
+@media print {
+  .header,
+  footer,
+  .skip {
+    display: none !important;
+  }
+  body {
+    background: #fff;
+    color: #000;
+  }
+}

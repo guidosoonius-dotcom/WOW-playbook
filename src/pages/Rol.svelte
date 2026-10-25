@@ -1,5 +1,6 @@
 <script>
-  import { rolById, eventById, laagById } from '../lib/content.js';
+  import content, { rolById, eventById, laagById, besluitenVoorRol } from '../lib/content.js';
+  import BeslisCode from '../components/BeslisCode.svelte';
   import { href } from '../lib/router.svelte.js';
   import { prefs } from '../lib/state.svelte.js';
   import PaginaKop from '../components/PaginaKop.svelte';
@@ -8,6 +9,7 @@
   let { id } = $props();
   const rol = $derived(rolById(id));
   const laag = $derived(laagById(rol.laag));
+  const besluiten = $derived(besluitenVoorRol(rol.id).filter((b) => ['B', 'A'].includes(b.rollen[rol.id])));
 </script>
 
 <div class="container">
@@ -61,6 +63,18 @@
       </ul>
     </section>
   </div>
+
+  {#if besluiten.length}
+    <section class="sectie" aria-labelledby="besluiten">
+      <h2 id="besluiten">Waar beslis of adviseer je over?</h2>
+      <ul class="rijen besluiten">
+        {#each besluiten as b}
+          <li><BeslisCode code={b.rollen[rol.id]} klein /><span>{b.besluit}</span><small>{content.beslisCodes[b.rollen[rol.id]]}</small></li>
+        {/each}
+      </ul>
+      <a class="meer" href={href('beslissen')}>Bekijk de hele beslismatrix →</a>
+    </section>
+  {/if}
 
   {#if rol.tijdsbesteding}
     <section class="sectie" aria-labelledby="tijd">
@@ -160,5 +174,22 @@
   }
   .btn {
     margin-top: 8px;
+  }
+  .besluiten li {
+    display: grid;
+    grid-template-columns: 24px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    border-radius: 14px;
+    background: var(--surface);
+  }
+  .besluiten span {
+    color: var(--ink);
+  }
+  .meer {
+    display: inline-block;
+    margin-top: 12px;
+    font-weight: 600;
   }
 </style>

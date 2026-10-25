@@ -1,0 +1,62 @@
+# Wie beslist wat? Per besluit precies één rol met B.
+# Codes: B = beslist · A = adviseert · U = voert uit · I = wordt geïnformeerd
+- besluit: Welke epics we starten of stoppen
+  thema: Portfolio en budget
+  laag: portfolio
+  rollen: { digital-lead: B, product-manager: A, architect: A, business-stakeholder: I }
+- besluit: Verdeling van het budget over waardestromen
+  thema: Portfolio en budget
+  laag: portfolio
+  rollen: { digital-lead: B, product-manager: A, business-stakeholder: I }
+- besluit: Kaders (guardrails) voor budget en architectuur
+  thema: Portfolio en budget
+  laag: portfolio
+  rollen: { digital-lead: B, architect: A, product-manager: I }
+- besluit: Welke features er in het komende kwartaal komen
+  thema: Planning en prioriteit
+  laag: productgroep
+  rollen: { product-manager: B, digital-lead: A, product-owner: A, architect: A, business-stakeholder: A }
+- besluit: Goedkeuring van de PI-doelen
+  thema: Planning en prioriteit
+  laag: productgroep
+  rollen: { digital-lead: B, product-manager: A, product-owner: U, teamlid: U }
+- besluit: Volgorde van de teambacklog
+  thema: Planning en prioriteit
+  laag: productteam
+  rollen: { product-owner: B, teamlid: A, business-stakeholder: A, team-coach: I }
+- besluit: Hoeveel werk het team in een iteratie oppakt
+  thema: Planning en prioriteit
+  laag: productteam
+  rollen: { teamlid: B, product-owner: A, team-coach: A }
+- besluit: Of een spoedverzoek de lopende iteratie in mag
+  thema: Planning en prioriteit
+  laag: productteam
+  rollen: { product-owner: B, teamlid: A, business-stakeholder: I, digital-lead: I }
+- besluit: Hoe het team een story technisch oplost
+  thema: Techniek en kwaliteit
+  laag: productteam
+  rollen: { teamlid: B, architect: A, product-owner: I }
+- besluit: Technologiekeuzes die meerdere teams raken
+  thema: Techniek en kwaliteit
+  laag: productgroep
+  rollen: { architect: B, teamlid: A, product-manager: A, digital-lead: I }
+- besluit: Wanneer werk af is (Definition of Done)
+  thema: Techniek en kwaliteit
+  laag: productteam
+  rollen: { teamlid: B, product-owner: A, architect: A, team-coach: A }
+- besluit: Of opgeleverd werk wordt geaccepteerd
+  thema: Techniek en kwaliteit
+  laag: productteam
+  rollen: { product-owner: B, business-stakeholder: A, teamlid: U }
+- besluit: Hoe het team zijn werkwijze inricht
+  thema: Team en werkwijze
+  laag: productteam
+  rollen: { teamlid: B, team-coach: A, product-owner: A }
+- besluit: Samenstelling van een productteam
+  thema: Team en werkwijze
+  laag: productgroep
+  rollen: { digital-lead: B, product-manager: A, team-coach: A, teamlid: A }
+- besluit: Welke verbeteractie we na Inspect & Adapt oppakken
+  thema: Team en werkwijze
+  laag: productgroep
+  rollen: { product-manager: B, team-coach: A, teamlid: A, digital-lead: I }

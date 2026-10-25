@@ -63,6 +63,16 @@
     <RolKiezer />
   </section>
 
+  <section aria-labelledby="doen-kop" class="blok">
+    <h2 id="doen-kop">Aan de slag</h2>
+    <ul class="explainers">
+      <li><a href={href('beslissen')}><strong>Wie beslist wat?</strong><span class="kern">Per besluit één rol die beslist.</span><span class="duur">Beslismatrix →</span></a></li>
+      <li><a href={href('doen/dilemmas')}><strong>Dilemma's</strong><span class="kern">Wat doe jij in deze situatie?</span><span class="duur">Oefenen →</span></a></li>
+      <li><a href={href('doen/teamscan')}><strong>Teamscan</strong><span class="kern">Hoe staat jullie team ervoor?</span><span class="duur">10 minuten →</span></a></li>
+      <li><a href={href('transitie')}><strong>De transitie</strong><span class="kern">Waar staan we, en wat komt er?</span><span class="duur">Fasen →</span></a></li>
+    </ul>
+  </section>
+
   {#if route.length}
     <section aria-labelledby="route-kop" class="blok">
       <div class="blokkop">

@@ -5,12 +5,16 @@ const saved = load();
 export const prefs = $state({
   rol: typeof saved.rol === 'string' ? saved.rol : null,
   theme: saved.theme === 'light' || saved.theme === 'dark' ? saved.theme : null,
-  gezien: Array.isArray(saved.gezien) ? saved.gezien : []
+  gezien: Array.isArray(saved.gezien) ? saved.gezien : [],
+  // Gekozen optie per dilemma: { [dilemmaId]: optie-index }.
+  dilemmas: saved.dilemmas && typeof saved.dilemmas === 'object' ? saved.dilemmas : {},
+  // Antwoorden in de teamscan: { ['dimensie.vraagIndex']: 1..5 }.
+  scan: saved.scan && typeof saved.scan === 'object' ? saved.scan : {}
 });
 
 $effect.root(() => {
   $effect(() => {
-    save({ rol: prefs.rol, theme: prefs.theme, gezien: [...prefs.gezien] });
+    save({ rol: prefs.rol, theme: prefs.theme, gezien: [...prefs.gezien], dilemmas: { ...prefs.dilemmas }, scan: { ...prefs.scan } });
   });
   $effect(() => {
     if (prefs.theme) document.documentElement.dataset.theme = prefs.theme;

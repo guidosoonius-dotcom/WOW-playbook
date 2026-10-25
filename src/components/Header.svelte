@@ -12,12 +12,15 @@
     ['rollen', 'Rollen'],
     ['ritme', 'Ritme'],
     ['sturen', 'Sturen'],
-    ['woordenlijst', 'Woordenlijst']
+    ['doen', 'Aan de slag']
   ];
 
   const systeemDonker = typeof matchMedia === 'function' && matchMedia('(prefers-color-scheme: dark)').matches;
   const donker = $derived(prefs.theme ? prefs.theme === 'dark' : systeemDonker);
   const rol = $derived(prefs.rol ? rolById(prefs.rol) : null);
+  // Subpagina's die onder een ander menu-item vallen.
+  const ONDER = { beslissen: 'rollen', transitie: 'doen' };
+  const actief = (pad) => (ONDER[route.parts[0]] ?? route.parts[0]) === pad;
 </script>
 
 <header class="header">
@@ -31,7 +34,7 @@
       <ul>
         {#each NAV as [pad, label]}
           <li>
-            <a href={href(pad)} aria-current={route.parts[0] === pad ? 'page' : undefined}>{label}</a>
+            <a href={href(pad)} aria-current={actief(pad) ? 'page' : undefined}>{label}</a>
           </li>
         {/each}
       </ul>

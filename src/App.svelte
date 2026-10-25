@@ -15,6 +15,11 @@
   import Woordenlijst from './pages/Woordenlijst.svelte';
   import Over from './pages/Over.svelte';
   import NietGevonden from './pages/NietGevonden.svelte';
+  import Beslissen from './pages/Beslissen.svelte';
+  import Doen from './pages/Doen.svelte';
+  import Dilemmas from './pages/Dilemmas.svelte';
+  import Teamscan from './pages/Teamscan.svelte';
+  import Transitie from './pages/Transitie.svelte';
   import { href } from './lib/router.svelte.js';
 
   let zoekOpen = $state(false);
@@ -31,6 +36,11 @@
     if (a === 'sturen' && !b) return { comp: Sturen, titel: 'Sturen en financieren' };
     if (a === 'woordenlijst') return { comp: Woordenlijst, titel: 'Woordenlijst' };
     if (a === 'over' && !b) return { comp: Over, titel: 'Over dit playbook' };
+    if (a === 'beslissen' && !b) return { comp: Beslissen, titel: 'Wie beslist wat?' };
+    if (a === 'doen' && !b) return { comp: Doen, titel: 'Aan de slag' };
+    if (a === 'doen' && b === 'dilemmas') return { comp: Dilemmas, titel: "Dilemma's" };
+    if (a === 'doen' && b === 'teamscan') return { comp: Teamscan, titel: 'Teamscan' };
+    if (a === 'transitie' && !b) return { comp: Transitie, titel: 'De transitie' };
     return { comp: NietGevonden, titel: 'Niet gevonden' };
   });
 

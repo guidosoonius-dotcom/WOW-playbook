@@ -16,6 +16,10 @@
     ...content.lagen.map((l) => ({ soort: 'Laag in het model', titel: l.titel, kern: l.kern, route: 'model', tekst: l.samenvatting + strip(l.html) })),
     ...content.rollen.map((r) => ({ soort: 'Rol', titel: r.titel, kern: r.kern, route: `rollen/${r.id}`, tekst: [r.samenvatting, ...r.verantwoordelijkheden, strip(r.html)].join(' ') })),
     ...content.events.map((e) => ({ soort: CADANS_LABEL[e.cadans], titel: e.titel, kern: e.kern, route: `ritme/${e.id}`, tekst: [e.samenvatting, e.doel, strip(e.html)].join(' ') })),
+    ...content.dilemmas.map((d) => ({ soort: 'Dilemma', titel: d.titel, kern: d.kern, route: 'doen/dilemmas', tekst: [d.situatie, d.leerpunt].join(' ') })),
+    ...content.beslismatrix.map((b) => ({ soort: 'Wie beslist wat?', titel: b.besluit, kern: b.thema, route: 'beslissen', tekst: '' })),
+    { soort: 'Aan de slag', titel: 'Teamscan', kern: 'Hoe staat jullie team ervoor?', route: 'doen/teamscan', tekst: 'scan volwassenheid retro' },
+    { soort: 'Aan de slag', titel: 'De transitie', kern: 'Fasen van de kanteling', route: 'transitie', tekst: content.transitie.map((m) => m.titel + ' ' + m.wat).join(' ') },
     ...content.begrippen.map((b) => ({ soort: 'Begrip', titel: b.term, kern: b.uitleg, route: `woordenlijst/${b.id}`, tekst: [b.safe_term, ...(b.synoniemen ?? [])].join(' ') }))
   ].map((i) => ({ ...i, zoek: norm(`${i.titel} ${i.kern} ${i.tekst}`), titelNorm: norm(i.titel) }));
 

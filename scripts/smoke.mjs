@@ -16,7 +16,8 @@ if (shots) mkdirSync(shots, { recursive: true });
 
 const ROUTES = [
   '', 'waarom', 'model', 'rollen', 'rollen/digital-lead', 'rollen/product-owner', 'ritme',
-  'ritme/pi-planning', 'ritme/daily', 'sturen', 'woordenlijst', 'woordenlijst/wsjf', 'over', 'bestaat-niet'
+  'ritme/pi-planning', 'ritme/daily', 'sturen', 'woordenlijst', 'woordenlijst/wsjf', 'over', 'beslissen', 'doen',
+  'doen/dilemmas', 'doen/teamscan', 'transitie', 'bestaat-niet'
 ];
 
 const browser = await chromium.launch();
@@ -36,7 +37,7 @@ for (const [naam, viewport] of [['desktop', { width: 1440, height: 900 }], ['mob
     if (!h1) fouten.push(`[${naam}] #/${r}: geen h1`);
     const overloop = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
     if (overloop > 1) fouten.push(`[${naam}] #/${r}: ${overloop}px horizontaal scrollen`);
-    if (shots && ['', 'model', 'rollen/digital-lead', 'ritme/pi-planning', 'waarom'].includes(r)) {
+    if (shots && ['', 'model', 'rollen/digital-lead', 'ritme/pi-planning', 'waarom', 'beslissen', 'doen/dilemmas', 'doen/teamscan', 'transitie'].includes(r)) {
       await page.waitForTimeout(2200);
       await page.screenshot({ path: `${shots}/${naam}-${r.replace(/\//g, '_') || 'start'}.png`, fullPage: true });
     }
@@ -74,6 +75,26 @@ for (const [naam, viewport] of [['desktop', { width: 1440, height: 900 }], ['mob
     await page.waitForTimeout(200);
     if (!(await page.evaluate(() => location.hash)).startsWith('#/')) fouten.push('zoeken: Enter navigeert niet');
 
+    // Dilemma beantwoorden.
+    await page.evaluate(() => (location.hash = '#/doen/dilemmas'));
+    await page.waitForTimeout(200);
+    await page.getByRole('button', { name: 'Alle', exact: true }).click();
+    await page.locator('.optie').first().click();
+    if (!(await page.locator('.leerpunt').count())) fouten.push('dilemma: leerpunt verschijnt niet na een keuze');
+
+    // Teamscan: één stelling invullen geeft een score.
+    await page.evaluate(() => (location.hash = '#/doen/teamscan'));
+    await page.waitForTimeout(200);
+    await page.locator('.punt').nth(3).click();
+    const score = await page.locator('.duidingen li').count();
+    if (!score) fouten.push('teamscan: geen duiding na het invullen van een stelling');
+    if (shots) await page.screenshot({ path: `${shots}/desktop-teamscan-ingevuld.png`, fullPage: false });
+
+    // Beslismatrix: filter op rol.
+    await page.evaluate(() => (location.hash = '#/beslissen'));
+    await page.waitForTimeout(200);
+    if ((await page.locator('tbody tr').count()) < 5) fouten.push('beslismatrix: te weinig rijen');
+
     // Donker thema.
     await page.emulateMedia({ colorScheme: 'dark' });
     await page.evaluate(() => (location.hash = '#/ritme'));
@@ -89,4 +110,4 @@ if (fouten.length) {
   console.error(`✗ ${fouten.length} probleem/problemen:\n  ${fouten.join('\n  ')}`);
   process.exit(1);
 }
-console.log(`✓ Rooktest geslaagd (${ROUTES.length} routes × 2 schermformaten, explainer, rolkeuze, zoeken)`);
+console.log(`✓ Rooktest geslaagd (${ROUTES.length} routes × 2 schermformaten, explainer, rolkeuze, zoeken, dilemma, teamscan, beslismatrix)`);
