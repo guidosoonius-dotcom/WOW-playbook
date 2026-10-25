@@ -44,6 +44,29 @@
     return { comp: NietGevonden, titel: 'Niet gevonden' };
   });
 
+  // Binnenkomst per sectie (zie .wacht in global.css): alleen voor wat bij het laden onder de vouw staat.
+  $effect(() => {
+    route.parts.join('/');
+    if (typeof IntersectionObserver !== 'function' || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    let io;
+    const t = setTimeout(() => {
+      io = new IntersectionObserver(
+        (items) => items.forEach((e) => e.isIntersecting && (e.target.classList.add('in'), io.unobserve(e.target))),
+        { rootMargin: '0px 0px -10% 0px' }
+      );
+      for (const el of document.querySelectorAll('main section')) {
+        if (el.getBoundingClientRect().top < innerHeight * 0.9 || el.querySelector('section')) continue;
+        [...el.children].forEach((c, i) => c.style.setProperty('--i', String(i)));
+        el.classList.add('wacht');
+        io.observe(el);
+      }
+    }, 30);
+    return () => {
+      clearTimeout(t);
+      io?.disconnect();
+    };
+  });
+
   $effect(() => {
     document.title = pagina.titel ? `${pagina.titel} · Samen Digitaal` : 'Samen Digitaal · Playbook';
     if (pagina.comp !== NietGevonden) markeerGezien(pad());
@@ -69,12 +92,16 @@
 </main>
 
 <footer>
-  <div class="container voet">
-    <span>Samen Digitaal · Playbook v0.1 · een initiatief van Facilicom Groep</span>
-    <nav aria-label="Naslag">
-      <a href={href('woordenlijst')}>Woordenlijst</a>
-      <a href={href('over')}>Over dit playbook</a>
-    </nav>
+  <div class="container">
+    <p class="naam" aria-hidden="true">Samen Digitaal</p>
+    <div class="voet">
+      <span>Playbook v0.1 · een initiatief van Facilicom Groep</span>
+      <nav aria-label="Naslag">
+        <a href={href('woordenlijst')}>Woordenlijst</a>
+        <a href={href('over')}>Over dit playbook</a>
+        <a href={href('doen')}>Aan de slag</a>
+      </nav>
+    </div>
   </div>
 </footer>
 
@@ -97,13 +124,23 @@
   main {
     min-height: 70vh;
     outline: none;
-    padding-bottom: 48px;
+  }
+  main > :global(.container:last-child) {
+    padding-bottom: clamp(72px, 9vw, 128px);
   }
   footer {
-    border-top: 1px solid var(--border);
-    padding-block: 24px;
-    font-size: 14px;
+    background: var(--surface);
+    padding-block: clamp(40px, 6vw, 72px) 28px;
+    font-size: 15px;
     color: var(--muted);
+  }
+  .naam {
+    margin: 0 0 24px;
+    font-size: clamp(56px, 9vw, 136px);
+    font-weight: 700;
+    line-height: 0.9;
+    letter-spacing: -0.05em;
+    color: var(--ink);
   }
   .voet {
     display: flex;

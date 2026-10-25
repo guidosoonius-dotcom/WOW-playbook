@@ -9,16 +9,16 @@
 
 <div class="container">
   <PaginaKop
-    eyebrow="Aan de slag · Transitie"
+   
     titel="De transitie"
     kern="We kantelen in fasen. Zo zie je waar we staan, wat er komt en wanneer het jou raakt."
     status="concept"
   />
 
   <ol class="lijn">
-    {#each content.transitie as m}
+    {#each content.transitie as m, i}
       {@const raakt = prefs.rol && (m.voor_wie ?? []).includes(prefs.rol)}
-      <li class="halte halte--{m.status}">
+      <li class="halte halte--{m.status} rij-in" style="--i: {i}">
         <span class="station" aria-hidden="true"></span>
         <div class="kaart" class:raakt>
           <div class="kop">
@@ -58,7 +58,7 @@
     bottom: 16px;
     width: 3px;
     border-radius: 2px;
-    background: linear-gradient(var(--line1), var(--line2));
+    background: var(--line1);
   }
   .halte {
     position: relative;
@@ -83,12 +83,24 @@
   .halte--bezig .station {
     border-color: var(--value);
     background: var(--value);
-    box-shadow: 0 0 0 0 color-mix(in srgb, var(--value) 60%, transparent);
+  }
+  /* "Je bent hier": een ring die uitdijt en vervaagt. */
+  .halte--bezig .station::after {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    border: 2px solid var(--value);
     animation: puls 2.2s ease-out infinite;
   }
   @keyframes puls {
+    from {
+      transform: scale(1);
+      opacity: 0.8;
+    }
     to {
-      box-shadow: 0 0 0 16px transparent;
+      transform: scale(2);
+      opacity: 0;
     }
   }
   .kaart {
@@ -107,7 +119,7 @@
     flex-wrap: wrap;
     align-items: center;
     gap: 6px 12px;
-    font-size: 13px;
+    font-size: 14px;
   }
   .fase {
     font-weight: 700;
@@ -116,7 +128,7 @@
   .status {
     padding: 2px 10px;
     border-radius: 999px;
-    border: 1px solid var(--border);
+    background: var(--bg);
     font-weight: 600;
   }
   .halte--bezig .status {
@@ -133,6 +145,7 @@
   }
   p {
     margin: 0;
+    max-width: 66ch;
   }
   .wie {
     display: flex;

@@ -35,12 +35,11 @@
     color: var(--line2);
   }
   .code--U {
-    background: var(--panel);
+    background: var(--track);
     color: var(--ink);
-    border: 1.5px solid var(--border);
   }
   .code--I {
-    border: 1.5px dashed var(--muted);
+    background: var(--surface);
     color: var(--muted);
   }
   .leeg {

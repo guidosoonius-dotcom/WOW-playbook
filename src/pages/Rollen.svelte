@@ -7,7 +7,7 @@
 </script>
 
 <div class="container">
-  <PaginaKop eyebrow="3 · Rollen" titel="Wie doet wat?" kern="Zeven rollen, van divisie tot productteam. Per rol zie je wat je doet, wat je niet meer doet en met wie je samenwerkt." />
+  <PaginaKop titel="Wie doet wat?" kern="Zeven rollen, van divisie tot productteam. Per rol zie je wat je doet, wat je niet meer doet en met wie je samenwerkt." />
 
   {#each content.lagen as laag}
     {@const rollen = content.rollen.filter((r) => r.laag === laag.id)}

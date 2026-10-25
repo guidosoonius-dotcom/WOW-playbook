@@ -14,7 +14,10 @@
   const Scene = $derived(SCENES[explainer.scene]);
   const aantal = $derived(explainer.stappen.length);
 
-  let step = $state(0);
+  // Bij "minder beweging" tonen we meteen het complete beeld (de laatste stap); stappen blijven bladerbaar.
+  // De explainer wisselt niet binnen één component (de pagina wordt per route opnieuw opgebouwd).
+  // svelte-ignore state_referenced_locally
+  let step = $state(minderBeweging ? explainer.stappen.length - 1 : 0);
   let playing = $state(!minderBeweging);
   let presenting = $state(false);
   let inBeeld = $state(true);
@@ -89,8 +92,8 @@
 >
   <div class="zijbalk">
     <div class="kop">
-      <span class="eyebrow">Explainer · {aantal} stappen · {explainer.duur}</span>
       <svelte:element this={kop} class="titel">{explainer.titel}</svelte:element>
+      <span class="meta">Explainer in {aantal} stappen · {explainer.duur}</span>
     </div>
 
     <ol class="stappen">
@@ -164,7 +167,7 @@
   }
 
   .titel {
-    font-size: clamp(26px, 2.6vw, 34px);
+    font-size: clamp(28px, 3.2vw, 40px);
     font-weight: 700;
   }
 
@@ -226,11 +229,11 @@
   }
 
   .tekst strong {
-    font-size: 15px;
+    font-size: 17px;
   }
 
   .uitleg {
-    font-size: 14px;
+    font-size: 15px;
     line-height: 1.5;
     color: var(--muted);
   }
@@ -323,14 +326,14 @@
   }
 
   .groot-nr {
-    font-size: 44px;
+    font-size: 40px;
     font-weight: 700;
     line-height: 1;
     color: var(--value);
   }
 
   .bijschrift {
-    font-size: clamp(20px, 2vw, 26px);
+    font-size: 21px;
     font-weight: 700;
     letter-spacing: -0.015em;
     line-height: 1.2;
@@ -354,7 +357,7 @@
   }
 
   .presenting .bijschrift {
-    font-size: clamp(24px, 3vw, 40px);
+    font-size: clamp(28px, 3.2vw, 40px);
   }
 
   @media (max-width: 860px) {

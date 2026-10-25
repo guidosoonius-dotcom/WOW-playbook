@@ -13,7 +13,7 @@
 </script>
 
 <div class="container">
-  <PaginaKop eyebrow="{rol.niveau_label} · {laag.titel}" titel={rol.titel} kern={rol.kern} samenvatting={rol.samenvatting} safe={rol.safe} status={rol.status} />
+  <PaginaKop context="{rol.niveau_label} · laag {laag.titel}" titel={rol.titel} kern={rol.kern} samenvatting={rol.samenvatting} safe={rol.safe} status={rol.status} />
 
   {#if prefs.rol !== rol.id}
     <button class="btn" onclick={() => (prefs.rol = rol.id)}>
@@ -107,8 +107,7 @@
     margin-bottom: 12px;
   }
   .niet {
-    background: transparent;
-    border: 1.5px dashed var(--border);
+    background: color-mix(in srgb, var(--value) 10%, var(--bg));
   }
   .rijen {
     list-style: none;

@@ -7,7 +7,7 @@
 </script>
 
 <div class="container">
-  <PaginaKop eyebrow="Naslag" titel={p.titel} kern={p.kern} samenvatting={p.samenvatting} status={p.status} />
+  <PaginaKop titel={p.titel} kern={p.kern} samenvatting={p.samenvatting} status={p.status} />
   <section class="sectie prose">{@html p.html}</section>
   <section class="sectie" aria-labelledby="nieuw">
     <h2 id="nieuw">Wat is er nieuw?</h2>

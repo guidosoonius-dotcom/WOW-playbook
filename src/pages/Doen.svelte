@@ -17,7 +17,7 @@
 </script>
 
 <div class="container">
-  <PaginaKop eyebrow="6 · Aan de slag" titel="Aan de slag" kern="Van lezen naar doen: oefenen, samen reflecteren en weten waar je staat." />
+  <PaginaKop titel="Aan de slag" kern="Van lezen naar doen: oefenen, samen reflecteren en weten waar je staat." />
 
   <ul class="tegels">
     {#each tegels as t}

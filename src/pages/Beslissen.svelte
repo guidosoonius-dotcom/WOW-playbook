@@ -23,7 +23,8 @@
 
 <div class="container">
   <PaginaKop
-    eyebrow="3 · Rollen"
+    compact
+   
     titel="Wie beslist wat?"
     kern="Per besluit één rol die beslist. Zo weet iedereen bij wie hij moet zijn, en hoeft niemand op toestemming te wachten."
     status="concept"
@@ -73,8 +74,8 @@
         </tr>
       </thead>
       <tbody>
-        {#each rijen as b}
-          <tr>
+        {#each rijen as b, i}
+          <tr class="rij-in" style="--i: {i}">
             <th scope="row" class="besluit">{b.besluit}<small>{b.thema}</small></th>
             {#each content.rollen as r}
               <td class:gekozen={rol === r.id}><BeslisCode code={b.rollen[r.id]} /></td>
@@ -87,9 +88,9 @@
 
   <!-- Kaarten op smalle schermen. -->
   <ul class="kaarten">
-    {#each rijen as b}
+    {#each rijen as b, i}
       {@const beslisser = Object.entries(b.rollen).find(([, c]) => c === 'B')[0]}
-      <li class="card">
+      <li class="card rij-in" style="--i: {i}">
         <strong>{b.besluit}</strong>
         <span class="thema">{b.thema}</span>
         {#if rolNaam && b.rollen[rol]}
@@ -136,7 +137,7 @@
     display: flex;
     flex-direction: column;
     gap: 4px;
-    font-size: 13px;
+    font-size: 15px;
     font-weight: 600;
     color: var(--muted);
   }
@@ -166,7 +167,7 @@
   .tabelbox {
     overflow-x: auto;
     border-radius: var(--radius-m);
-    border: 1px solid var(--border);
+    background: var(--bg);
   }
   table {
     width: 100%;
@@ -183,7 +184,7 @@
     position: sticky;
     top: 0;
     background: var(--surface);
-    font-size: 12.5px;
+    font-size: 14px;
     vertical-align: bottom;
   }
   thead a {
@@ -202,7 +203,7 @@
   }
   .besluit small {
     display: block;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 500;
     color: var(--muted);
   }
@@ -226,7 +227,7 @@
     gap: 8px;
   }
   .thema {
-    font-size: 13px;
+    font-size: 15px;
     color: var(--muted);
     margin-top: -4px;
   }

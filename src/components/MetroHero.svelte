@@ -9,7 +9,7 @@
     <circle class="twinkle" cx="440" cy="34" r="2.5" /><circle class="twinkle" cx="500" cy="58" r="2.5" style="animation-delay: .6s" /><circle class="twinkle" cx="570" cy="38" r="3" style="animation-delay: 1.2s" /><circle class="twinkle" cx="630" cy="66" r="2.5" style="animation-delay: 1.8s" />
   </g>
   <path class="teken" pathLength="1" d="M440 34 L500 58 L570 38 L630 66" style="stroke: var(--ink); stroke-width: .8; opacity: .5" />
-  <text x="446" y="94" style="font-size: 12px; font-weight: 700; fill: var(--muted)">Portfolio</text>
+  <text x="446" y="94" style="font-size: 14px; font-weight: 700; fill: var(--muted)">Portfolio</text>
   <path class="teken" pathLength="1" d={LIJN1} style="stroke: var(--line1); stroke-width: 3; stroke-linecap: round; animation-delay: .3s" />
   <path class="teken" pathLength="1" d={LIJN2} style="stroke: var(--line2); stroke-width: 3; stroke-linecap: round; animation-delay: .6s" />
   <path class="train" pathLength="100" d={LIJN1} style="stroke: var(--value); stroke-width: 10" />
@@ -25,7 +25,7 @@
   <circle cx="306" cy="220" r="6" style="fill: var(--value)" />
   <rect x="666" y="196" width="28" height="88" rx="14" style="fill: var(--bg); stroke: var(--ink); stroke-width: 2" />
   <circle class="twinkle" cx="680" cy="240" r="6" style="fill: var(--value)" />
-  <g style="font-size: 12px; font-weight: 600">
+  <g style="font-size: 14px; font-weight: 600">
     <text x="30" y="98" style="fill: var(--line1)">Klant &amp; contract</text>
     <text x="30" y="388" style="fill: var(--line2)">Planning &amp; inzet</text>
     <text x="332" y="246" style="fill: var(--ink)">PI-planning</text>

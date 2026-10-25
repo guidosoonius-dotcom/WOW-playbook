@@ -81,12 +81,12 @@
 
 .sc .fall {
   transform-box: fill-box;
-  animation: sc-fall 3.6s ease-in infinite;
+  animation: sc-fall 3.6s cubic-bezier(0.3, 0.2, 0.2, 1) infinite;
 }
 
 .sc .drop {
   transform-box: fill-box;
-  animation: sc-drop 3.2s ease-in infinite;
+  animation: sc-drop 3.2s cubic-bezier(0.3, 0.2, 0.2, 1) infinite;
 }
 
 @keyframes sc-flow {
