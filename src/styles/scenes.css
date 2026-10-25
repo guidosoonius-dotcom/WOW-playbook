@@ -1,0 +1,163 @@
+/* Gedeelde animatieklassen voor de explainer-scènes (hairline SVG).
+   Stappen worden aangestuurd via inline opacity en stroke-dashoffset;
+   doorlopende beweging (treintjes, pulsen) via de keyframes hieronder. */
+
+.sc {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  font-family: var(--font);
+}
+
+.sc text {
+  font-family: var(--font);
+}
+
+/* Elementen die per stap in- en uitfaden. */
+.sc .g {
+  transition: opacity 0.9s ease;
+}
+
+/* Lijnen die zich tekenen (pathLength="1"). */
+.sc .dr {
+  fill: none;
+  stroke-dasharray: 1;
+  transition: stroke-dashoffset 1.8s cubic-bezier(0.6, 0.1, 0.2, 1), opacity 0.9s ease;
+}
+
+/* Elementen die via transform verplaatsen. */
+.sc .mv {
+  transition: transform 1.6s cubic-bezier(0.6, 0.1, 0.2, 1);
+}
+
+.sc .card {
+  transition: opacity 0.6s ease, transform 1.4s cubic-bezier(0.6, 0.1, 0.2, 1);
+}
+
+.sc .bar {
+  transform-box: fill-box;
+  transform-origin: bottom;
+  transition: transform 1.2s cubic-bezier(0.3, 0.1, 0.2, 1);
+}
+
+/* Een "treintje": een korte streep die over een pad (pathLength="100") rijdt. */
+.sc .train {
+  fill: none;
+  stroke-linecap: round;
+  stroke-dasharray: 0.4 99.6;
+  animation: sc-flow 9s linear infinite;
+}
+
+.sc .ride {
+  fill: none;
+  stroke-linecap: round;
+  stroke-dasharray: 0.6 99.4;
+  animation: sc-ride 5s cubic-bezier(0.5, 0, 0.4, 1) infinite;
+}
+
+.sc .twinkle {
+  animation: sc-twinkle 3s ease-in-out infinite;
+}
+
+.sc .pulse {
+  animation: sc-pulse 2.6s ease-in-out infinite;
+}
+
+.sc .halo {
+  animation: sc-halo 2.4s ease-out infinite;
+}
+
+.sc .scatter {
+  transform-box: fill-box;
+  animation: sc-scatter 4s ease-out infinite;
+}
+
+.sc .pop {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: sc-pop 6s ease-out infinite;
+}
+
+.sc .fall {
+  transform-box: fill-box;
+  animation: sc-fall 3.6s ease-in infinite;
+}
+
+.sc .drop {
+  transform-box: fill-box;
+  animation: sc-drop 3.2s ease-in infinite;
+}
+
+@keyframes sc-flow {
+  from { stroke-dashoffset: 100; }
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes sc-ride {
+  0% { stroke-dashoffset: 100; }
+  70%, 100% { stroke-dashoffset: 0; }
+}
+
+@keyframes sc-twinkle {
+  0%, 100% { opacity: 0.35; }
+  50% { opacity: 1; }
+}
+
+@keyframes sc-pulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+@keyframes sc-halo {
+  0% { transform: scale(1); opacity: 0.7; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+
+@keyframes sc-scatter {
+  0%, 10% { opacity: 1; transform: translate(0, 0); }
+  70%, 100% { opacity: 0; transform: translate(var(--dx), var(--dy)); }
+}
+
+@keyframes sc-pop {
+  0%, 8% { opacity: 0; transform: scale(0.4); }
+  14%, 88% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; }
+}
+
+@keyframes sc-fall {
+  0% { opacity: 0; transform: translate(0, 0); }
+  15% { opacity: 1; }
+  75% { opacity: 1; transform: translate(var(--dx), var(--dy)); }
+  100% { opacity: 0; transform: translate(var(--dx), var(--dy)); }
+}
+
+@keyframes sc-drop {
+  0%, 20% { opacity: 0; transform: translate(0, 0); }
+  35% { opacity: 1; }
+  100% { opacity: 0; transform: translate(var(--dx), 70px); }
+}
+
+.sc .halo {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sc .train,
+  .sc .ride,
+  .sc .twinkle,
+  .sc .pulse,
+  .sc .halo,
+  .sc .scatter,
+  .sc .pop,
+  .sc .fall,
+  .sc .drop {
+    animation: none !important;
+  }
+  .sc .train,
+  .sc .ride {
+    stroke-dasharray: none;
+    opacity: 0;
+  }
+}

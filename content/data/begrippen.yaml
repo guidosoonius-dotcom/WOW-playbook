@@ -1,0 +1,93 @@
+# Woordenlijst. Elk begrip krijgt automatisch een hover-uitleg in de lopende tekst van het playbook.
+- id: epic
+  term: epic
+  synoniemen: [epics]
+  safe_term: Epic
+  uitleg: Een groot initiatief dat over meerdere kwartalen kan lopen. Een epic heeft een lean business case en begint met een MVP.
+- id: feature
+  term: feature
+  synoniemen: [features]
+  safe_term: Feature
+  uitleg: Een stuk functionaliteit dat een productgroep binnen één kwartaal oplevert. Features worden opgeknipt in user stories.
+- id: user-story
+  term: user story
+  synoniemen: [user stories, stories, story]
+  safe_term: Story
+  uitleg: Een klein stuk werk vanuit het perspectief van de gebruiker, dat een team binnen één iteratie oplevert.
+- id: iteratie
+  term: iteratie
+  synoniemen: [iteraties]
+  safe_term: Iteration
+  uitleg: Een vaste periode van twee weken waarin een team iets werkends oplevert.
+- id: pi
+  term: planningsinterval
+  synoniemen: [PI, kwartaal]
+  safe_term: Planning Interval (PI)
+  uitleg: Een periode van ongeveer tien weken (vijf iteraties) waarvoor een productgroep samen plant.
+- id: pi-planning
+  term: PI-planning
+  safe_term: PI Planning
+  uitleg: Het tweedaagse event waarin alle teams van een productgroep samen het komende planningsinterval plannen.
+- id: productgroep
+  term: productgroep
+  synoniemen: [productgroepen]
+  safe_term: Agile Release Train (ART)
+  uitleg: Een team van teams (5–12 teams) dat samen één waardestroom bedient en in hetzelfde ritme werkt.
+- id: productteam
+  term: productteam
+  synoniemen: [productteams]
+  safe_term: Agile Team
+  uitleg: Een vast, multidisciplinair team van 5–9 mensen dat een product bouwt, beheert en verbetert.
+- id: waardestroom
+  term: waardestroom
+  synoniemen: [waardestromen]
+  safe_term: Value Stream
+  uitleg: De reeks stappen waarmee waarde naar klant of collega stroomt, bijvoorbeeld van contract tot factuur.
+- id: portfolio
+  term: portfolio
+  safe_term: Portfolio
+  uitleg: Het geheel van investeringen in waardestromen en epics, waarover de Digital Leads samen beslissen.
+- id: wsjf
+  term: WSJF
+  safe_term: Weighted Shortest Job First
+  uitleg: Een manier van prioriteren waarbij de kosten van uitstel worden gedeeld door de omvang van het werk.
+- id: mvp
+  term: MVP
+  safe_term: Minimum Viable Product
+  uitleg: De kleinste versie waarmee je kunt toetsen of een hypothese klopt, voordat je verder investeert.
+- id: guardrails
+  term: guardrails
+  synoniemen: [guardrail, kaders]
+  safe_term: Guardrails
+  uitleg: Kaders waarbinnen teams zelf mogen beslissen, zoals budgetgrenzen en architectuurprincipes.
+- id: roam
+  term: ROAM
+  safe_term: ROAM
+  uitleg: "Een manier om risico's te bespreken: Resolved (opgelost), Owned (eigenaar), Accepted (geaccepteerd), Mitigated (beperkt)."
+- id: backlog
+  term: backlog
+  synoniemen: [teambacklog]
+  safe_term: Backlog
+  uitleg: Een geordende lijst van werk dat nog gedaan moet worden. Wat bovenaan staat, komt eerst.
+- id: definition-of-done
+  term: Definition of Done
+  synoniemen: [DoD]
+  safe_term: Definition of Done
+  uitleg: De afspraken over wanneer werk echt af is, bijvoorbeeld getest, gedocumenteerd en in productie.
+- id: lean-business-case
+  term: lean business case
+  safe_term: Lean Business Case
+  uitleg: Een beknopte onderbouwing van een epic, met hypothese, MVP, kosten en verwachte uitkomst.
+- id: okr
+  term: OKR
+  synoniemen: [OKR's]
+  safe_term: Objectives & Key Results
+  uitleg: Een doel (objective) met meetbare resultaten (key results) waarmee je stuurt op uitkomsten.
+- id: flow-metrics
+  term: flow-metrics
+  safe_term: Flow Metrics
+  uitleg: Metingen van hoe het werk stroomt, zoals doorlooptijd, hoeveelheid werk tegelijk en voorspelbaarheid.
+- id: inspect-adapt
+  term: Inspect & Adapt
+  safe_term: Inspect & Adapt (I&A)
+  uitleg: Het event aan het eind van een planningsinterval waarin de productgroep resultaten bekijkt en samen verbetert.
