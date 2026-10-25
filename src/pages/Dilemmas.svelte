@@ -24,8 +24,7 @@
 
 <div class="container">
   <PaginaKop
-    compact
-   
+    eyebrow="Aan de slag · Oefenen"
     titel="Dilemma's: wat doe jij?"
     kern="Herkenbare situaties uit de praktijk. Kies wat jij zou doen en ontdek waarom."
     status="concept"
@@ -45,12 +44,12 @@
   </div>
 
   <ol class="dilemmas">
-    {#each lijst as d, i (d.id)}
+    {#each lijst as d (d.id)}
       {@const gekozen = prefs.dilemmas[d.id]}
-      <li class="dilemma rij-in" style="--i: {i}">
+      <li class="dilemma">
         <article aria-labelledby="dil-{d.id}">
+          <span class="eyebrow">{d.thema}</span>
           <h2 id="dil-{d.id}">{d.titel}</h2>
-          <span class="meta">{d.thema}</span>
           <p class="situatie">{d.situatie}</p>
           <p class="vraag">{d.vraag}</p>
 
@@ -120,7 +119,7 @@
     color: var(--on-line1);
   }
   .teller {
-    font-size: 15px;
+    font-size: 14px;
     color: var(--muted);
   }
   .dilemmas {
@@ -144,7 +143,7 @@
   }
   .situatie {
     margin: 0;
-    max-width: 62ch;
+    max-width: 70ch;
   }
   .vraag {
     margin: 4px 0 0;
@@ -162,17 +161,13 @@
     align-items: flex-start;
     padding: 14px 16px;
     border-radius: 16px;
-    border: 0;
+    border: 1.5px solid var(--border);
     background: var(--bg);
     text-align: left;
-    transition: background-color 0.15s ease-out, transform 0.15s ease-out;
     color: var(--ink);
   }
   .optie:not(:disabled):hover {
-    background: var(--panel);
-  }
-  .optie:not(:disabled):active {
-    transform: scale(0.99);
+    border-color: var(--line1);
   }
   .optie:disabled {
     cursor: default;
@@ -199,11 +194,11 @@
     font-weight: 700;
   }
   .feedback {
-    font-size: 15px;
+    font-size: 14px;
     color: var(--muted);
   }
   .optie--beste {
-    background: var(--panel);
+    border-color: var(--line1);
   }
   .optie--beste .letter {
     background: var(--line1);
@@ -217,14 +212,13 @@
     color: var(--line2);
   }
   .optie--valkuil {
-    background: color-mix(in srgb, var(--value) 10%, var(--bg));
+    border-style: dashed;
   }
   .optie--valkuil .oordeel {
     color: var(--value-text);
   }
   .optie.gekozen {
-    outline: 3px solid color-mix(in srgb, var(--value) 55%, transparent);
-    outline-offset: 0;
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--value) 45%, transparent);
   }
   .leerpunt {
     padding: 16px 18px;

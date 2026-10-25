@@ -9,7 +9,7 @@
 </script>
 
 <div class="container">
-  <PaginaKop titel={p.titel} kern={p.kern} samenvatting={p.samenvatting} status={p.status} />
+  <PaginaKop eyebrow="4 · Ritme" titel={p.titel} kern={p.kern} samenvatting={p.samenvatting} status={p.status} />
 
   <section class="sectie"><Explainer explainer={explainerById(p.explainer)} /></section>
 

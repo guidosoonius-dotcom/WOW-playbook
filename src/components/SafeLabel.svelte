@@ -17,19 +17,18 @@
 <style>
   .safe {
     display: inline-block;
-    font-size: 15px;
+    font-size: 13px;
     color: var(--muted);
   }
   summary,
   .label {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    min-height: 36px;
-  }
-  summary {
-    text-decoration: underline dotted var(--muted);
-    text-underline-offset: 4px;
+    gap: 6px;
+    padding: 4px 12px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    cursor: default;
   }
   summary {
     cursor: pointer;
@@ -41,13 +40,12 @@
   summary::after {
     content: '+';
     font-weight: 700;
-    color: var(--ink);
   }
   details[open] summary::after {
     content: '−';
   }
   details p {
-    margin: 10px 0 0;
+    margin: 8px 0 0;
     max-width: 52ch;
     color: var(--ink);
   }

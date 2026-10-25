@@ -110,7 +110,7 @@
     border-radius: 24px;
     background: var(--bg);
     color: var(--ink);
-    box-shadow: 0 24px 64px rgba(10, 26, 51, 0.3); /* taste-skill-ignore: echte dialoog */
+    box-shadow: 0 24px 64px rgba(10, 26, 51, 0.3);
   }
   dialog::backdrop {
     background: rgba(10, 26, 51, 0.45);
@@ -125,7 +125,7 @@
     align-items: center;
     gap: 12px;
     padding: 16px 20px;
-    background: var(--surface);
+    border-bottom: 1px solid var(--border);
   }
   input {
     flex: 1;
@@ -173,12 +173,12 @@
     background: var(--surface);
   }
   .soort {
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 600;
     color: var(--value-text);
   }
   .kern {
-    font-size: 15px;
+    font-size: 13.5px;
     color: var(--muted);
   }
   .leeg {

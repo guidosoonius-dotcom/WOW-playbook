@@ -72,8 +72,7 @@
 
 <div class="container">
   <PaginaKop
-    compact
-   
+    eyebrow="Aan de slag · Teamscan"
     titel="Hoe staat jullie team ervoor?"
     kern="Vul de scan samen in, bijvoorbeeld in een retro. Het resultaat blijft in deze browser en is niet zichtbaar voor anderen."
     status="concept"
@@ -82,7 +81,7 @@
   <div class="indeling">
     <form class="vragen" onsubmit={(e) => e.preventDefault()}>
       {#each dims as d, di}
-        <fieldset class="rij-in" style="--i: {di}">
+        <fieldset>
           <legend><span class="nr">{di + 1}</span>{d.naam}</legend>
           {#each d.vragen as vraag, vi}
             {@const k = sleutel(d, vi)}
@@ -194,7 +193,8 @@
   }
   .vraag {
     clear: both;
-    padding: 14px 0 6px;
+    padding: 12px 0;
+    border-top: 1px solid var(--border);
   }
   .vraag p {
     margin: 0 0 10px;
@@ -238,7 +238,7 @@
     justify-content: space-between;
     max-width: 252px;
     margin-top: 4px;
-    font-size: 13px;
+    font-size: 12px;
     color: var(--muted);
   }
   .plakker {
@@ -282,7 +282,7 @@
     stroke: var(--line1);
     stroke-width: 2;
     stroke-linejoin: round;
-    transition: opacity 0.6s ease-out;
+    transition: all 0.6s ease;
   }
   .stip {
     fill: var(--value);

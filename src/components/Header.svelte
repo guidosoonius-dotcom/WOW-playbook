@@ -72,7 +72,9 @@
     position: sticky;
     top: 0;
     z-index: 30;
-    background: var(--bg);
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
   }
   .rij {
     display: flex;
@@ -95,7 +97,7 @@
     flex-direction: column;
   }
   .merk small {
-    font-size: 13px;
+    font-size: 11.5px;
     color: var(--muted);
   }
   nav {
@@ -109,8 +111,9 @@
     padding: 0;
     display: flex;
     justify-content: center;
-    flex-wrap: wrap;
     gap: 2px;
+    overflow-x: auto;
+    scrollbar-width: none;
   }
   nav a {
     display: block;
@@ -118,10 +121,9 @@
     border-radius: 999px;
     color: var(--ink);
     text-decoration: none;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 500;
     white-space: nowrap;
-    transition: background-color 0.15s ease-out;
   }
   nav a:hover {
     background: var(--surface);
@@ -172,7 +174,7 @@
   }
   kbd {
     font-family: inherit;
-    font-size: 13px;
+    font-size: 11px;
     padding: 2px 6px;
     border-radius: 6px;
     background: var(--bg);
@@ -192,16 +194,9 @@
     }
     ul {
       justify-content: flex-start;
-      margin-inline: -14px;
     }
     .acties {
       margin-left: auto;
-    }
-  }
-  @media (max-width: 860px) {
-    /* Op een telefoon kost een vaste header met twee navigatierijen te veel ruimte. */
-    .header {
-      position: static;
     }
   }
   @media (max-width: 560px) {

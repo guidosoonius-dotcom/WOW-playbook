@@ -10,7 +10,7 @@
 </script>
 
 <div class="container">
-  <PaginaKop titel={p.titel} kern={p.kern} samenvatting={p.samenvatting} safe={p.safe} status={p.status} />
+  <PaginaKop eyebrow="1 · Waarom we kantelen" titel={p.titel} kern={p.kern} samenvatting={p.samenvatting} safe={p.safe} status={p.status} />
 
   <section class="sectie"><Explainer explainer={explainerById(p.explainer)} /></section>
 
@@ -24,7 +24,7 @@
     <ul class="raster dimensies">
       {#each content.verschuivingen as d}
         <li class="card">
-          <h3>{d.dimensie}</h3>
+          <span class="eyebrow">{d.dimensie}</span>
           {#key stand}<span class="waarde" class:naar={stand === 2}>{d[STANDEN[stand]]}</span>{/key}
           {#if stand > 0}<span class="was">was: {d.van}</span>{/if}
         </li>
@@ -63,14 +63,8 @@
     gap: 6px;
     min-height: 120px;
   }
-  h3 {
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--muted);
-    letter-spacing: 0;
-  }
   .waarde {
-    font-size: 19px;
+    font-size: 17px;
     font-weight: 700;
     line-height: 1.35;
     animation: op 0.5s ease both;
@@ -79,7 +73,7 @@
     color: var(--line1);
   }
   .was {
-    font-size: 14px;
+    font-size: 13px;
     color: var(--muted);
     text-decoration: line-through;
   }

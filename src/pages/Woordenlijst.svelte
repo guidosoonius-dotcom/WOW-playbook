@@ -18,7 +18,7 @@
 </script>
 
 <div class="container">
-  <PaginaKop titel="Woordenlijst" kern="Alle begrippen uit het playbook, met de SAFe-term erbij. In de tekst herken je ze aan de stippellijn." />
+  <PaginaKop eyebrow="Naslag" titel="Woordenlijst" kern="Alle begrippen uit het playbook, met de SAFe-term erbij. In de tekst herken je ze aan de stippellijn." />
 
   <label class="filter">
     <span class="sr-only">Filter begrippen</span>

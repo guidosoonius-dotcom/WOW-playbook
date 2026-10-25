@@ -133,16 +133,16 @@ button {
   padding-inline: var(--gutter);
 }
 
-.meta {
-  font-size: 15px;
-  color: var(--muted);
+.eyebrow {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--value-text);
 }
 
 .lead {
-  font-size: clamp(18px, 1.7vw, 21px);
-  line-height: 1.5;
-  color: var(--ink);
-  max-width: 60ch;
+  font-size: clamp(17px, 1.6vw, 19px);
+  color: var(--muted);
+  max-width: 62ch;
 }
 
 .btn {
@@ -156,21 +156,8 @@ button {
   background: transparent;
   color: var(--ink);
   font-weight: 600;
-  font-size: 16px;
+  font-size: 15px;
   text-decoration: none;
-  transition: transform 0.15s ease-out, background-color 0.15s ease-out, color 0.15s ease-out;
-}
-
-.btn:hover {
-  background: var(--surface);
-}
-
-.btn:active {
-  transform: scale(0.97);
-}
-
-.btn--primary:hover {
-  background: color-mix(in srgb, var(--line1) 86%, var(--ink));
 }
 
 .btn--primary {
@@ -200,27 +187,7 @@ button {
 
 /* Lopende tekst uit de content (markdown). */
 .prose {
-  max-width: 62ch;
-}
-
-/* Lopende tekst in een eigen sectie vult op brede schermen beide helften: twee kolommen. */
-section.prose {
-  max-width: none;
-  columns: 2 30ch;
-  column-gap: clamp(32px, 5vw, 72px);
-}
-
-section.prose h2 {
-  break-after: avoid;
-}
-
-section.prose h2:first-child {
-  margin-top: 0;
-}
-
-section.prose p,
-section.prose ul {
-  break-inside: avoid;
+  max-width: 68ch;
 }
 
 .prose h2 {
@@ -330,45 +297,5 @@ section.prose ul {
   body {
     background: #fff;
     color: #000;
-  }
-}
-
-/* Rijen in lijsten en tabellen komen bij het openen gestaffeld binnen (--i = positie). */
-.rij-in {
-  animation: rij-in 0.55s cubic-bezier(0.2, 0.7, 0.2, 1) both;
-  animation-delay: calc(min(var(--i, 0), 12) * 45ms + 0.15s);
-}
-
-@keyframes rij-in {
-  from {
-    opacity: 0;
-    transform: translateY(16px);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .rij-in {
-    animation: none;
-  }
-}
-
-/* Binnenkomst per sectie: kop, tekst en beeld komen kort na elkaar in beeld.
-   Alleen voor secties die bij het laden nog onder de vouw staan; zonder script blijft alles zichtbaar. */
-.wacht > * {
-  opacity: 0;
-  transform: translateY(24px);
-}
-
-.wacht.in > * {
-  opacity: 1;
-  transform: none;
-  transition: opacity 0.6s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
-  transition-delay: calc(var(--i, 0) * 70ms);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .wacht > * {
-    opacity: 1;
-    transform: none;
   }
 }

@@ -14,7 +14,7 @@
 </script>
 
 <div class="container">
-  <PaginaKop context={CADANS_LABEL[ev.cadans]} titel={ev.titel} kern={ev.kern} samenvatting={ev.samenvatting} safe={ev.safe} status={ev.status} />
+  <PaginaKop eyebrow="Ritme · {CADANS_LABEL[ev.cadans]}" titel={ev.titel} kern={ev.kern} samenvatting={ev.samenvatting} safe={ev.safe} status={ev.status} />
 
   <dl class="feiten">
     <div><dt>Wanneer</dt><dd>{ev.wanneer}</dd></div>
@@ -77,10 +77,10 @@
   .feiten div {
     padding: 14px 16px;
     border-radius: 16px;
-    background: var(--surface);
+    border: 1px solid var(--border);
   }
   dt {
-    font-size: 14px;
+    font-size: 12.5px;
     font-weight: 600;
     color: var(--muted);
   }
@@ -117,7 +117,7 @@
     outline: 2px solid var(--line1);
   }
   .tag {
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 500;
     color: var(--muted);
   }
@@ -131,6 +131,7 @@
     margin-bottom: 10px;
   }
   .valkuil {
-    background: color-mix(in srgb, var(--value) 10%, var(--bg));
+    background: transparent;
+    border: 1.5px dashed var(--border);
   }
 </style>
