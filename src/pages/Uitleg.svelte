@@ -18,11 +18,13 @@
     'epics-features-stories': ['sturen', 'ritme/pi-planning', 'ritme/refinement', 'rollen/product-manager']
   };
   const Onderdeel = $derived(ONDERDEEL[id]);
+  // De isometrische tekening naast de titel.
+  const BEELD = { waardestroom: 'waardestroom', productteam: 'productteam', 'epics-features-stories': 'backlog' };
   const anderen = $derived(content.uitleg.filter((x) => x.id !== id && !(VERDER[id] ?? []).includes('uitleg/' + x.id)));
 </script>
 
 <div class="container">
-  <PaginaKop eyebrow="Uitgelegd" titel={u.titel} kern={u.kern} samenvatting={u.samenvatting} safe={u.safe} status={u.status} />
+  <PaginaKop eyebrow="Uitgelegd" beeld={BEELD[id]} titel={u.titel} kern={u.kern} samenvatting={u.samenvatting} safe={u.safe} status={u.status} />
 
   {#if Onderdeel}<Onderdeel uitleg={u} />{/if}
 

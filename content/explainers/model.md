@@ -1,7 +1,7 @@
 ---
 id: model
 type: explainer
-scene: model
+scene: iso-model
 titel: Zo stroomt waarde door ons model
 kern: Het operating model als metrokaart, in vijf stappen.
 duur: 1 min

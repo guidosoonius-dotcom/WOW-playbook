@@ -4,10 +4,11 @@
   import RitmeScene from './explainers/RitmeScene.svelte';
   import EpicScene from './explainers/EpicScene.svelte';
   import PIScene from './explainers/PIScene.svelte';
+  import IsoModelScene from './explainers/IsoModelScene.svelte';
 
   let { explainer, kop = 'h2' } = $props();
 
-  const SCENES = { model: ModelScene, product: ProductScene, ritme: RitmeScene, epic: EpicScene, pi: PIScene };
+  const SCENES = { 'iso-model': IsoModelScene, model: ModelScene, product: ProductScene, ritme: RitmeScene, epic: EpicScene, pi: PIScene };
   const STAPDUUR = 6000;
   const minderBeweging = typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
 

@@ -4,6 +4,7 @@
   import PaginaKop from '../components/PaginaKop.svelte';
   import Explainer from '../components/Explainer.svelte';
   import SafeLabel from '../components/SafeLabel.svelte';
+  import IsoTekening from '../components/IsoTekening.svelte';
 
   const p = paginaById('model');
   // Lagen met een uitgebreide uitlegpagina.
@@ -46,6 +47,12 @@
               </div>
             {/if}
           </div>
+          {#if laag.id === 'productgroep'}
+            <figure class="plaat">
+              <IsoTekening naam="productgroep" klein />
+              <figcaption>Een productgroep is een station met een perron per team. Alle sporen komen samen bij de PI-planning en rijden verder als één waardestroom.</figcaption>
+            </figure>
+          {/if}
           <div class="voet">
             <SafeLabel safe={laag.safe} />
             {#if UITLEG[laag.id]}<a class="uitleg" href={href('uitleg/' + UITLEG[laag.id])}>{UITLEG_LABEL[laag.id]} →</a>{/if}
@@ -57,6 +64,25 @@
 </div>
 
 <style>
+  .plaat {
+    margin: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    gap: 20px;
+    align-items: center;
+    padding: 12px 16px;
+    border-radius: var(--radius-s);
+    background: var(--bg);
+  }
+  .plaat figcaption {
+    font-size: 15px;
+    color: var(--muted);
+  }
+  @media (max-width: 700px) {
+    .plaat {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
   .lagen {
     list-style: none;
     margin: 0;

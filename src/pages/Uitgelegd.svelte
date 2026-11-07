@@ -2,6 +2,8 @@
   import content from '../lib/content.js';
   import { href } from '../lib/router.svelte.js';
   import PaginaKop from '../components/PaginaKop.svelte';
+  import IsoTekening from '../components/IsoTekening.svelte';
+  const BEELD = { waardestroom: 'waardestroom', productteam: 'productteam', 'epics-features-stories': 'backlog' };
 </script>
 
 <div class="container">
@@ -10,6 +12,7 @@
     {#each content.uitleg as u}
       <li>
         <a href={href('uitleg/' + u.id)}>
+          {#if BEELD[u.id]}<span class="beeld" aria-hidden="true"><IsoTekening naam={BEELD[u.id]} klein /></span>{/if}
           <strong>{u.titel}</strong>
           <span>{u.kern}</span>
           <small>Lees de uitleg →</small>
@@ -20,6 +23,16 @@
 </div>
 
 <style>
+  .beeld {
+    display: block;
+    padding: 12px;
+    margin-bottom: 8px;
+    border-radius: var(--radius-s);
+    background: var(--bg);
+  }
+  .beeld :global(svg) {
+    height: 200px;
+  }
   .tegels {
     list-style: none;
     margin: 16px 0 0;

@@ -31,6 +31,17 @@
   --titel: #ab2016;
   --vlak-rood: #ab2016;
   --vlak-blauw: #004077;
+  --iso-top: #ffffff;
+  --iso-links: #d7ccc8;
+  --iso-rechts: #bcaaa3;
+  --iso-rand: #004077;
+  --iso-stippel: #bcaaa3;
+  --iso-rood: #c8261b;
+  --iso-rood-l: #ab2016;
+  --iso-rood-r: #8e1a12;
+  --iso-blauw: #1473c3;
+  --iso-blauw-l: #0a599e;
+  --iso-blauw-r: #004077;
   --shadow: none;
 
   --font: Aptos, 'Inter Variable', 'Segoe UI', system-ui, -apple-system, sans-serif;
@@ -61,6 +72,14 @@
     --value-text: #ffb3a9;
     --titel: #ffffff;
     --vlak-blauw: #002b52;
+    --iso-top: #0a4c88;
+    --iso-links: #155897;
+    --iso-rechts: #1e609c;
+    --iso-rand: #8cc2f2;
+    --iso-stippel: #2a659f;
+    --iso-blauw: #8cc2f2;
+    --iso-blauw-l: #5aa6e8;
+    --iso-blauw-r: #2f86d0;
     color-scheme: dark;
   }
 }
@@ -81,6 +100,14 @@
   --value-text: #ffb3a9;
   --titel: #ffffff;
   --vlak-blauw: #002b52;
+  --iso-top: #0a4c88;
+  --iso-links: #155897;
+  --iso-rechts: #1e609c;
+  --iso-rand: #8cc2f2;
+  --iso-stippel: #2a659f;
+  --iso-blauw: #8cc2f2;
+  --iso-blauw-l: #5aa6e8;
+  --iso-blauw-r: #2f86d0;
   color-scheme: dark;
 }
 

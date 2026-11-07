@@ -14,7 +14,7 @@
 </script>
 
 <div class="container">
-  <PaginaKop eyebrow="Ritme · {CADANS_LABEL[ev.cadans]}" titel={ev.titel} kern={ev.kern} samenvatting={ev.samenvatting} safe={ev.safe} status={ev.status} />
+  <PaginaKop beeld={ev.id === 'pi-planning' ? 'pi' : null} eyebrow="Ritme · {CADANS_LABEL[ev.cadans]}" titel={ev.titel} kern={ev.kern} samenvatting={ev.samenvatting} safe={ev.safe} status={ev.status} />
 
   <dl class="feiten">
     <div><dt>Wanneer</dt><dd>{ev.wanneer}</dd></div>

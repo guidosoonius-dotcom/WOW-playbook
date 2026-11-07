@@ -5,7 +5,7 @@
   import { prefs } from '../lib/state.svelte.js';
   import { href } from '../lib/router.svelte.js';
   import HorizonHero from '../components/HorizonHero.svelte';
-  import MetroHero from '../components/MetroHero.svelte';
+  import IsoTekening from '../components/IsoTekening.svelte';
   import RolKiezer from '../components/RolKiezer.svelte';
 
   // Collega's op een kleurvlak, zoals op de welkomstslide van de huisstijl.
@@ -101,7 +101,7 @@
       {/each}
     </ol>
     <div class="model">
-      <figure class="kaart figuur"><MetroHero /></figure>
+      <figure class="kaart figuur"><IsoTekening naam="model" /><figcaption>Klik op een laag voor de uitleg.</figcaption></figure>
       <div class="explainers">
         <h3>Begrijp het in één minuut</h3>
         <ul>
@@ -398,7 +398,12 @@
   }
   .figuur {
     margin: 0;
-    padding: 12px;
+    padding: 20px;
+  }
+  .figuur figcaption {
+    margin-top: 8px;
+    font-size: 14px;
+    color: var(--muted);
   }
   .explainers h3 {
     font-size: 22px;
