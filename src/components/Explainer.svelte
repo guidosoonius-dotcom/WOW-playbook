@@ -1,18 +1,11 @@
 <script>
-  import ModelScene from './explainers/ModelScene.svelte';
-  import ProductScene from './explainers/ProductScene.svelte';
-  import RitmeScene from './explainers/RitmeScene.svelte';
-  import EpicScene from './explainers/EpicScene.svelte';
-  import PIScene from './explainers/PIScene.svelte';
-  import IsoModelScene from './explainers/IsoModelScene.svelte';
+  import IsoTekening from './IsoTekening.svelte';
 
   let { explainer, kop = 'h2' } = $props();
 
-  const SCENES = { 'iso-model': IsoModelScene, model: ModelScene, product: ProductScene, ritme: RitmeScene, epic: EpicScene, pi: PIScene };
   const STAPDUUR = 6000;
   const minderBeweging = typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  const Scene = $derived(SCENES[explainer.scene]);
   const aantal = $derived(explainer.stappen.length);
 
   let step = $state(0);
@@ -135,7 +128,10 @@
   </div>
 
   <figure class="podium">
-    <div class="scene"><Scene {step} /></div>
+    <div class="scene">
+      <!-- De scène is een isometrische tekening; elke stap van de explainer is een fase van de opbouw. -->
+      <div class="iso-scene"><IsoTekening naam={explainer.scene.replace(/^iso-/, '')} stap={step} /></div>
+    </div>
     <figcaption aria-live="polite">
       <span class="groot-nr">{step + 1}</span>
       {#key step}<span class="bijschrift">{explainer.stappen[step].titel}</span>{/key}
@@ -309,6 +305,9 @@
     min-height: 420px;
   }
 
+  .iso-scene {
+    width: min(100%, 560px);
+  }
   .scene {
     flex: 1;
     display: grid;

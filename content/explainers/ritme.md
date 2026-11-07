@@ -1,7 +1,7 @@
 ---
 id: ritme
 type: explainer
-scene: ritme
+scene: iso-uitleg-ritme
 titel: Drie ringen, één dienstregeling
 kern: Hoe de daily, de iteratie en het kwartaal in elkaar grijpen.
 duur: 1 min

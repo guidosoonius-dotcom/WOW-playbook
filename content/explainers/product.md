@@ -1,7 +1,7 @@
 ---
 id: product
 type: explainer
-scene: product
+scene: iso-uitleg-product
 titel: Van enkele rit naar ringlijn
 kern: Waarom een product iets anders is dan een project.
 duur: 1 min

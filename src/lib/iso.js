@@ -33,6 +33,7 @@ export class Iso {
     this.fase = 0;
     this.k = 1; // schaal van de wereld (x, y, z); figuurtjes en details houden hun formaat
     this.oz = 0; // verticale verschuiving in schermpixels, voor gestapelde podia
+    this.tot = null; // zet een laatste stap: wat daarna komt verdwijnt na die stap weer
   }
 
   grens(X, Y) {
@@ -56,7 +57,7 @@ export class Iso {
     return 'M' + ps.map((q) => this.p(...q).map(r1).join(' ')).join(' L');
   }
   add(diepte, svg, cls = '', stijl = '') {
-    this.items.push({ diepte: diepte + this.oz * 10, n: this.items.length, f: this.fase, svg, cls, stijl });
+    this.items.push({ diepte: diepte + this.oz * 10, n: this.items.length, f: this.fase, t: this.tot, svg, cls, stijl });
   }
   poly(pts, fill, sw = SW) {
     return `<polygon points="${pts}" fill="${fill}" stroke="${INK}" stroke-width="${sw}" stroke-linejoin="round"/>`;
@@ -176,6 +177,13 @@ export class Iso {
       for (let i = 0; i < 2; i++) g += `<path d="M${f(bx + 32)} ${f(by + h / 2 - 5 + i * 9)} H${f(bx + w - 10)}" stroke="${TAUPE3}" stroke-width="3" stroke-linecap="round"/>`;
     } else if (inhoud === 'hart') {
       g += `<path d="M${f(bx + w / 2)} ${f(by + h / 2 + 8)} l-9 -9 a5 5 0 0 1 9 -6 a5 5 0 0 1 9 6 z" fill="${ROOD}" stroke="${INK}" stroke-width="1.4"/>`;
+    } else if (inhoud === 'vraag') {
+      g += `<text x="${f(bx + w / 2)}" y="${f(by + h / 2 + 9)}" text-anchor="middle" font-size="26" font-weight="800" fill="${ROOD}">?</text>`;
+    } else if (inhoud === 'stem') {
+      // Vijf vingers: de vertrouwensstem.
+      [14, 20, 22, 20, 12].forEach((hv, i) => {
+        g += `<rect x="${f(bx + 10 + i * ((w - 20) / 5))}" y="${f(by + h - 8 - hv)}" width="${f((w - 20) / 5 - 3)}" height="${hv}" rx="3" fill="${i < 4 ? BLAUW : TAUPE}" stroke="${INK}" stroke-width="1.2"/>`;
+      });
     } else if (inhoud === 'grafiek') {
       g += `<path d="M${f(bx + 10)} ${f(by + h - 10)} L${f(bx + 22)} ${f(by + h - 18)} L${f(bx + 32)} ${f(by + h - 14)} L${f(bx + w - 12)} ${f(by + 10)}" stroke="${ROOD}" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="${f(bx + w - 12)}" cy="${f(by + 10)}" r="3" fill="${ROOD}"/>`;
     }
@@ -200,6 +208,18 @@ export class Iso {
     } else if (inhoud === 'kalender') {
       for (let r = 0; r < 3; r++)
         for (let c = 0; c < 4; c++) g += vakje(x + 8 + (c * (w - 16)) / 4, z0 + 8 + r * 11, 9, 7, r === 1 && c === 2 ? ROOD : TAUPE);
+    } else if (inhoud === 'groei') {
+      const trap = [[x + 8, z0 + 8], [x + 20, z0 + 8], [x + 20, z0 + 16], [x + 32, z0 + 16], [x + 32, z0 + 25], [x + 44, z0 + 25], [x + 44, z0 + 34], [x + w - 8, z0 + 34]];
+      g += `<path d="${this.pad(...trap.map(([a, b]) => [a, y, b]))}" stroke="${ROOD}" stroke-width="2.4" fill="none" stroke-linejoin="round"/>`;
+      const [Xe, Ye] = this.p(x + w - 8, y, z0 + 34);
+      g += `<circle cx="${r1(Xe)}" cy="${r1(Ye)}" r="3" fill="${ROOD}"/>`;
+    } else if (inhoud === 'roam') {
+      const kl = [ROOD, LBLAUW, TAUPE, WIT];
+      const bw = (w - 18) / 2, bh = (h - 18) / 2;
+      for (let i = 0; i < 4; i++) g += vakje(x + 6 + (i % 2) * (bw + 6), z0 + 6 + Math.floor(i / 2) * (bh + 6), bw, bh, kl[i]);
+    } else if (inhoud === 'scherm') {
+      g += vakje(x + 6, z0 + 6, w - 12, h - 12, LBLAUW);
+      g += `<path d="${this.pad([x + 14, y, z0 + 14], [x + 30, y, z0 + 24], [x + 44, y, z0 + 18], [x + w - 14, y, z0 + h - 14])}" stroke="${ROOD}" stroke-width="2.4" fill="none" stroke-linejoin="round"/>`;
     } else if (inhoud === 'stickers') {
       const kl = [WIT, LBLAUW, WIT, ROOD, WIT, LBLAUW, TAUPE, WIT];
       for (let r = 0; r < 2; r++) for (let c = 0; c < 6; c++) g += vakje(x + 8 + (c * (w - 16)) / 6, z0 + 10 + r * 20, (w - 16) / 6 - 4, 12, kl[(r * 6 + c) % 8]);
@@ -308,6 +328,51 @@ export class Iso {
   koffie(x, y, z, o = {}) {
     const [X, Y, kop] = this.cil(x, y, z, 4.5, 7, { top: '#6D4C41', zij: WIT, sw: 1.4 });
     this.add(o.diepte ?? x + y + z / 4, kop + `<path d="M${r1(X + 5.5)} ${r1(Y + 3)} q4 1 0 5" stroke="${INK}" stroke-width="1.4" fill="none"/><path class="damp" d="M${r1(X - 1)} ${r1(Y - 4)} q-3 -4 0 -7 q3 -3 0 -7" stroke="${TAUPE3}" stroke-width="1.4" fill="none" stroke-linecap="round"/>`);
+  }
+
+
+  // Een treintje dat rondjes rijdt over een ring (SVG-animatie, uit bij minder beweging).
+  rondrit(r, o = {}) {
+    const { cx = 0, cy = 0, dur = 8, begin = 0, kleur = ROOD, diepte = 9100 } = o;
+    const [X, Y] = this.p(cx, cy, 0);
+    const rx = r1(r * 1.2247 * this.k), ry = r1(r * 0.7071 * this.k);
+    const pad = `M${r1(X)} ${r1(Y + ry)} A${rx} ${ry} 0 1 1 ${r1(X)} ${r1(Y - ry)} A${rx} ${ry} 0 1 1 ${r1(X)} ${r1(Y + ry)}`;
+    this.add(
+      diepte,
+      `<g><rect x="-9" y="-6" width="18" height="11" rx="4" fill="${kleur}" stroke="${INK}" stroke-width="1.6"/><animateMotion class="smil" dur="${dur}s" begin="${begin}s" repeatCount="indefinite" path="${pad}"/></g>`
+    );
+  }
+
+  // Een trechter: brede opening boven, smal onder.
+  trechter(x, y, z, r, h, o = {}) {
+    const [Xt, Yt] = this.p(x, y, z + h);
+    const [Xb, Yb] = this.p(x, y, z);
+    const rx = r * 1.2247 * this.k, ry = r * 0.7071 * this.k;
+    const rxb = rx * 0.3, ryb = ry * 0.3;
+    this.grens(Xt - rx, Yt - ry);
+    this.grens(Xt + rx, Yb + ryb);
+    const f = r1;
+    const zij = `M${f(Xt - rx)} ${f(Yt)} L${f(Xb - rxb)} ${f(Yb)} A${f(rxb)} ${f(ryb)} 0 0 0 ${f(Xb + rxb)} ${f(Yb)} L${f(Xt + rx)} ${f(Yt)} A${f(rx)} ${f(ry)} 0 0 1 ${f(Xt - rx)} ${f(Yt)} Z`;
+    this.add(
+      o.diepte ?? x + y + z / 4,
+      `<path d="${zij}" fill="${TAUPE}" stroke="${INK}" stroke-width="${SW}" stroke-linejoin="round"/>` +
+        `<ellipse cx="${f(Xt)}" cy="${f(Yt)}" rx="${f(rx)}" ry="${f(ry)}" fill="${LBLAUW}" stroke="${INK}" stroke-width="${SW}"/>` +
+        `<ellipse cx="${f(Xt)}" cy="${f(Yt + ry * 0.25)}" rx="${f(rx * 0.55)}" ry="${f(ry * 0.45)}" fill="${BLAUW}" opacity=".35"/>`
+    );
+  }
+
+  // Een slagboom: twee palen en een rood-witte boom.
+  poort(x, y, o = {}) {
+    const h = o.h ?? 34;
+    const a = this.p(x, y - 18, 0), b = this.p(x, y - 18, h), c = this.p(x, y + 18, 0), d = this.p(x, y + 18, h);
+    const f = r1;
+    this.add(
+      o.diepte ?? x + y + 3,
+      `<path d="M${f(a[0])} ${f(a[1])} V${f(b[1])} M${f(c[0])} ${f(c[1])} V${f(d[1])}" stroke="${INK}" stroke-width="3" stroke-linecap="round"/>` +
+        `<path d="M${f(b[0])} ${f(b[1])} L${f(d[0])} ${f(d[1])}" stroke="${INK}" stroke-width="7" stroke-linecap="round"/>` +
+        `<path d="M${f(b[0])} ${f(b[1])} L${f(d[0])} ${f(d[1])}" stroke="${WIT}" stroke-width="4" stroke-linecap="round"/>` +
+        `<path d="M${f(b[0])} ${f(b[1])} L${f(d[0])} ${f(d[1])}" stroke="${ROOD}" stroke-width="4" stroke-dasharray="5 5"/>`
+    );
   }
 
   // Tekst rechtop (labels naast de tekening). Met href wordt het een link.

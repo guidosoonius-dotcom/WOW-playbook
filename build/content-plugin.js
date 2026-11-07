@@ -209,6 +209,11 @@ export function loadContent(root = process.cwd()) {
     }
   }
 
+  const SCENES = ['model', 'uitleg-product', 'uitleg-ritme', 'uitleg-epic', 'uitleg-pi', 'waardestroom', 'productteam', 'backlog', 'productgroep', 'pi', 'ritme', 'portfolio'];
+  for (const e of byType('explainer')) {
+    check(SCENES.includes(String(e.scene).replace(/^iso-/, '')), `${e._file}: onbekende scène "${e.scene}" (kies uit ${SCENES.map((x) => 'iso-' + x).join(', ')})`);
+  }
+
   const start = data.start;
   check(start?.hero?.titel && start?.hero?.lead, 'content/data/start.yaml: hero mist titel of lead');
   for (const deel of ['waarom', 'hoe', 'wat', 'doen']) check(start?.[deel]?.titel, `content/data/start.yaml: ${deel} mist een titel`);

@@ -1,7 +1,7 @@
 ---
 id: pi-planning
 type: explainer
-scene: pi
+scene: iso-uitleg-pi
 titel: Een PI-planning in twee dagen
 kern: Van businesscontext tot vertrouwensstem.
 duur: 1 min

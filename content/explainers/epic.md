@@ -1,7 +1,7 @@
 ---
 id: epic
 type: explainer
-scene: epic
+scene: iso-uitleg-epic
 titel: Van idee naar epic
 kern: De portfoliokanban als metrolijn met haltes.
 duur: 1 min

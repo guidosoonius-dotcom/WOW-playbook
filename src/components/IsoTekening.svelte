@@ -29,12 +29,19 @@
   });
 
   const tot = $derived(stap !== null ? stap : inBeeld ? Infinity : -1);
+  // Een onderdeel staat aan vanaf zijn fase, en (als het een laatste stap heeft) tot en met die stap.
+  const aan = (it) => it.f <= tot && (it.t === null || it.t === undefined || tot <= it.t);
+
+  // Rijdende treintjes zijn SVG-animaties; bij "minder beweging" staan ze stil.
+  $effect(() => {
+    if (el && typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches) el.pauseAnimations?.();
+  });
 </script>
 
 {#if t}
   <svg bind:this={el} class="iso" class:klein class:per-stap={stap !== null} viewBox={t.viewBox} role="img" aria-label={t.label}>
     {#each t.items as it}
-      <g class="f" class:aan={it.f <= tot} style="--f: {it.f}">
+      <g class="f" class:aan={aan(it)} style="--f: {it.f}">
         <g class={it.cls} style={it.stijl}>{@html it.svg}</g>
       </g>
     {/each}
