@@ -20,7 +20,9 @@ deelnemers:
   - { rol: product-owner, verplicht: true }
   - { rol: team-coach, verplicht: true }
   - { rol: teamlid, verplicht: true }
+  - { rol: productgroep-coach, verplicht: true }
   - { rol: business-stakeholder, verplicht: false }
+  - { rol: epic-owner, verplicht: false }
 input: [Businesscontext en visie, Top-features uit de backlog, Architectuurvisie]
 output: [PI-doelen per team, Programmabord met afhankelijkheden, Risico's (ROAM), Vertrouwensstem]
 goed_als:

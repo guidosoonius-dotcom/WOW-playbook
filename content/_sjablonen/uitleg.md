@@ -4,6 +4,7 @@
 # kenmerken en lopende tekst; vraag een ontwikkelaar als er een eigen interactief onderdeel bij moet.
 id: voorbeeld-uitleg
 type: uitleg
+groep: bouwstenen               # bouwstenen (begrippen van het model) of praktijk (wat het betekent voor je werk)
 volgorde: 9
 titel: Wat is …?
 kern: Eén zin die het begrip uitlegt (max. 140 tekens).

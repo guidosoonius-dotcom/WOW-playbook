@@ -1,6 +1,7 @@
 ---
 id: epics-features-stories
 type: uitleg
+groep: bouwstenen
 volgorde: 3
 titel: Epics, features en stories
 kern: Drie maten werk. Een epic is groot en strategisch, een feature past in een kwartaal, een story in twee weken.

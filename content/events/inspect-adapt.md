@@ -15,6 +15,8 @@ deelnemers:
   - { rol: digital-lead, verplicht: true }
   - { rol: team-coach, verplicht: true }
   - { rol: teamlid, verplicht: true }
+  - { rol: productgroep-coach, verplicht: true }
+  - { rol: leidinggevende, verplicht: false }
 input: [Behaalde PI-doelen, Flow-metrics]
 output: [Verbeteracties voor de volgende PI-planning]
 goed_als:

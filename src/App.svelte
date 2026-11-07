@@ -1,4 +1,5 @@
 <script>
+  import content from './lib/content.js';
   import { route, pad } from './lib/router.svelte.js';
   import { markeerGezien } from './lib/state.svelte.js';
   import { rolById, eventById, uitlegById } from './lib/content.js';
@@ -75,7 +76,7 @@
 
 <footer>
   <div class="container voet">
-    <span class="afzender"><FacilicomLogo hoogte={26} /><span>Samen Digitaal · Playbook v0.1</span></span>
+    <span class="afzender"><FacilicomLogo hoogte={26} /><span>Samen Digitaal · Playbook v{content.changelog[0]?.versie ?? '0.1'}</span></span>
     <nav aria-label="Naslag">
       <a href={href('woordenlijst')}>Woordenlijst</a>
       <a href={href('over')}>Over dit playbook</a>

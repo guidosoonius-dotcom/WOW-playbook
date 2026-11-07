@@ -1,6 +1,7 @@
 ---
 id: productteam
 type: uitleg
+groep: bouwstenen
 volgorde: 2
 titel: Wat is een productteam?
 kern: Een vast, multidisciplinair team van 5 tot 9 mensen dat één product bouwt, beheert en blijft verbeteren.

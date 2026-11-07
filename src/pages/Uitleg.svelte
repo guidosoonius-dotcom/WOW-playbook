@@ -15,7 +15,13 @@
   const VERDER = {
     waardestroom: ['model', 'uitleg/productteam', 'ritme/pi-planning'],
     productteam: ['rollen/product-owner', 'rollen/team-coach', 'rollen/teamlid', 'ritme'],
-    'epics-features-stories': ['sturen', 'ritme/pi-planning', 'ritme/refinement', 'rollen/product-manager']
+    'epics-features-stories': ['sturen', 'ritme/pi-planning', 'ritme/refinement', 'rollen/product-manager'],
+    'wat-is-een-product': ['uitleg/productteam', 'uitleg/bouwen-en-draaien', 'rollen/product-owner'],
+    'bouwen-en-draaien': ['uitleg/wat-is-een-product', 'rollen/teamlid', 'doen/dilemmas'],
+    'lopende-projecten': ['sturen', 'rollen/epic-owner', 'rollen/productgroep-coach', 'transitie'],
+    meten: ['doen/teamscan', 'ritme/inspect-adapt', 'ritme/systeemdemo'],
+    kaders: ['rollen/architect', 'beslissen', 'sturen'],
+    'veelgestelde-vragen': ['rollen/leidinggevende', 'uitleg/lopende-projecten', 'waarom']
   };
   const Onderdeel = $derived(ONDERDEEL[id]);
   // De isometrische tekening naast de titel.

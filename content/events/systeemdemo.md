@@ -12,9 +12,12 @@ duur: 1 uur
 doel: Het geïntegreerde resultaat van alle teams laten zien.
 deelnemers:
   - { rol: product-manager, verplicht: true }
+  - { rol: productgroep-coach, verplicht: true }
   - { rol: digital-lead, verplicht: false }
   - { rol: business-stakeholder, verplicht: false }
   - { rol: architect, verplicht: false }
+  - { rol: leidinggevende, verplicht: false }
+  - { rol: epic-owner, verplicht: false }
 input: [Geïntegreerd resultaat van alle teams]
 output: [Feedback op features, Inzicht in de voortgang van het kwartaal]
 goed_als:

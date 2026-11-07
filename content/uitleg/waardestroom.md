@@ -1,6 +1,7 @@
 ---
 id: waardestroom
 type: uitleg
+groep: bouwstenen
 volgorde: 1
 titel: Wat is een waardestroom?
 kern: De reeks stappen waarmee waarde ontstaat voor een klant of collega, van de eerste vraag tot het resultaat.

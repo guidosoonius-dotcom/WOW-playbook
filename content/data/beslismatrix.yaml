@@ -3,7 +3,7 @@
 - besluit: Welke epics we starten of stoppen
   thema: Portfolio en budget
   laag: portfolio
-  rollen: { digital-lead: B, product-manager: A, architect: A, business-stakeholder: I }
+  rollen: { digital-lead: B, epic-owner: A, product-manager: A, architect: A, business-stakeholder: I }
 - besluit: Verdeling van het budget over waardestromen
   thema: Portfolio en budget
   laag: portfolio
@@ -55,8 +55,20 @@
 - besluit: Samenstelling van een productteam
   thema: Team en werkwijze
   laag: productgroep
-  rollen: { digital-lead: B, product-manager: A, team-coach: A, teamlid: A }
+  rollen: { digital-lead: B, leidinggevende: A, product-manager: A, team-coach: A, teamlid: A }
 - besluit: Welke verbeteractie we na Inspect & Adapt oppakken
   thema: Team en werkwijze
   laag: productgroep
   rollen: { product-manager: B, team-coach: A, teamlid: A, digital-lead: I }
+- besluit: Agenda en werkwijze van de PI-planning
+  thema: Team en werkwijze
+  laag: productgroep
+  rollen: { productgroep-coach: B, product-manager: A, team-coach: A, digital-lead: I }
+- besluit: Of een epic na de MVP doorgaat, wordt bijgestuurd of stopt
+  thema: Portfolio en budget
+  laag: portfolio
+  rollen: { digital-lead: B, epic-owner: A, product-manager: A, business-stakeholder: I }
+- besluit: Of een teamlid tijdelijk ander werk buiten het team doet
+  thema: Team en werkwijze
+  laag: productteam
+  rollen: { leidinggevende: B, product-owner: A, teamlid: A, team-coach: I }

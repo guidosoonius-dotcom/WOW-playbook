@@ -6,5 +6,8 @@ export const rolIcon = {
   'team-coach': 'M20 12a8 8 0 1 1-2.3-5.6 M20 4 V8 H16',
   architect: 'M12 3 L20 7.5 V16.5 L12 21 L4 16.5 V7.5 Z M4 7.5 L12 12 L20 7.5 M12 12 V21',
   teamlid: 'M9 11a3 3 0 1 0 0-6a3 3 0 1 0 0 6 M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6 M16 5.2a3 3 0 0 1 0 5.6 M18 14.4c1.8.9 3 2.8 3 5',
+  'productgroep-coach': 'M5 4 H19 V15 H5 Z M5 10 H19 M8 15 L6 19 M16 15 L18 19 M8 12.5 h.01 M16 12.5 h.01 M4 21 H20',
+  'epic-owner': 'M5 21 V4 M5 4 H17 L14.5 8 L17 12 H5',
+  leidinggevende: 'M12 10a3 3 0 1 0 0-6a3 3 0 1 0 0 6 M6 20c0-3.3 2.7-6 6-6s6 2.7 6 6 M12 14 V17',
   'business-stakeholder': 'M4 21 V5 L12 3 V21 M12 9 H20 V21 M2 21 H22 M7 8 h2 M7 12 h2 M7 16 h2 M15 13 h2 M15 17 h2'
 };

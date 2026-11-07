@@ -41,3 +41,21 @@ business-stakeholder:
   - { route: ritme/systeemdemo, waarom: Elke twee weken het resultaat zien }
   - { route: sturen, waarom: Hoe ideeën epics worden }
   - { route: model, waarom: Het hele model in één beeld }
+productgroep-coach:
+  - { route: rollen/productgroep-coach, waarom: Wat er voor jou verandert }
+  - { route: ritme/pi-planning, waarom: Jij organiseert de twee dagen }
+  - { route: ritme/productgroep-sync, waarom: Elke week de teams bij elkaar }
+  - { route: ritme/inspect-adapt, waarom: Samen verbeteren als productgroep }
+  - { route: model, waarom: Waar de productgroep in het model zit }
+epic-owner:
+  - { route: rollen/epic-owner, waarom: Wat deze rol inhoudt }
+  - { route: sturen, waarom: Van idee naar epic }
+  - { route: uitleg/epics-features-stories, waarom: Hoe een epic wordt opgeknipt }
+  - { route: uitleg/meten, waarom: Hoe je meet of de hypothese klopt }
+  - { route: ritme/portfolio-sync, waarom: Waar jij je epic presenteert }
+leidinggevende:
+  - { route: rollen/leidinggevende, waarom: Wat er voor jou verandert }
+  - { route: waarom, waarom: Waarom we anders gaan werken }
+  - { route: uitleg/productteam, waarom: Hoe een productteam werkt }
+  - { route: uitleg/veelgestelde-vragen, waarom: De vragen van je medewerkers }
+  - { route: uitleg/lopende-projecten, waarom: Wat er gebeurt met lopend werk }

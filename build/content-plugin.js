@@ -214,6 +214,10 @@ export function loadContent(root = process.cwd()) {
     check(SCENES.includes(String(e.scene).replace(/^iso-/, '')), `${e._file}: onbekende scène "${e.scene}" (kies uit ${SCENES.map((x) => 'iso-' + x).join(', ')})`);
   }
 
+  for (const u of byType('uitleg')) {
+    check(['bouwstenen', 'praktijk', undefined].includes(u.groep), `${u._file}: groep moet "bouwstenen" of "praktijk" zijn`);
+  }
+
   const start = data.start;
   check(start?.hero?.titel && start?.hero?.lead, 'content/data/start.yaml: hero mist titel of lead');
   for (const deel of ['waarom', 'hoe', 'wat', 'doen']) check(start?.[deel]?.titel, `content/data/start.yaml: ${deel} mist een titel`);

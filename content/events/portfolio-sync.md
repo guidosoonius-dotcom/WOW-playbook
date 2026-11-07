@@ -14,6 +14,7 @@ deelnemers:
   - { rol: digital-lead, verplicht: true }
   - { rol: product-manager, verplicht: false }
   - { rol: architect, verplicht: false }
+  - { rol: epic-owner, verplicht: false }
 input: [Portfoliokanban, Budgetoverzicht per waardestroom]
 output: [Besluiten over epics, Bijgestelde prioriteiten]
 goed_als:

@@ -4,12 +4,20 @@
   import PaginaKop from '../components/PaginaKop.svelte';
   import IsoTekening from '../components/IsoTekening.svelte';
   const BEELD = { waardestroom: 'waardestroom', productteam: 'productteam', 'epics-features-stories': 'backlog' };
+  const GROEPEN = [
+    { id: 'bouwstenen', titel: 'De bouwstenen', kern: 'De begrippen waar het nieuwe model op rust, met kenmerken en voorbeelden.' },
+    { id: 'praktijk', titel: 'In de praktijk', kern: 'Wat het betekent voor je dagelijkse werk: producten, beheer, lopend werk, meten en kaders.' }
+  ];
 </script>
 
 <div class="container">
-  <PaginaKop rood eyebrow="Uitgelegd" titel="De bouwstenen uitgelegd" kern="Drie begrippen waar het nieuwe model op rust, met kenmerken en voorbeelden." />
+  <PaginaKop rood eyebrow="Uitgelegd" titel="Uitgelegd" kern="De bouwstenen van het model, en wat ze betekenen in de praktijk." />
+  {#each GROEPEN as g}
+  <section class="groep" aria-labelledby="groep-{g.id}">
+  <h2 id="groep-{g.id}">{g.titel}</h2>
+  <p class="groepkern">{g.kern}</p>
   <ul class="tegels">
-    {#each content.uitleg as u}
+    {#each content.uitleg.filter((u) => (u.groep ?? 'bouwstenen') === g.id) as u}
       <li>
         <a href={href('uitleg/' + u.id)}>
           {#if BEELD[u.id]}<span class="beeld" aria-hidden="true"><IsoTekening naam={BEELD[u.id]} klein /></span>{/if}
@@ -20,6 +28,8 @@
       </li>
     {/each}
   </ul>
+  </section>
+  {/each}
 </div>
 
 <style>
@@ -32,6 +42,16 @@
   }
   .beeld :global(svg) {
     height: 200px;
+  }
+  .groep {
+    padding-block: 20px;
+  }
+  .groep h2 {
+    font-size: 26px;
+  }
+  .groepkern {
+    margin: 6px 0 0;
+    color: var(--muted);
   }
   .tegels {
     list-style: none;
