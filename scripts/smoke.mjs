@@ -17,7 +17,8 @@ if (shots) mkdirSync(shots, { recursive: true });
 const ROUTES = [
   '', 'waarom', 'model', 'rollen', 'rollen/digital-lead', 'rollen/product-owner', 'ritme',
   'ritme/pi-planning', 'ritme/daily', 'sturen', 'woordenlijst', 'woordenlijst/wsjf', 'over', 'beslissen', 'doen',
-  'doen/dilemmas', 'doen/teamscan', 'transitie', 'bestaat-niet'
+  'doen/dilemmas', 'doen/teamscan', 'transitie', 'uitleg', 'uitleg/waardestroom', 'uitleg/productteam',
+  'uitleg/epics-features-stories', 'bestaat-niet'
 ];
 
 const browser = await chromium.launch();
@@ -37,7 +38,7 @@ for (const [naam, viewport] of [['desktop', { width: 1440, height: 900 }], ['mob
     if (!h1) fouten.push(`[${naam}] #/${r}: geen h1`);
     const overloop = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
     if (overloop > 1) fouten.push(`[${naam}] #/${r}: ${overloop}px horizontaal scrollen`);
-    if (shots && ['', 'model', 'rollen/digital-lead', 'ritme/pi-planning', 'waarom', 'beslissen', 'doen/dilemmas', 'doen/teamscan', 'transitie'].includes(r)) {
+    if (shots && ['', 'model', 'rollen/digital-lead', 'ritme/pi-planning', 'waarom', 'beslissen', 'doen/dilemmas', 'doen/teamscan', 'transitie', 'uitleg/waardestroom', 'uitleg/productteam', 'uitleg/epics-features-stories'].includes(r)) {
       await page.waitForTimeout(2200);
       await page.screenshot({ path: `${shots}/${naam}-${r.replace(/\//g, '_') || 'start'}.png`, fullPage: true });
     }
@@ -95,6 +96,20 @@ for (const [naam, viewport] of [['desktop', { width: 1440, height: 900 }], ['mob
     await page.waitForTimeout(200);
     if ((await page.locator('tbody tr').count()) < 5) fouten.push('beslismatrix: te weinig rijen');
 
+    // Uitleg: voorbeeld wisselen, rol kiezen, feature openklappen.
+    await page.evaluate(() => (location.hash = '#/uitleg/waardestroom'));
+    await page.waitForTimeout(200);
+    await page.getByRole('radio', { name: 'Van planning tot inzet' }).click();
+    if (!(await page.getByText('Rooster maken').count())) fouten.push('uitleg waardestroom: voorbeeld wisselt niet');
+    await page.evaluate(() => (location.hash = '#/uitleg/productteam'));
+    await page.waitForTimeout(200);
+    await page.getByRole('radio', { name: 'Tester' }).click();
+    if (!(await page.getByRole('heading', { name: 'Tester' }).count())) fouten.push('uitleg productteam: rolkaart verschijnt niet');
+    await page.evaluate(() => (location.hash = '#/uitleg/epics-features-stories'));
+    await page.waitForTimeout(200);
+    await page.getByRole('button', { name: /Kwaliteitsrapport voor de klant/ }).click();
+    if (!(await page.getByText('Als klant wil ik per week zien').count())) fouten.push('uitleg epics: feature klapt niet open');
+
     // Donker thema.
     await page.emulateMedia({ colorScheme: 'dark' });
     await page.evaluate(() => (location.hash = '#/ritme'));
@@ -110,4 +125,4 @@ if (fouten.length) {
   console.error(`✗ ${fouten.length} probleem/problemen:\n  ${fouten.join('\n  ')}`);
   process.exit(1);
 }
-console.log(`✓ Rooktest geslaagd (${ROUTES.length} routes × 2 schermformaten, explainer, rolkeuze, zoeken, dilemma, teamscan, beslismatrix)`);
+console.log(`✓ Rooktest geslaagd (${ROUTES.length} routes × 2 schermformaten, explainer, rolkeuze, zoeken, dilemma, teamscan, beslismatrix, uitleg)`);

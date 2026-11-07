@@ -9,6 +9,7 @@ Mappen die met `_` beginnen worden niet in het playbook opgenomen.
 | `event.md` | `content/events/<id>.md` |
 | `dilemma.md` | `content/dilemmas/<id>.md` |
 | `laag.md` | `content/lagen/<id>.md` |
+| `uitleg.md` | `content/uitleg/<id>.md` (bestaande uitlegpagina's aanvullen) |
 | `pagina.md` | `content/paginas/<id>.md` (alleen bestaande pagina's) |
 | `begrip.yaml` | toevoegen aan `content/data/begrippen.yaml` |
 | `besluit.yaml` | toevoegen aan `content/data/beslismatrix.yaml` |

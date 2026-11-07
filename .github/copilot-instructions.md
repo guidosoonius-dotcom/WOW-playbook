@@ -18,6 +18,7 @@ De meeste wijzigingen zijn **content**: Markdown met YAML-frontmatter in `conten
 | `dilemma` | `content/dilemmas/` | `content/_sjablonen/dilemma.md` |
 | `laag` | `content/lagen/` | `content/_sjablonen/laag.md` |
 | `pagina` | `content/paginas/` | `content/_sjablonen/pagina.md` |
+| `uitleg` | `content/uitleg/` | `content/_sjablonen/uitleg.md` (uitlegpagina's: waardestroom, productteam, epics-features-stories) |
 | `explainer` | `content/explainers/` | alleen teksten; de animatie staat in `src/components/explainers/` |
 | begrippen | `content/data/begrippen.yaml` | `content/_sjablonen/begrip.yaml` |
 | beslismatrix | `content/data/beslismatrix.yaml` | `content/_sjablonen/besluit.yaml` |
@@ -38,7 +39,7 @@ Volg altijd het sjabloon. Het volledige contentmodel staat in `docs/02-contentmo
 - Beslismatrix: per besluit precies één rol met code `B`; codes zijn `B`, `A`, `U`, `I`.
 - Rol-id's: digital-lead, product-manager, product-owner, team-coach, architect, teamlid, business-stakeholder.
 - Event-id's: daily, iteratieplanning, refinement, iteratie-review, retrospective, systeemdemo, pi-planning, inspect-adapt, portfolio-sync.
-- Pagina-routes voor `verwijst_naar` en `routes.yaml`: waarom, model, rollen, ritme, sturen, beslissen, doen, doen/dilemmas, doen/teamscan, transitie, woordenlijst, over, `rollen/<rol-id>`, `ritme/<event-id>`.
+- Pagina-routes voor `verwijst_naar` en `routes.yaml`: waarom, model, rollen, ritme, sturen, beslissen, doen, doen/dilemmas, doen/teamscan, transitie, woordenlijst, over, uitleg, `rollen/<rol-id>`, `ritme/<event-id>`, `uitleg/<uitleg-id>`.
 
 ## Controleren
 Voer na elke wijziging `npm run content:check` uit en los alle meldingen op. Zet `bijgewerkt` op de datum van vandaag.

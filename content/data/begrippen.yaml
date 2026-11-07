@@ -91,3 +91,16 @@
   term: Inspect & Adapt
   safe_term: Inspect & Adapt (I&A)
   uitleg: Het event aan het eind van een planningsinterval waarin de productgroep resultaten bekijkt en samen verbetert.
+- id: enabler
+  term: enabler
+  synoniemen: [enablers]
+  safe_term: Enabler
+  uitleg: Werk dat niet direct zichtbaar is voor de gebruiker, zoals architectuur, infrastructuur of onderzoek, maar wel nodig is om waarde te leveren.
+- id: acceptatiecriteria
+  term: acceptatiecriteria
+  safe_term: Acceptance Criteria
+  uitleg: De voorwaarden waaraan een story moet voldoen om af te zijn. Ze worden samen met het team opgesteld, vóór het werk begint.
+- id: scrum-master
+  term: Scrum Master
+  safe_term: Scrum Master / Team Coach
+  uitleg: In Scrum de naam voor wie het team helpt beter samen te werken. Bij ons heet deze rol Team Coach.

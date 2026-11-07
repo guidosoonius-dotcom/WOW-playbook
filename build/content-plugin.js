@@ -20,7 +20,8 @@ const TYPE_REQUIRED = {
   rol: ['samenvatting', 'laag', 'niveau_label', 'in_een_zin', 'verantwoordelijkheden', 'niet_meer', 'werkt_samen_met', 'events'],
   event: ['samenvatting', 'cadans', 'wanneer', 'duur', 'doel', 'deelnemers', 'output', 'goed_als', 'valkuilen'],
   explainer: ['scene', 'duur', 'stappen'],
-  dilemma: ['situatie', 'vraag', 'opties', 'leerpunt']
+  dilemma: ['situatie', 'vraag', 'opties', 'leerpunt'],
+  uitleg: ['samenvatting']
 };
 
 const BESLIS_CODES = { B: 'Beslist', A: 'Adviseert', U: 'Voert uit', I: 'Wordt geïnformeerd' };
@@ -28,7 +29,7 @@ const KWALITEIT = ['beste', 'kan', 'valkuil'];
 const MIJLPAAL_STATUS = ['afgerond', 'bezig', 'gepland'];
 
 // Routes die buiten de content om bestaan (pagina's in src/pages).
-const STATIC_ROUTES = ['', 'waarom', 'model', 'rollen', 'ritme', 'sturen', 'woordenlijst', 'over', 'beslissen', 'doen', 'doen/dilemmas', 'doen/teamscan', 'transitie'];
+const STATIC_ROUTES = ['', 'waarom', 'model', 'rollen', 'ritme', 'sturen', 'woordenlijst', 'over', 'beslissen', 'doen', 'doen/dilemmas', 'doen/teamscan', 'transitie', 'uitleg'];
 
 function walk(dir) {
   // Mappen die met _ beginnen (zoals _sjablonen) zijn hulpmateriaal en geen content.
@@ -161,6 +162,19 @@ export function loadContent(root = process.cwd()) {
   for (const p of byType('pagina')) {
     if (p.explainer) check(explainerIds.has(p.explainer), `${p._file}: explainer "${p.explainer}" bestaat niet`);
   }
+  for (const u of byType('uitleg')) {
+    for (const r of u.teamrollen ?? []) {
+      check(r.naam && r.kort, `${u._file}: elke teamrol heeft "naam" en "kort" nodig`);
+      if (r.rol_id) check(rolIds.has(r.rol_id), `${u._file}: teamrol "${r.naam}" verwijst naar onbekende rol "${r.rol_id}"`);
+    }
+    for (const n of u.niveaus ?? []) {
+      check(n.naam && n.wat, `${u._file}: elk niveau heeft "naam" en "wat" nodig`);
+      if (n.laag) check(laagIds.has(n.laag), `${u._file}: niveau "${n.naam}" verwijst naar onbekende laag "${n.laag}"`);
+    }
+    for (const v of u.voorbeelden ?? []) {
+      check(v.id && v.naam && Array.isArray(v.stappen) && v.stappen.length >= 2, `${u._file}: voorbeeld "${v.naam ?? v.id}" heeft id, naam en minstens 2 stappen nodig`);
+    }
+  }
   for (const d of byType('dilemma')) {
     const opties = Array.isArray(d.opties) ? d.opties : [];
     check(opties.length >= 2 && opties.length <= 4, `${d._file}: een dilemma heeft 2 tot 4 opties`);
@@ -204,7 +218,8 @@ export function loadContent(root = process.cwd()) {
   const routes = new Set([
     ...STATIC_ROUTES,
     ...[...rolIds].map((id) => `rollen/${id}`),
-    ...[...eventIds].map((id) => `ritme/${id}`)
+    ...[...eventIds].map((id) => `ritme/${id}`),
+    ...byType('uitleg').map((u) => `uitleg/${u.id}`)
   ]);
   for (const [rol, stappen] of Object.entries(data.routes ?? {})) {
     check(rolIds.has(rol), `content/data/routes.yaml: onbekende rol "${rol}"`);
@@ -223,14 +238,15 @@ export function loadContent(root = process.cwd()) {
   }
 
   const begrippen = (data.begrippen ?? []).slice().sort((a, b) => a.term.localeCompare(b.term, 'nl'));
-  const out = { rollen: [], events: [], lagen: [], paginas: [], explainers: [], dilemmas: [] };
-  const plural = { rol: 'rollen', event: 'events', laag: 'lagen', pagina: 'paginas', explainer: 'explainers', dilemma: 'dilemmas' };
+  const out = { rollen: [], events: [], lagen: [], paginas: [], explainers: [], dilemmas: [], uitleg: [] };
+  const plural = { rol: 'rollen', event: 'events', laag: 'lagen', pagina: 'paginas', explainer: 'explainers', dilemma: 'dilemmas', uitleg: 'uitleg' };
   for (const item of items) {
     const { _file, body, ...rest } = item;
     out[plural[item.type]].push({ ...rest, html: body ? linkTerms(marked.parse(body), begrippen) : '' });
   }
   out.lagen.sort((a, b) => a.niveau - b.niveau);
   out.rollen.sort((a, b) => (a.volgorde ?? 99) - (b.volgorde ?? 99));
+  out.uitleg.sort((a, b) => (a.volgorde ?? 99) - (b.volgorde ?? 99));
   out.events.sort((a, b) => CADANS.indexOf(a.cadans) - CADANS.indexOf(b.cadans) || (a.volgorde ?? 99) - (b.volgorde ?? 99));
 
   return {

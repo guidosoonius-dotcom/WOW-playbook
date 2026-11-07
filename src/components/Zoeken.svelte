@@ -20,6 +20,7 @@
     ...content.beslismatrix.map((b) => ({ soort: 'Wie beslist wat?', titel: b.besluit, kern: b.thema, route: 'beslissen', tekst: '' })),
     { soort: 'Aan de slag', titel: 'Teamscan', kern: 'Hoe staat jullie team ervoor?', route: 'doen/teamscan', tekst: 'scan volwassenheid retro' },
     { soort: 'Aan de slag', titel: 'De transitie', kern: 'Fasen van de kanteling', route: 'transitie', tekst: content.transitie.map((m) => m.titel + ' ' + m.wat).join(' ') },
+    ...content.uitleg.map((u) => ({ soort: 'Uitgelegd', titel: u.titel, kern: u.kern, route: `uitleg/${u.id}`, tekst: [u.samenvatting, ...(u.kenmerken ?? []).map((k) => k.titel + ' ' + k.tekst), ...(u.teamrollen ?? []).map((r) => r.naam + ' ' + r.kort), ...(u.niveaus ?? []).map((n) => n.naam + ' ' + n.wat), strip(u.html)].join(' ') })),
     ...content.begrippen.map((b) => ({ soort: 'Begrip', titel: b.term, kern: b.uitleg, route: `woordenlijst/${b.id}`, tekst: [b.safe_term, ...(b.synoniemen ?? [])].join(' ') }))
   ].map((i) => ({ ...i, zoek: norm(`${i.titel} ${i.kern} ${i.tekst}`), titelNorm: norm(i.titel) }));
 

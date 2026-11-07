@@ -1,7 +1,9 @@
 <script>
   import { route, pad } from './lib/router.svelte.js';
   import { markeerGezien } from './lib/state.svelte.js';
-  import { rolById, eventById } from './lib/content.js';
+  import { rolById, eventById, uitlegById } from './lib/content.js';
+  import Uitleg from './pages/Uitleg.svelte';
+  import Uitgelegd from './pages/Uitgelegd.svelte';
   import Header from './components/Header.svelte';
   import Zoeken from './components/Zoeken.svelte';
   import Start from './pages/Start.svelte';
@@ -41,6 +43,8 @@
     if (a === 'doen' && b === 'dilemmas') return { comp: Dilemmas, titel: "Dilemma's" };
     if (a === 'doen' && b === 'teamscan') return { comp: Teamscan, titel: 'Teamscan' };
     if (a === 'transitie' && !b) return { comp: Transitie, titel: 'De transitie' };
+    if (a === 'uitleg' && !b) return { comp: Uitgelegd, titel: 'Uitgelegd' };
+    if (a === 'uitleg' && uitlegById(b)) return { comp: Uitleg, props: { id: b }, titel: uitlegById(b).titel };
     return { comp: NietGevonden, titel: 'Niet gevonden' };
   });
 

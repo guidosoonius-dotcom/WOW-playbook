@@ -12,6 +12,7 @@
     ['rollen', 'Rollen'],
     ['ritme', 'Ritme'],
     ['sturen', 'Sturen'],
+    ['uitleg', 'Uitgelegd'],
     ['doen', 'Aan de slag']
   ];
 

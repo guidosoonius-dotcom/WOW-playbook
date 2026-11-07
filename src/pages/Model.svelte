@@ -6,6 +6,9 @@
   import SafeLabel from '../components/SafeLabel.svelte';
 
   const p = paginaById('model');
+  // Lagen met een uitgebreide uitlegpagina.
+  const UITLEG = { waardestroom: 'waardestroom', productteam: 'productteam' };
+  const UITLEG_LABEL = { waardestroom: 'Wat is een waardestroom? Kenmerken en voorbeelden', productteam: 'Wat is een productteam? Samenstelling en rollen' };
 </script>
 
 <div class="container">
@@ -43,7 +46,10 @@
               </div>
             {/if}
           </div>
-          <SafeLabel safe={laag.safe} />
+          <div class="voet">
+            <SafeLabel safe={laag.safe} />
+            {#if UITLEG[laag.id]}<a class="uitleg" href={href('uitleg/' + UITLEG[laag.id])}>{UITLEG_LABEL[laag.id]} →</a>{/if}
+          </div>
         </li>
       {/each}
     </ol>
@@ -103,6 +109,16 @@
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
+  }
+  .voet {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px 20px;
+  }
+  .uitleg {
+    font-weight: 600;
   }
   @media (max-width: 640px) {
     .laag {
