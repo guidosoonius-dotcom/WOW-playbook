@@ -5,7 +5,7 @@
 </script>
 
 <div class="container">
-  <PaginaKop eyebrow="Uitgelegd" titel="De bouwstenen uitgelegd" kern="Drie begrippen waar het nieuwe model op rust, met kenmerken en voorbeelden." />
+  <PaginaKop rood eyebrow="Uitgelegd" titel="De bouwstenen uitgelegd" kern="Drie begrippen waar het nieuwe model op rust, met kenmerken en voorbeelden." />
   <ul class="tegels">
     {#each content.uitleg as u}
       <li>

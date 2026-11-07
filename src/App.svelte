@@ -5,6 +5,7 @@
   import Uitleg from './pages/Uitleg.svelte';
   import Uitgelegd from './pages/Uitgelegd.svelte';
   import Header from './components/Header.svelte';
+  import FacilicomLogo from './components/FacilicomLogo.svelte';
   import Zoeken from './components/Zoeken.svelte';
   import Start from './pages/Start.svelte';
   import Waarom from './pages/Waarom.svelte';
@@ -74,7 +75,7 @@
 
 <footer>
   <div class="container voet">
-    <span>Samen Digitaal · Playbook v0.1 · een initiatief van Facilicom Groep</span>
+    <span class="afzender"><FacilicomLogo hoogte={26} /><span>Samen Digitaal · Playbook v0.1</span></span>
     <nav aria-label="Naslag">
       <a href={href('woordenlijst')}>Woordenlijst</a>
       <a href={href('over')}>Over dit playbook</a>
@@ -104,10 +105,19 @@
     padding-bottom: 48px;
   }
   footer {
-    border-top: 1px solid var(--border);
-    padding-block: 24px;
+    padding-block: 0 32px;
     font-size: 14px;
-    color: var(--muted);
+    color: var(--ink);
+  }
+  /* Voet zoals in de template: een lijn in Blauw 08, logo linksonder. */
+  .voet {
+    border-top: 1.5px solid var(--ink);
+    padding-top: 20px;
+  }
+  .afzender {
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
   }
   .voet {
     display: flex;
@@ -120,6 +130,6 @@
     gap: 16px;
   }
   .voet a {
-    color: var(--muted);
+    color: var(--ink);
   }
 </style>

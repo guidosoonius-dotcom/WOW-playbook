@@ -215,7 +215,7 @@
   .actief .nr {
     background: var(--value);
     border-color: var(--value);
-    color: #14213d;
+    color: #ffffff;
   }
 
   .tekst {

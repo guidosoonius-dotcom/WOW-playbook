@@ -5,6 +5,10 @@
   import MetroHero from '../components/MetroHero.svelte';
   import RolKiezer from '../components/RolKiezer.svelte';
 
+  // Collega's op een kleurvlak, zoals op de welkomstslide van de huisstijl.
+  const portretten = Object.values(import.meta.glob('../assets/fotos/portret-*.webp', { eager: true, import: 'default' }));
+  import werkfoto from '../assets/fotos/werk-overleg.webp';
+
   const route = $derived(prefs.rol ? content.routes[prefs.rol] ?? [] : []);
   const rolTitel = $derived(prefs.rol ? content.rollen.find((r) => r.id === prefs.rol)?.titel : null);
 
@@ -39,6 +43,12 @@
     <div class="beeld"><MetroHero /></div>
   </section>
 
+  <ul class="portretten" aria-hidden="true">
+    {#each portretten as src, i}
+      <li style="--i: {i}"><img {src} alt="" /></li>
+    {/each}
+  </ul>
+
   <section aria-labelledby="explainers-kop" class="blok">
     <h2 id="explainers-kop">Begrijp het in één minuut</h2>
     <ul class="explainers">
@@ -62,7 +72,9 @@
     <RolKiezer />
   </section>
 
-  <section aria-labelledby="doen-kop" class="blok">
+  <section aria-labelledby="doen-kop" class="blok doen">
+    <img class="werkfoto" src={werkfoto} alt="Twee collega's overleggen bij een scherm" loading="lazy" />
+    <div class="doen-tekst">
     <h2 id="doen-kop">Aan de slag</h2>
     <ul class="explainers">
       <li><a href={href('beslissen')}><strong>Wie beslist wat?</strong><span class="kern">Per besluit één rol die beslist.</span><span class="duur">Beslismatrix →</span></a></li>
@@ -70,6 +82,7 @@
       <li><a href={href('doen/teamscan')}><strong>Teamscan</strong><span class="kern">Hoe staat jullie team ervoor?</span><span class="duur">10 minuten →</span></a></li>
       <li><a href={href('transitie')}><strong>De transitie</strong><span class="kern">Waar staan we, en wat komt er?</span><span class="duur">Fasen →</span></a></li>
     </ul>
+    </div>
   </section>
 
   {#if route.length}
@@ -110,7 +123,52 @@
   h1 {
     font-size: clamp(36px, 4.6vw, 54px);
     font-weight: 700;
-    letter-spacing: -0.025em;
+    letter-spacing: -0.02em;
+    color: var(--titel);
+  }
+  .portretten {
+    list-style: none;
+    margin: 8px 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .portretten img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 11;
+    object-fit: cover;
+    border-radius: var(--radius-s);
+  }
+  .portretten li {
+    animation: portret-in 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+    animation-delay: calc(0.3s + var(--i) * 70ms);
+  }
+  @keyframes portret-in {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+  }
+  .blok.doen {
+    display: grid;
+    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+    gap: 24px;
+    align-items: start;
+  }
+  .doen-tekst {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .werkfoto {
+    width: 100%;
+    height: 100%;
+    min-height: 260px;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: var(--radius-l);
   }
   .lead {
     margin: 0;
@@ -201,6 +259,15 @@
     color: var(--on-line1);
   }
   @media (max-width: 860px) {
+    .portretten {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+    .portretten li:nth-child(n + 5) {
+      display: none;
+    }
+    .blok.doen {
+      grid-template-columns: minmax(0, 1fr);
+    }
     .hero {
       grid-template-columns: minmax(0, 1fr);
     }

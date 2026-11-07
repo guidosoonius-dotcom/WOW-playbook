@@ -1,5 +1,6 @@
 <script>
   import Logo from './Logo.svelte';
+  import FacilicomLogo from './FacilicomLogo.svelte';
   import { route, href } from '../lib/router.svelte.js';
   import { prefs } from '../lib/state.svelte.js';
   import { rolById } from '../lib/content.js';
@@ -26,9 +27,11 @@
 
 <header class="header">
   <div class="container rij">
-    <a class="merk" href={href('')}>
-      <Logo />
-      <span><strong>Samen Digitaal</strong><small>Playbook · Facilicom Groep</small></span>
+    <a class="merk" href={href('')} aria-label="Samen Digitaal, playbook van Facilicom Groep: naar de start">
+      <FacilicomLogo hoogte={30} />
+      <span class="streep" aria-hidden="true"></span>
+      <Logo size={30} />
+      <strong class="woordmerk">Samen Digitaal</strong>
     </a>
 
     <nav aria-label="Hoofdnavigatie">
@@ -93,13 +96,17 @@
     text-decoration: none;
     line-height: 1.15;
   }
-  .merk span {
-    display: flex;
-    flex-direction: column;
+  .streep {
+    width: 2px;
+    height: 28px;
+    background: var(--border);
   }
-  .merk small {
-    font-size: 11.5px;
-    color: var(--muted);
+  .woordmerk {
+    font-family: var(--font);
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin-left: -4px;
   }
   nav {
     flex: 1;
@@ -119,7 +126,7 @@
   nav a {
     display: block;
     padding: 10px 14px;
-    border-radius: 999px;
+    border-radius: var(--radius-tag);
     color: var(--ink);
     text-decoration: none;
     font-size: 14px;
@@ -144,7 +151,7 @@
     gap: 8px;
     height: 40px;
     padding: 0 14px;
-    border-radius: 999px;
+    border-radius: var(--radius-tag);
     background: var(--surface);
     color: var(--ink);
     font-size: 13px;
@@ -168,7 +175,7 @@
     justify-content: center;
     padding: 0 12px;
     border: 0;
-    border-radius: 999px;
+    border-radius: var(--radius-tag);
     background: var(--surface);
     color: var(--muted);
     font-size: 14px;
@@ -203,7 +210,8 @@
   @media (max-width: 560px) {
     .zoek-label,
     kbd,
-    .merk small {
+    .streep,
+    .woordmerk {
       display: none;
     }
     .rolpil {

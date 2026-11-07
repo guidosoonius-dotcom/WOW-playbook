@@ -1,35 +1,42 @@
-/* Samen Digitaal — designtokens en basisstijlen.
-   Licht is de standaard; donker volgt het systeem of de keuze van de gebruiker,
-   en wordt geforceerd in de presentatiemodus van de explainers. */
+/* Samen Digitaal — designtokens in de huisstijl van Facilicom Groep
+   (kleurenschema "Facilicom Groep Kleuren 2026" uit de PowerPoint-template).
+   Licht = master Taupe: taupe ondergrond, witte kaarten, tekst in Blauw 08.
+   Donker = master Blauw: gebruikt voor de donkere weergave en de presentatiemodus. */
 
+/* Aptos is het huisstijllettertype. Het staat op Microsoft 365-werkplekken, maar de licentie
+   staat niet toe het mee te leveren. Daarom gebruiken we Aptos als het lokaal aanwezig is,
+   en anders Inter (vrij lettertype, ingebed) als terugval. */
 @font-face {
-  font-family: 'Plus Jakarta Sans';
+  font-family: 'Inter Variable';
   font-style: normal;
-  font-weight: 200 800;
+  font-weight: 100 900;
   font-display: swap;
-  src: url('@fontsource-variable/plus-jakarta-sans/files/plus-jakarta-sans-latin-wght-normal.woff2') format('woff2-variations');
+  src: url('@fontsource-variable/inter/files/inter-latin-wght-normal.woff2') format('woff2-variations');
 }
 
 :root {
-  --bg: #ffffff;
-  --surface: #f3f6fa;
-  --panel: #eef4fb;
-  --chip: #eef4fb;
-  --border: #e3eaf3;
-  --ink: #14213d;
-  --muted: #4a5670;
-  --line1: #0057a8;
+  --bg: #e3dcd9;
+  --surface: #ffffff;
+  --panel: #ffffff;
+  --chip: #f1ece9;
+  --border: #d7ccc8;
+  --ink: #004077;
+  --muted: #3e5878;
+  --line1: #004077;
   --on-line1: #ffffff;
-  --line2: #7b61d9;
-  --track: #d5e1ef;
-  --value: #ff7a59;
-  --value-text: #b93d14;
-  --shadow: 0 1px 2px rgba(20, 33, 61, 0.06), 0 8px 24px rgba(20, 33, 61, 0.06);
+  --line2: #1473c3;
+  --track: #d7ccc8;
+  --value: #c8261b;
+  --value-text: #ab2016;
+  --titel: #ab2016;
+  --shadow: none;
 
-  --font: 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font: Aptos, 'Inter Variable', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-display: 'Aptos Display', Aptos, 'Inter Variable', 'Segoe UI', system-ui, sans-serif;
+  --radius-tag: 6px;
   --radius-s: 12px;
-  --radius-m: 20px;
-  --radius-l: 32px;
+  --radius-m: 16px;
+  --radius-l: 20px;
   --max: 1240px;
   --gutter: clamp(16px, 4vw, 48px);
   color-scheme: light;
@@ -37,37 +44,39 @@
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
-    --bg: #0a1a33;
-    --surface: #0f2240;
-    --panel: #10243f;
-    --chip: #1a3358;
-    --border: #1e3658;
-    --ink: #eaf1fa;
-    --muted: #a9bcd6;
-    --line1: #6fa8e8;
-    --on-line1: #0a1a33;
-    --line2: #b49cf0;
-    --track: #24406a;
-    --value-text: #ff9e7a;
-    --shadow: none;
+    --bg: #004077;
+    --surface: #0a4c88;
+    --panel: #0a4c88;
+    --chip: #155897;
+    --border: #1e609c;
+    --ink: #ffffff;
+    --muted: #c9d8ea;
+    --line1: #ffffff;
+    --on-line1: #004077;
+    --line2: #8cc2f2;
+    --track: #2a659f;
+    --value: #ff5a4c;
+    --value-text: #ffb3a9;
+    --titel: #ffffff;
     color-scheme: dark;
   }
 }
 
 [data-theme='dark'] {
-  --bg: #0a1a33;
-  --surface: #0f2240;
-  --panel: #10243f;
-  --chip: #1a3358;
-  --border: #1e3658;
-  --ink: #eaf1fa;
-  --muted: #a9bcd6;
-  --line1: #6fa8e8;
-  --on-line1: #0a1a33;
-  --line2: #b49cf0;
-  --track: #24406a;
-  --value-text: #ff9e7a;
-  --shadow: none;
+  --bg: #004077;
+  --surface: #0a4c88;
+  --panel: #0a4c88;
+  --chip: #155897;
+  --border: #1e609c;
+  --ink: #ffffff;
+  --muted: #c9d8ea;
+  --line1: #ffffff;
+  --on-line1: #004077;
+  --line2: #8cc2f2;
+  --track: #2a659f;
+  --value: #ff5a4c;
+  --value-text: #ffb3a9;
+  --titel: #ffffff;
   color-scheme: dark;
 }
 
@@ -95,8 +104,9 @@ body {
 h1,
 h2,
 h3 {
+  font-family: var(--font-display);
   line-height: 1.12;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.015em;
   margin: 0;
 }
 
@@ -136,12 +146,12 @@ button {
 .eyebrow {
   font-size: 13px;
   font-weight: 600;
-  color: var(--value-text);
+  color: var(--muted);
 }
 
 .lead {
   font-size: clamp(17px, 1.6vw, 19px);
-  color: var(--muted);
+  color: var(--ink);
   max-width: 62ch;
 }
 
@@ -177,7 +187,7 @@ button {
   align-items: center;
   gap: 6px;
   padding: 4px 12px;
-  border-radius: 999px;
+  border-radius: var(--radius-tag);
   background: var(--chip);
   font-size: 13px;
   font-weight: 500;

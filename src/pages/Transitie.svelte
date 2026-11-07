@@ -115,14 +115,14 @@
   }
   .status {
     padding: 2px 10px;
-    border-radius: 999px;
+    border-radius: var(--radius-tag);
     border: 1px solid var(--border);
     font-weight: 600;
   }
   .halte--bezig .status {
     background: var(--value);
     border-color: var(--value);
-    color: #14213d;
+    color: #ffffff;
   }
   .periode {
     color: var(--muted);

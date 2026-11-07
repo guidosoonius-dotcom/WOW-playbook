@@ -119,7 +119,7 @@
   .keuze button {
     min-height: 44px;
     padding: 0 18px;
-    border-radius: 999px;
+    border-radius: var(--radius-tag);
     border: 0;
     background: var(--surface);
     font-weight: 600;

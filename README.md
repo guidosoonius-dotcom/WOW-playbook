@@ -42,7 +42,9 @@ Elk `.md`-bestand heeft YAML-frontmatter met o.a. `id`, `titel`, `kern` (max. 14
 
 ## Techniek
 
-- **Svelte 5 + Vite 7**, gebundeld tot één bestand met `vite-plugin-singlefile`; het lettertype (Plus Jakarta Sans) is ingebed.
+- **Svelte 5 + Vite 7**, gebundeld tot één bestand met `vite-plugin-singlefile`.
+- **Huisstijl Facilicom Groep** (kleurenschema "Facilicom Groep Kleuren 2026" uit de PowerPoint-template): taupe ondergrond, tekst in Blauw 08, rood als accent, tags in plaats van pillen, logo en foto's van collega's (`src/assets/`).
+- **Lettertype:** Aptos als het op de werkplek staat (Microsoft 365). De Aptos-licentie staat verspreiding niet toe, dus Aptos zit niet in het bestand; als terugval is Inter (vrij lettertype) ingebed.
 - **Hash-routing** (`#/rollen/product-owner`), zodat deep links ook werken vanaf het intranet of als lokaal bestand.
 - **Content-plugin** ([`build/content-plugin.js`](build/content-plugin.js)) leest, valideert en verrijkt de content tijdens de build.
 - **Explainers**: [`src/components/Explainer.svelte`](src/components/Explainer.svelte) is de stappenspeler (afspelen, pauze, stappen, presentatiemodus); elke scène is een hairline-SVG in `src/components/explainers/`.

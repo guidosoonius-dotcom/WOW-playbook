@@ -106,7 +106,7 @@
     align-items: center;
     gap: 8px;
     padding: 10px 14px;
-    border-radius: 999px;
+    border-radius: var(--radius-tag);
     background: var(--surface);
     color: var(--ink);
     text-decoration: none;
