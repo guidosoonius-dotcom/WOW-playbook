@@ -1,5 +1,5 @@
 <script>
-  import Logo from './Logo.svelte';
+  import SamenDigitaalLogo from './SamenDigitaalLogo.svelte';
   import FacilicomLogo from './FacilicomLogo.svelte';
   import { route, href } from '../lib/router.svelte.js';
   import { prefs } from '../lib/state.svelte.js';
@@ -30,8 +30,7 @@
     <a class="merk" href={href('')} aria-label="Samen Digitaal, playbook van Facilicom Groep: naar de start">
       <FacilicomLogo hoogte={30} />
       <span class="streep" aria-hidden="true"></span>
-      <Logo size={30} />
-      <strong class="woordmerk">Samen Digitaal</strong>
+      <SamenDigitaalLogo hoogte={30} />
     </a>
 
     <nav aria-label="Hoofdnavigatie">
@@ -100,13 +99,6 @@
     width: 2px;
     height: 28px;
     background: var(--border);
-  }
-  .woordmerk {
-    font-family: var(--font);
-    font-size: 18px;
-    font-weight: 700;
-    letter-spacing: -0.01em;
-    margin-left: -4px;
   }
   nav {
     flex: 1;
@@ -209,10 +201,20 @@
   }
   @media (max-width: 560px) {
     .zoek-label,
-    kbd,
-    .streep,
-    .woordmerk {
+    kbd {
       display: none;
+    }
+    .merk {
+      gap: 8px;
+    }
+    .rij {
+      column-gap: 12px;
+    }
+    .merk :global(.facilicom-logo) {
+      height: 20px !important;
+    }
+    .merk :global(.sd-logo) {
+      height: 22px !important;
     }
     .rolpil {
       display: none;
