@@ -35,6 +35,7 @@ Sjablonen staan in [`content/_sjablonen/`](content/_sjablonen/).
 | `content/data/beslismatrix.yaml` | Wie beslist wat? |
 | `content/data/teamscan.yaml` | Stellingen en duiding van de teamscan |
 | `content/data/transitie.yaml` | Fasen van de transitie |
+| `content/data/start.yaml` | Teksten van de startpagina: waarom, hoe, wat |
 | `content/data/changelog.yaml` | "Wat is er nieuw" |
 
 Elk `.md`-bestand heeft YAML-frontmatter met o.a. `id`, `titel`, `kern` (max. 140 tekens), `status` en `eigenaar`; daaronder optioneel Markdown.

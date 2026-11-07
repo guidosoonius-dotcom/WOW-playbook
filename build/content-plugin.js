@@ -209,6 +209,12 @@ export function loadContent(root = process.cwd()) {
     }
   }
 
+  const start = data.start;
+  check(start?.hero?.titel && start?.hero?.lead, 'content/data/start.yaml: hero mist titel of lead');
+  for (const deel of ['waarom', 'hoe', 'wat', 'doen']) check(start?.[deel]?.titel, `content/data/start.yaml: ${deel} mist een titel`);
+  check((start?.waarom?.punten ?? []).every((p) => p.titel && p.tekst), 'content/data/start.yaml: elk punt bij waarom heeft een titel en tekst nodig');
+  check((start?.hoe?.principes ?? []).every((p) => p.titel && p.tekst), 'content/data/start.yaml: elk principe bij hoe heeft een titel en tekst nodig');
+
   (data.transitie ?? []).forEach((m, i) => {
     check(m.fase !== undefined && m.titel && m.wat, `content/data/transitie.yaml: mijlpaal ${i + 1} mist fase, titel of wat`);
     check(MIJLPAAL_STATUS.includes(m.status), `content/data/transitie.yaml: mijlpaal "${m.titel}" heeft status "${m.status}" (kies uit ${MIJLPAAL_STATUS.join(', ')})`);
@@ -258,7 +264,8 @@ export function loadContent(root = process.cwd()) {
     beslismatrix: beslissingen,
     beslisCodes: BESLIS_CODES,
     teamscan: scan ?? null,
-    transitie: data.transitie ?? []
+    transitie: data.transitie ?? [],
+    start: data.start ?? null
   };
 }
 
