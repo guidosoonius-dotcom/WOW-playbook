@@ -1,0 +1,31 @@
+# De transitie in fasen. status: afgerond · bezig · gepland. Periodes vult het programmateam in.
+- fase: 0
+  titel: Voorbereiding
+  periode: "[periode volgt]"
+  status: bezig
+  wat: Het operating model wordt uitgewerkt, de Digital Leads worden meegenomen en het playbook gaat live.
+  voor_wie: [digital-lead]
+- fase: 1
+  titel: Eerste productgroep
+  periode: "[periode volgt]"
+  status: gepland
+  wat: Eén productgroep start als pilot met vaste productteams en de eerste PI-planning.
+  voor_wie: [product-manager, product-owner, team-coach, architect, teamlid]
+- fase: 2
+  titel: Opschalen per divisie
+  periode: "[periode volgt]"
+  status: gepland
+  wat: Meer productgroepen starten, op basis van de lessen uit de pilot. Budgetten gaan per waardestroom.
+  voor_wie: [digital-lead, product-manager, business-stakeholder]
+- fase: 3
+  titel: Portfolio in het nieuwe ritme
+  periode: "[periode volgt]"
+  status: gepland
+  wat: Alle digitale investeringen lopen via de portfoliokanban. Projectfinanciering wordt afgebouwd.
+  voor_wie: [digital-lead, business-stakeholder]
+- fase: 4
+  titel: Verankeren en verbeteren
+  periode: "[periode volgt]"
+  status: gepland
+  wat: De nieuwe werkwijze is de normale werkwijze. We blijven verbeteren via Inspect & Adapt.
+  voor_wie: [digital-lead, product-manager, product-owner, team-coach, architect, teamlid, business-stakeholder]

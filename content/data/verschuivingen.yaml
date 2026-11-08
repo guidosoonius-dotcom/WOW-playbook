@@ -1,0 +1,25 @@
+# Van→naar-dimensies voor de schuifregelaar op de pagina "Waarom we kantelen".
+- dimensie: Financiering
+  van: Budget per project, vooraf goedgekeurd
+  overgang: Kwartaalbudget, deels nog per project
+  naar: Stabiel budget per waardestroom en productteam
+- dimensie: Team
+  van: Tijdelijk samengesteld voor de duur van het project
+  overgang: Eerste vaste kernteams
+  naar: Vaste, multidisciplinaire productteams
+- dimensie: Sturing
+  van: Op scope, tijd en geld
+  overgang: Op mijlpalen én uitkomsten
+  naar: Op uitkomsten en waarde voor gebruikers
+- dimensie: Planning
+  van: Alles vooraf vastleggen in een plan
+  overgang: Kwartaalplanning naast het jaarplan
+  naar: Elk kwartaal samen plannen, elke twee weken bijsturen
+- dimensie: Succes
+  van: Op tijd en binnen budget opgeleverd
+  overgang: Opgeleverd én in gebruik
+  naar: Gebruikers en business merken het verschil
+- dimensie: Eigenaarschap
+  van: Na oplevering over naar beheer
+  overgang: Team blijft betrokken na livegang
+  naar: Het team bouwt, beheert en verbetert

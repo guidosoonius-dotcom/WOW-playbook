@@ -1,0 +1,49 @@
+# Teamscan: per dimensie stellingen op een schaal van 1 (helemaal niet) tot 5 (helemaal wel).
+# "laag" en "hoog" zijn de duiding bij een gemiddelde onder 2,5 of vanaf 3,5; "tip" is een concrete eerste stap.
+schaal: [Helemaal niet, Nauwelijks, Deels, Grotendeels, Helemaal]
+dimensies:
+  - id: productdenken
+    naam: Productdenken
+    vragen:
+      - We weten wie de gebruikers van ons product zijn en wat ze nodig hebben.
+      - We meten of wat we opleveren ook echt gebruikt wordt.
+      - Ons team is eigenaar van het product, ook na de livegang.
+    laag: Het team werkt nog vooral aan opdrachten, niet aan een product.
+    hoog: Het team denkt vanuit de gebruiker en stuurt op waarde.
+    tip: Ga deze iteratie samen een uur kijken bij gebruikers van jullie product.
+  - id: samenwerking
+    naam: Samenwerking
+    vragen:
+      - Iedereen in het team kan elkaars werk oppakken als dat nodig is.
+      - We spreken elkaar aan en durven fouten te benoemen.
+      - We werken samen aan het iteratiedoel, niet ieder aan een eigen taak.
+    laag: Het team werkt nog als een groep individuen.
+    hoog: Het team voelt zich samen verantwoordelijk voor het resultaat.
+    tip: Kies in de volgende iteratie één story die jullie met z'n tweeën of drieën oppakken.
+  - id: ritme
+    naam: Ritme en planning
+    vragen:
+      - Onze events zijn kort, nuttig en vinden altijd plaats.
+      - We halen meestal wat we in de iteratieplanning afspreken.
+      - Spoedwerk verstoort onze iteratie zelden.
+    laag: Het ritme is nog niet stabiel; plannen lukt moeilijk.
+    hoog: Het team heeft een voorspelbaar ritme.
+    tip: Plan de volgende iteratie op 80% van jullie capaciteit en kijk wat er gebeurt.
+  - id: kwaliteit
+    naam: Kwaliteit
+    vragen:
+      - We hebben een Definition of Done en houden ons eraan.
+      - Testen gebeurt tijdens de iteratie, niet erna.
+      - We lossen technische schuld structureel op.
+    laag: Kwaliteit komt nog vaak achteraf, of in een aparte fase.
+    hoog: Kwaliteit is ingebouwd in het werk van elke iteratie.
+    tip: Bespreek jullie Definition of Done in de volgende retro. Is hij nog actueel?
+  - id: verbeteren
+    naam: Continu verbeteren
+    vragen:
+      - Elke retro levert minstens één concrete verbetering op.
+      - We voeren verbeteracties ook echt uit.
+      - We gebruiken cijfers (zoals doorlooptijd) om te zien of we beter worden.
+    laag: Verbeteren gebeurt nog toevallig.
+    hoog: Verbeteren is een vaste gewoonte van het team.
+    tip: Zet de verbeteractie uit de retro als story op het bord van de volgende iteratie.

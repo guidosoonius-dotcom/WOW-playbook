@@ -1,0 +1,52 @@
+# Teksten van de startpagina, in de volgorde waarom → hoe → wat.
+# Alleen tekst: de opbouw en de animaties staan in src/pages/Start.svelte.
+hero:
+  titel: Elke dag beter. Ook digitaal.
+  lead: >
+    Onze klanten en collega's rekenen op diensten die werken, en die blijven verbeteren.
+    Dat lukt niet met projecten die stoppen bij de oplevering. Daarom gaan we werken met
+    vaste teams die hun product elke twee weken een stukje beter maken.
+  horizon: Onze stip op de horizon
+  horizon_tekst: een betere leefomgeving voor iedereen
+
+waarom:
+  titel: Waarom nu?
+  lead: >
+    Wat we digitaal bouwen, moet net zo betrouwbaar zijn als ons vakwerk op locatie.
+    De manier waarop we het nu organiseren, maakt dat lastig.
+  punten:
+    - titel: Projecten stoppen bij de oplevering
+      icoon: vlag
+      tekst: Daarna valt het team uiteen en verdwijnt de kennis. Verbeteren begint telkens opnieuw.
+    - titel: De vraag verandert sneller dan het plan
+      icoon: wissel
+      tekst: Wat we vooraf vastleggen, is bij de oplevering vaak al ingehaald door de praktijk.
+    - titel: Waarde zie je pas laat
+      icoon: zandloper
+      tekst: Gebruikers zien pas na maanden iets. Feedback komt als het budget al op is.
+  missie: Wat blijft is onze missie. Samen werken aan een betere leefomgeving voor iedereen. Nu ook digitaal.
+
+hoe:
+  titel: Zo gaan we het doen
+  lead: Vier afspraken vormen de kern van ons nieuwe operating model. Ze zijn gebaseerd op SAFe, in onze eigen woorden.
+  principes:
+    - titel: Vaste productteams
+      icoon: team
+      tekst: Teams blijven bij hun product. Ze bouwen, beheren en verbeteren het.
+    - titel: Rond waardestromen
+      icoon: route
+      tekst: We organiseren ons rond hoe waarde naar klant en collega stroomt.
+    - titel: In één ritme
+      icoon: ritme
+      tekst: Elke twee weken opleveren, elk kwartaal samen plannen.
+    - titel: Sturen op uitkomsten
+      icoon: doel
+      tekst: Budget per waardestroom, en prioriteren op waarde in plaats van op plan.
+
+wat:
+  titel: Wat het voor jou betekent
+  lead: Kies je rol. Je ziet dan wat er voor jou verandert en waar je het beste kunt beginnen.
+
+doen:
+  titel: Aan de slag
+  lead: "Van lezen naar doen: oefenen, samen reflecteren en weten waar je staat."
