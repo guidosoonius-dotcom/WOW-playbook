@@ -192,12 +192,17 @@
   /* Hero: de horizon loopt over de volle breedte, de tekst staat links ervoor. */
   .hero {
     position: relative;
-    min-height: clamp(520px, 44vw, 600px);
     overflow: hidden;
   }
+  /* De tekening hangt onderaan de hero, altijd in zijn eigen verhouding (1280 × 560).
+     De lijnen beslaan de onderste 175 van de 560 eenheden: 13,7% van de breedte. Precies zoveel
+     ruimte (plus wat lucht) krijgt de tekst onderin, zodat de lijnen nooit over de knoppen vallen. */
   .hero-beeld {
     position: absolute;
-    inset: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    aspect-ratio: 1280 / 560;
   }
   .hero-tekst {
     position: relative;
@@ -205,7 +210,7 @@
     flex-direction: column;
     gap: 22px;
     padding-top: clamp(32px, 5vw, 64px);
-    padding-bottom: 200px;
+    padding-bottom: calc(13.7vw + 36px);
   }
   .hero-tekst > * {
     max-width: 600px;
@@ -557,6 +562,7 @@
     }
     .hero-beeld {
       position: static;
+      aspect-ratio: auto;
       height: 400px;
     }
     .hero-tekst {

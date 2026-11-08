@@ -14,7 +14,7 @@
     <clipPath id="horizon-hero-clip"><rect x="0" y="0" width="1280" height="230" /></clipPath>
   </defs>
 
-  <path class="teken" pathLength="1" d="M745 230 H1250" style="stroke: var(--ink); stroke-width: 1.4; opacity: .45" />
+  <path class="teken" pathLength="1" d="M790 230 H1250" style="stroke: var(--ink); stroke-width: 1.4; opacity: .45" />
   <g clip-path="url(#horizon-hero-clip)">
     <circle class="zon" cx="880" cy="230" r="60" style="fill: var(--value)" />
   </g>

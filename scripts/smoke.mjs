@@ -66,6 +66,24 @@ for (const [naam, viewport] of [['desktop', { width: 1440, height: 900 }], ['mob
     const route = await page.getByRole('heading', { name: /Jouw route als Product Owner/ }).count();
     if (!route) fouten.push('rolkeuze: route verschijnt niet');
 
+    // De lijnen van de hero-animatie vallen niet over de knoppen (gangbare laptopformaten).
+    for (const [w, h] of naam === 'desktop' ? [[1152, 720], [1366, 768], [1536, 864]] : []) {
+      await page.setViewportSize({ width: w, height: h });
+      await page.waitForTimeout(150);
+      const overlap = await page.evaluate(() => {
+        const knop = document.querySelector('.knoppen')?.getBoundingClientRect();
+        const svg = document.querySelector('.hero-beeld svg');
+        if (!knop || !svg) return null;
+        const r = svg.getBoundingClientRect();
+        const vb = svg.viewBox.baseVal;
+        const lijnTop = r.top + (385 - vb.y) * (r.width / vb.width); // bovenkant van de lijnen in de tekening
+        return Math.round(knop.bottom - lijnTop);
+      });
+      if (overlap === null) fouten.push(`hero ${w}×${h}: knoppen of tekening niet gevonden`);
+      else if (overlap > -8) fouten.push(`hero ${w}×${h}: de lijnen komen ${overlap + 8}px te dicht bij of over de knoppen`);
+    }
+    await page.setViewportSize(viewport);
+
     // Doorklikken begint bovenaan; terug brengt je naar waar je was.
     await page.evaluate(() => window.scrollTo({ top: 2000, behavior: 'instant' }));
     await page.waitForTimeout(150);
