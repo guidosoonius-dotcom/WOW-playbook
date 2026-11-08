@@ -23,12 +23,13 @@ deelnemers:
   - { rol: productgroep-coach, verplicht: true }
   - { rol: business-stakeholder, verplicht: false }
   - { rol: epic-owner, verplicht: false }
-input: [Businesscontext en visie, Top-features uit de backlog, Architectuurvisie]
+input: [Businesscontext en visie, Top-features uit de backlog, Architectuurvisie, Bezetting en specialismen per team]
 output: [PI-doelen per team, Programmabord met afhankelijkheden, Risico's (ROAM), Vertrouwensstem]
 goed_als:
   - Iedereen is er, in dezelfde ruimte
   - Afhankelijkheden worden tijdens de planning opgelost, niet erna
   - Het vertrouwen in het plan is hoog genoeg
+  - Teams maken zichtbaar welk specialisme ze missen, en de managementreview besluit over versterking
 valkuilen:
   - De planning wordt vooraf al ingevuld door managers
   - Teams plannen tot 100% van hun capaciteit

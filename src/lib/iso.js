@@ -143,6 +143,16 @@ export class Iso {
   mens(x, y, kleur = BLAUW, o = {}) {
     const [X, Y] = this.p(x, y, o.z ?? 0);
     this.grens(X - 9, Y - 34);
+    if (o.spook) {
+      // Gestippeld figuurtje: een specialist die erbij komt als het product erom vraagt.
+      const lijn = `fill="${WIT}" fill-opacity=".6" stroke="${INK}" stroke-width="1.6" stroke-dasharray="3 2.5"`;
+      this.add(
+        o.diepte ?? x + y + 1,
+        `<path d="M${r1(X - 8)} ${r1(Y)} V${r1(Y - 10)} Q${r1(X - 8)} ${r1(Y - 19)} ${r1(X)} ${r1(Y - 19)} Q${r1(X + 8)} ${r1(Y - 19)} ${r1(X + 8)} ${r1(Y - 10)} V${r1(Y)} Q${r1(X)} ${r1(Y + 4)} ${r1(X - 8)} ${r1(Y)} Z" ${lijn}/>` +
+          `<circle cx="${r1(X)}" cy="${r1(Y - 26)}" r="6.5" ${lijn}/>`
+      );
+      return;
+    }
     const svg =
       `<path d="M${r1(X - 8)} ${r1(Y)} V${r1(Y - 10)} Q${r1(X - 8)} ${r1(Y - 19)} ${r1(X)} ${r1(Y - 19)} Q${r1(X + 8)} ${r1(Y - 19)} ${r1(X + 8)} ${r1(Y - 10)} V${r1(Y)} Q${r1(X)} ${r1(Y + 4)} ${r1(X - 8)} ${r1(Y)} Z" fill="${kleur}" stroke="${INK}" stroke-width="1.8" stroke-linejoin="round"/>` +
       `<circle cx="${r1(X)}" cy="${r1(Y - 26)}" r="6.5" fill="${TAUPE2}" stroke="${INK}" stroke-width="1.8"/>`;

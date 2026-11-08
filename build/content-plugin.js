@@ -222,6 +222,11 @@ export function loadContent(root = process.cwd()) {
   // Iconen bij kenmerken en op de startpagina moeten bestaan.
   const checkIcoon = (naam, waar) => check(naam === undefined || ICONEN[naam], `${waar}: onbekend icoon "${naam}" (kies uit ${Object.keys(ICONEN).join(', ')})`);
   for (const u of byType('uitleg')) for (const k of u.kenmerken ?? []) checkIcoon(k.icoon, `${u._file} (kenmerk "${k.titel}")`);
+  for (const u of byType('uitleg'))
+    for (const sp of u.specialismen ?? []) {
+      check(sp.naam && sp.kort && sp.vast_als, `${u._file}: specialisme "${sp.naam ?? '?'}" mist naam, kort of vast_als`);
+      checkIcoon(sp.icoon, `${u._file} (specialisme "${sp.naam}")`);
+    }
   for (const p of [...(data.start?.waarom?.punten ?? []), ...(data.start?.hoe?.principes ?? [])]) checkIcoon(p.icoon, `content/data/start.yaml ("${p.titel}")`);
 
   const start = data.start;

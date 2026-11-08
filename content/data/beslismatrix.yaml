@@ -72,3 +72,7 @@
   thema: Team en werkwijze
   laag: productteam
   rollen: { leidinggevende: B, product-owner: A, teamlid: A, team-coach: I }
+- besluit: Welke specialismen er vast in een productteam komen
+  thema: Team en werkwijze
+  laag: productgroep
+  rollen: { digital-lead: B, product-owner: A, product-manager: A, leidinggevende: A, team-coach: I }

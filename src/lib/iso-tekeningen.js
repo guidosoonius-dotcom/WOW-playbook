@@ -110,7 +110,12 @@ function productteam() {
   iso.vloerrobot(40, 45, { spoor: [[-50, 60], [-10, 62], [20, 50], [40, 45]], rijdt: [-40, -12] });
   iso.schoonmaakkar(-120, 70);
   iso.drone(-90, -90, 120);
-  return iso.klaar('Een productteam op een podium: zeven figuurtjes op een ringlijn rond hun product, een gebouw met een rood dak. Een schoonmaakrobot rijdt zijn rondje, de schoonmaakkar staat klaar.');
+  // Extra specialismen: gestippeld buiten de ring, ze horen alleen bij sommige teams.
+  iso.fase = 4;
+  [[118, -55], [128, -20], [100, 105]].forEach(([x, y]) => iso.mens(x, y, BLAUW, { spook: true }));
+  iso.lijn([[105 * Math.cos(-0.45), 105 * Math.sin(-0.45)], [118, -55]], BLAUW, 1.6, { dash: '3 4', diepte: -1490 });
+  iso.vonk(128, -20, 48, { r: 6 });
+  return iso.klaar('Een productteam op een podium: zeven figuurtjes op een ringlijn rond hun product, een gebouw met een rood dak. Buiten de ring staan drie gestippelde figuurtjes: extra specialisten die sommige teams vast hebben. Een schoonmaakrobot rijdt zijn rondje, de schoonmaakkar staat klaar.');
 }
 
 // Epics, features en stories: steeds kleiner opgeknipt, met een bord dat laat zien wat klaar is.
