@@ -13,6 +13,7 @@ safe:
   term: SAFe-term
 kenmerken:                        # optioneel
   - titel: Kenmerk
+    icoon: doel                   # optioneel; zie src/lib/iconen.js voor de namen (bijv. bel, doel, team, ritme, sleutel)
     tekst: Korte uitleg van het kenmerk.
 # Alleen bij waardestroom: voorbeelden [{id, naam, trigger, uitkomst, stappen: [...], producten: [...]}]
 # Alleen bij productteam: teamrollen [{naam, bij_ons, rol_id, soort: rol|vak, kort, doet: [...]}]

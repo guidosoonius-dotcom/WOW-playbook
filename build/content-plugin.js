@@ -4,6 +4,7 @@
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, relative, sep } from 'node:path';
 import yaml from 'js-yaml';
+import { ICONEN } from '../src/lib/iconen.js';
 import { marked } from 'marked';
 
 const VIRTUAL_ID = 'virtual:content';
@@ -217,6 +218,11 @@ export function loadContent(root = process.cwd()) {
   for (const u of byType('uitleg')) {
     check(['bouwstenen', 'praktijk', undefined].includes(u.groep), `${u._file}: groep moet "bouwstenen" of "praktijk" zijn`);
   }
+
+  // Iconen bij kenmerken en op de startpagina moeten bestaan.
+  const checkIcoon = (naam, waar) => check(naam === undefined || ICONEN[naam], `${waar}: onbekend icoon "${naam}" (kies uit ${Object.keys(ICONEN).join(', ')})`);
+  for (const u of byType('uitleg')) for (const k of u.kenmerken ?? []) checkIcoon(k.icoon, `${u._file} (kenmerk "${k.titel}")`);
+  for (const p of [...(data.start?.waarom?.punten ?? []), ...(data.start?.hoe?.principes ?? [])]) checkIcoon(p.icoon, `content/data/start.yaml ("${p.titel}")`);
 
   const start = data.start;
   check(start?.hero?.titel && start?.hero?.lead, 'content/data/start.yaml: hero mist titel of lead');

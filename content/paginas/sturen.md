@@ -28,4 +28,5 @@ Zo komt werk dat veel oplevert en weinig kost vanzelf bovenaan.
 ## Guardrails
 
 Guardrails zijn de kaders waarbinnen teams zelf beslissen, zoals budgetgrenzen, architectuurprincipes en
-security-eisen. Binnen de kaders hoeft niemand toestemming te vragen.
+security-eisen. Binnen de kaders hoeft niemand toestemming te vragen. Meer daarover lees je bij
+[Kaders voor teams](#/uitleg/kaders).

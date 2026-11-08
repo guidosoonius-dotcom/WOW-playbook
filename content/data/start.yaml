@@ -16,10 +16,13 @@ waarom:
     De manier waarop we het nu organiseren, maakt dat lastig.
   punten:
     - titel: Projecten stoppen bij de oplevering
+      icoon: vlag
       tekst: Daarna valt het team uiteen en verdwijnt de kennis. Verbeteren begint telkens opnieuw.
     - titel: De vraag verandert sneller dan het plan
+      icoon: wissel
       tekst: Wat we vooraf vastleggen, is bij de oplevering vaak al ingehaald door de praktijk.
     - titel: Waarde zie je pas laat
+      icoon: zandloper
       tekst: Gebruikers zien pas na maanden iets. Feedback komt als het budget al op is.
   missie: Wat blijft is onze missie. Samen werken aan een betere leefomgeving voor iedereen. Nu ook digitaal.
 
@@ -28,12 +31,16 @@ hoe:
   lead: Vier afspraken vormen de kern van ons nieuwe operating model. Ze zijn gebaseerd op SAFe, in onze eigen woorden.
   principes:
     - titel: Vaste productteams
+      icoon: team
       tekst: Teams blijven bij hun product. Ze bouwen, beheren en verbeteren het.
     - titel: Rond waardestromen
+      icoon: route
       tekst: We organiseren ons rond hoe waarde naar klant en collega stroomt.
     - titel: In één ritme
+      icoon: ritme
       tekst: Elke twee weken opleveren, elk kwartaal samen plannen.
     - titel: Sturen op uitkomsten
+      icoon: doel
       tekst: Budget per waardestroom, en prioriteren op waarde in plaats van op plan.
 
 wat:

@@ -6,6 +6,7 @@
   import { href } from '../lib/router.svelte.js';
   import HorizonHero from '../components/HorizonHero.svelte';
   import IsoTekening from '../components/IsoTekening.svelte';
+  import Icoon from '../components/Icoon.svelte';
   import RolKiezer from '../components/RolKiezer.svelte';
 
   // Collega's op een kleurvlak, zoals op de welkomstslide van de huisstijl.
@@ -73,6 +74,7 @@
     <div class="raster3">
       {#each s.waarom.punten as p}
         <article class="kaart">
+          <Icoon naam={p.icoon} />
           <h3>{p.titel}</h3>
           <p>{p.tekst}</p>
         </article>
@@ -94,7 +96,7 @@
     <ol class="principes">
       {#each s.hoe.principes as p}
         <li class="kaart">
-          <span class="station" aria-hidden="true"></span>
+          <Icoon naam={p.icoon} />
           <strong>{p.titel}</strong>
           <span>{p.tekst}</span>
         </li>
@@ -338,7 +340,7 @@
   }
   .kaart h3 {
     font-size: 20px;
-    margin: 0 0 8px;
+    margin: 14px 0 8px;
   }
   .kaart p {
     margin: 0;
@@ -379,15 +381,9 @@
   .principes strong {
     font-size: 20px;
   }
-  .principes span:not(.station) {
+  .principes li > span {
     line-height: 1.55;
     color: var(--muted);
-  }
-  .station {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    border: 4px solid var(--line2);
   }
   .model {
     margin-top: 16px;

@@ -1,4 +1,5 @@
 <script>
+  import Kenmerken from './Kenmerken.svelte';
   // Het productteam als ring rond het product: kies een rol en zie wat die doet.
   import { href } from '../../lib/router.svelte.js';
 
@@ -22,17 +23,7 @@
   };
 </script>
 
-<section class="sectie" aria-labelledby="kenmerken">
-  <h2 id="kenmerken">Kenmerken van een productteam</h2>
-  <ul class="kenmerken">
-    {#each uitleg.kenmerken ?? [] as k}
-      <li>
-        <strong>{k.titel}</strong>
-        <span>{k.tekst}</span>
-      </li>
-    {/each}
-  </ul>
-</section>
+<Kenmerken titel="Kenmerken van een productteam" kenmerken={uitleg.kenmerken ?? []} />
 
 <section class="sectie" aria-labelledby="rollen">
   <h2 id="rollen">Wie zit er in het team?</h2>
@@ -92,29 +83,6 @@
   h2 {
     font-size: 24px;
     margin-bottom: 16px;
-  }
-  .kenmerken {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
-    gap: 12px;
-  }
-  .kenmerken li {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    padding: 18px 20px;
-    border-radius: var(--radius-m);
-    background: var(--surface);
-  }
-  .kenmerken strong {
-    font-size: 17px;
-  }
-  .kenmerken span {
-    color: var(--muted);
-    font-size: 15px;
   }
 
   .team {

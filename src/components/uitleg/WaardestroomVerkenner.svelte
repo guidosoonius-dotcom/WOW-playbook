@@ -1,5 +1,6 @@
 <script>
   // Kies een voorbeeld en zie de waardestroom als metrolijn: van trigger, via de stappen, naar waarde.
+  import Kenmerken from './Kenmerken.svelte';
   let { uitleg } = $props();
 
   const voorbeelden = $derived(uitleg.voorbeelden ?? []);
@@ -8,18 +9,7 @@
   const vb = $derived(voorbeelden.find((v) => v.id === gekozen) ?? voorbeelden[0]);
 </script>
 
-<section class="sectie" aria-labelledby="kenmerken">
-  <h2 id="kenmerken">Kenmerken van een waardestroom</h2>
-  <ul class="kenmerken">
-    {#each uitleg.kenmerken ?? [] as k}
-      <li>
-        <span class="station" aria-hidden="true"></span>
-        <strong>{k.titel}</strong>
-        <span>{k.tekst}</span>
-      </li>
-    {/each}
-  </ul>
-</section>
+<Kenmerken titel="Kenmerken van een waardestroom" kenmerken={uitleg.kenmerken ?? []} />
 
 {#if vb}
   <section class="sectie" aria-labelledby="voorbeelden">
@@ -76,40 +66,6 @@
     font-size: 24px;
     margin-bottom: 16px;
   }
-  .kenmerken {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
-    gap: 12px;
-  }
-  .kenmerken li {
-    display: grid;
-    grid-template-columns: 22px minmax(0, 1fr);
-    align-content: start;
-    gap: 4px 14px;
-    padding: 18px 20px;
-    border-radius: var(--radius-m);
-    background: var(--surface);
-  }
-  .kenmerken .station {
-    grid-row: span 2;
-    width: 18px;
-    height: 18px;
-    margin-top: 2px;
-    border-radius: 50%;
-    border: 3.5px solid var(--line1);
-    background: var(--bg);
-  }
-  .kenmerken strong {
-    font-size: 17px;
-  }
-  .kenmerken span:not(.station) {
-    color: var(--muted);
-    font-size: 15px;
-  }
-
   .keuze {
     display: flex;
     flex-wrap: wrap;

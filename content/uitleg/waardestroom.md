@@ -14,16 +14,22 @@ safe:
   afwijking: SAFe onderscheidt operationele en ontwikkelwaardestromen. Wij beginnen bij de operationele en kijken dan welke digitale producten en teams die ondersteunen.
 kenmerken:
   - titel: Begint bij een vraag of gebeurtenis
+    icoon: bel
     tekst: Een klant tekent een contract, een medewerker meldt zich ziek, een alarm gaat af. Daar begint de stroom.
   - titel: Eindigt bij waarde
+    icoon: doel
     tekst: De stroom is pas klaar als iemand er iets aan heeft, zoals een betaalde factuur, een gevulde dienst of een opgeloste storing.
   - titel: Loopt over afdelingen heen
+    icoon: over-afdelingen
     tekst: Sales, planning, operatie en finance zitten vaak allemaal in dezelfde stroom. Juist bij de overdrachten ontstaan wachttijd en fouten.
   - titel: Is meetbaar
+    icoon: meter
     tekst: Je kunt meten hoe lang de stroom duurt, hoeveel er tegelijk in zit en waar het stokt. Zo zie je waar digitale verbetering het meest oplevert.
   - titel: Wordt gedragen door digitale producten
+    icoon: lagen
     tekst: Elke stap wordt ondersteund door systemen en apps. Die producten krijgen een vast team, en die teams samen vormen de productgroep van de stroom.
   - titel: Is stabiel
+    icoon: anker
     tekst: Een waardestroom verandert niet elk kwartaal. Daarom kun je er teams en budget langdurig aan koppelen, in plaats van per project.
 voorbeelden:
   - id: contract-factuur
@@ -60,8 +66,12 @@ teams die aan dezelfde waardestroom werken, plannen samen in de PI-planning.
 
 ## Hoe vind je een waardestroom?
 
-Stel drie vragen: wie heeft er uiteindelijk iets aan (de klant of collega)? Waar begint het (de
-trigger)? En wanneer is het af (de waarde)? Teken daarna de stappen ertussen, en zet bij elke stap welke
-systemen of apps worden gebruikt.
+Stel drie vragen:
+
+1. **Wie heeft er uiteindelijk iets aan?** De klant of de collega.
+2. **Waar begint het?** De vraag of gebeurtenis die de stroom in gang zet.
+3. **Wanneer is het af?** Het moment waarop de klant of collega de waarde heeft.
+
+Teken daarna de stappen ertussen. Zet bij elke stap welke systemen of apps worden gebruikt.
 
 *De voorbeelden op deze pagina zijn illustraties. De echte waardestromen worden per divisie uitgewerkt.*

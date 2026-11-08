@@ -66,6 +66,19 @@ for (const [naam, viewport] of [['desktop', { width: 1440, height: 900 }], ['mob
     const route = await page.getByRole('heading', { name: /Jouw route als Product Owner/ }).count();
     if (!route) fouten.push('rolkeuze: route verschijnt niet');
 
+    // Doorklikken begint bovenaan; terug brengt je naar waar je was.
+    await page.evaluate(() => window.scrollTo({ top: 2000, behavior: 'instant' }));
+    await page.waitForTimeout(150);
+    const vertrek = await page.evaluate(() => Math.round(window.scrollY));
+    await page.evaluate(() => (location.hash = '#/transitie'));
+    await page.waitForTimeout(250);
+    const nieuw = await page.evaluate(() => window.scrollY);
+    if (nieuw > 5) fouten.push(`scroll: nieuwe pagina begint op ${Math.round(nieuw)} in plaats van bovenaan`);
+    await page.goBack();
+    await page.waitForTimeout(400);
+    const terug = await page.evaluate(() => Math.round(window.scrollY));
+    if (Math.abs(terug - vertrek) > 5) fouten.push(`scroll: terug komt op ${terug} in plaats van ${vertrek}`);
+
     // Zoeken.
     await page.keyboard.press('Control+k');
     await page.keyboard.type('wsjf');

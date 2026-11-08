@@ -12,16 +12,22 @@ safe:
   term: Agile Team
 kenmerken:
   - titel: Vast
+    icoon: schakel
     tekst: Het team blijft bij elkaar en bij zijn product. Kennis bouwt zich op in plaats van te verdwijnen na een project.
   - titel: Klein
+    icoon: klein
     tekst: 5 tot 9 mensen. Groot genoeg om alles zelf te kunnen, klein genoeg om snel af te stemmen.
   - titel: Multidisciplinair
+    icoon: vormen
     tekst: Ontwikkeling, test, analyse en ontwerp zitten in één team. Er zijn geen overdrachten naar een volgende afdeling.
   - titel: Eigenaar van het product
+    icoon: sleutel
     tekst: Het team bouwt, beheert en verbetert. "You build it, you run it."
   - titel: Werkt in een vast ritme
+    icoon: ritme
     tekst: Iteraties van twee weken, met planning, daily, review en retro.
   - titel: Bepaalt zelf hoe
+    icoon: kompas
     tekst: De Product Owner bepaalt wat het belangrijkste is; het team bepaalt hoe het werk wordt gedaan.
 teamrollen:
   - naam: Product Owner
