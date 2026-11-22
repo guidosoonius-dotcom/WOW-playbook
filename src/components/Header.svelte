@@ -25,7 +25,7 @@
   const actief = (pad) => (ONDER[route.parts[0]] ?? route.parts[0]) === pad;
 </script>
 
-<header class="header">
+<header class="header" class:met-rol={rol}>
   <div class="container rij">
     <a class="merk" href={href('')} aria-label="Samen Digitaal, playbook van Facilicom Groep: naar de start">
       <FacilicomLogo hoogte={30} />
@@ -187,7 +187,8 @@
     stroke-width: 1.6;
     stroke-linecap: round;
   }
-  @media (max-width: 1020px) {
+  /* Past het menu niet meer naast logo, rolpil en knoppen (rond laptopbreedte), dan krijgt het een eigen rij. */
+  @media (max-width: 1360px) {
     nav {
       order: 3;
       flex-basis: 100%;
@@ -198,6 +199,17 @@
     .acties {
       margin-left: auto;
     }
+  }
+  /* Met een gekozen rol staat er een brede pil bij de knoppen: dan past het menu op geen enkel scherm naast het logo. */
+  .met-rol nav {
+    order: 3;
+    flex-basis: 100%;
+  }
+  .met-rol ul {
+    justify-content: flex-start;
+  }
+  .met-rol .acties {
+    margin-left: auto;
   }
   @media (max-width: 560px) {
     .zoek-label,
