@@ -54,6 +54,11 @@ export class Bewaard {
   }
 }
 
+// Het bewaarde werk van een andere werkvorm (alleen lezen), bijvoorbeeld om producten over te nemen.
+export function leesWerkvorm(id) {
+  return lees(id)?.data ?? null;
+}
+
 // Welke werkvormen hebben al ingevuld werk? Voor "Verder met je werk".
 export function bewaardeWerkvormen() {
   const uit = {};

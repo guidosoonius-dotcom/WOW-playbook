@@ -19,7 +19,8 @@ const ROUTES = [
   'ritme/pi-planning', 'ritme/daily', 'sturen', 'woordenlijst', 'woordenlijst/wsjf', 'over', 'beslissen', 'doen',
   'doen/dilemmas', 'doen/teamscan', 'transitie', 'uitleg', 'uitleg/waardestroom', 'uitleg/productteam',
   'uitleg/epics-features-stories', 'doen/gereedschap', 'doen/gereedschap/wsjf', 'doen/gereedschap/teamcharter',
-  'doen/gereedschap/retrospectives', 'doen/gereedschap/pi-planningskit', 'doen/gereedschap/waardestroom-in-kaart', 'doen/gereedschap/kaderscheck', 'bestaat-niet'
+  'doen/gereedschap/retrospectives', 'doen/gereedschap/pi-planningskit', 'doen/gereedschap/waardestroom-in-kaart', 'doen/gereedschap/kaderscheck',
+  'doen/gereedschap/portfoliokanban', 'doen/gereedschap/probleemoplossing', 'doen/gereedschap/okr-opsteller', 'bestaat-niet'
 ];
 
 const browser = await chromium.launch();

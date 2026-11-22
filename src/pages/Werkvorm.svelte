@@ -14,6 +14,14 @@
   import Capaciteit from '../components/gereedschap/Capaciteit.svelte';
   import Trieren from '../components/gereedschap/Trieren.svelte';
   import Waardestroom from '../components/gereedschap/Waardestroom.svelte';
+  import Teamindeling from '../components/gereedschap/Teamindeling.svelte';
+  import Productcanvas from '../components/gereedschap/Productcanvas.svelte';
+  import Feature from '../components/gereedschap/Feature.svelte';
+  import Portfoliokanban from '../components/gereedschap/Portfoliokanban.svelte';
+  import Okr from '../components/gereedschap/Okr.svelte';
+  import Budget from '../components/gereedschap/Budget.svelte';
+  import Kaderscheck from '../components/gereedschap/Kaderscheck.svelte';
+  import Probleemoplossing from '../components/gereedschap/Probleemoplossing.svelte';
 
   let { id } = $props();
 
@@ -27,7 +35,15 @@
     'pi-planningskit': PiKit,
     'capaciteit-pi-doelen': Capaciteit,
     'lopende-projecten-trieren': Trieren,
-    'waardestroom-in-kaart': Waardestroom
+    'waardestroom-in-kaart': Waardestroom,
+    teamindeling: Teamindeling,
+    productcanvas: Productcanvas,
+    'feature-beschrijven': Feature,
+    portfoliokanban: Portfoliokanban,
+    'okr-opsteller': Okr,
+    'budget-verdelen': Budget,
+    kaderscheck: Kaderscheck,
+    probleemoplossing: Probleemoplossing
   };
   const NIVEAU = { team: 'Team', productgroep: 'Productgroep', portfolio: 'Portfolio' };
 

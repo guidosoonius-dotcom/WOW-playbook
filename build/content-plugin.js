@@ -266,6 +266,7 @@ export function loadContent(root = process.cwd()) {
     for (const r of w.wie ?? []) check(rolIds.has(r), `${w._file}: onbekende rol "${r}" bij wie`);
     for (const r of w.bij ?? []) check(routes.has(r), `${w._file}: bij "${r}" is geen bestaande pagina`);
     for (const g of w.groepen ?? []) check(g.naam && Array.isArray(g.criteria), `${w._file}: elke groep heeft een naam en criteria nodig`);
+    for (const o of w.onderwerpen ?? []) check(o.naam && o.wie && Array.isArray(o.vragen) && o.vragen.length, `${w._file}: onderwerp "${o.naam ?? '?'}" mist naam, wie of vragen`);
     for (const r of w.retros ?? []) check(r.id && r.naam && Array.isArray(r.stappen) && r.stappen.every((st) => st.titel && st.minuten), `${w._file}: retro "${r.naam ?? '?'}" mist id, naam of stappen met titel en minuten`);
   }
   for (const [rol, stappen] of Object.entries(data.routes ?? {})) {
