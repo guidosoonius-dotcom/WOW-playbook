@@ -8,6 +8,7 @@ export const laagById = (id) => content.lagen.find((l) => l.id === id);
 export const paginaById = (id) => content.paginas.find((p) => p.id === id);
 export const explainerById = (id) => content.explainers.find((e) => e.id === id);
 export const uitlegById = (id) => content.uitleg.find((u) => u.id === id);
+export const werkvormById = (id) => content.werkvormen.find((w) => w.id === id);
 
 // Omgekeerde relaties: welke rollen nemen deel aan een event, welke events horen bij een laag.
 export const rollenVoorEvent = (eventId) =>
@@ -28,6 +29,8 @@ export function titelVoorRoute(path) {
   if (a === 'rollen' && b) return rolById(b)?.titel;
   if (a === 'ritme' && b) return eventById(b)?.titel;
   if (a === 'uitleg' && b) return uitlegById(b)?.titel;
+  const [, , c] = path.split('/');
+  if (a === 'doen' && b === 'gereedschap' && c) return werkvormById(c)?.titel;
   const vast = {
     '': 'Start',
     rollen: 'Rollen',
@@ -36,6 +39,7 @@ export function titelVoorRoute(path) {
     doen: 'Aan de slag',
     'doen/dilemmas': "Dilemma's: wat doe jij?",
     'doen/teamscan': 'Teamscan',
+    'doen/gereedschap': 'Gereedschapskist',
     transitie: 'De transitie',
     uitleg: 'Uitgelegd'
   };

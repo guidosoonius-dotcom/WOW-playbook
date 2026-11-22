@@ -22,15 +22,26 @@ const TYPE_REQUIRED = {
   event: ['samenvatting', 'cadans', 'wanneer', 'duur', 'doel', 'deelnemers', 'output', 'goed_als', 'valkuilen'],
   explainer: ['scene', 'duur', 'stappen'],
   dilemma: ['situatie', 'vraag', 'opties', 'leerpunt'],
-  uitleg: ['samenvatting']
+  uitleg: ['samenvatting'],
+  werkvorm: ['categorie', 'niveau', 'icoon', 'duur', 'wanneer', 'wie']
 };
+
+// Gereedschapskist: categorieën (op volgorde) en niveaus.
+const CATEGORIEEN = [
+  { id: 'overstappen', titel: 'Overstappen', kern: 'Voor de transitie: wat doen we met lopend werk, en hoe delen we ons in?' },
+  { id: 'starten', titel: 'Starten', kern: 'Een team of product goed neerzetten.' },
+  { id: 'plannen', titel: 'Plannen en prioriteren', kern: 'Van wens naar werk: beschrijven, op volgorde zetten en samen plannen.' },
+  { id: 'sturen', titel: 'Sturen op het portfolio', kern: 'Kiezen waarin we investeren, en volgen of het werkt.' },
+  { id: 'verbeteren', titel: 'Verbeteren', kern: 'Samen terugkijken en beter worden.' }
+];
+const NIVEAUS = ['team', 'productgroep', 'portfolio'];
 
 const BESLIS_CODES = { B: 'Beslist', A: 'Adviseert', U: 'Voert uit', I: 'Wordt geïnformeerd' };
 const KWALITEIT = ['beste', 'kan', 'valkuil'];
 const MIJLPAAL_STATUS = ['afgerond', 'bezig', 'gepland'];
 
 // Routes die buiten de content om bestaan (pagina's in src/pages).
-const STATIC_ROUTES = ['', 'waarom', 'model', 'rollen', 'ritme', 'sturen', 'woordenlijst', 'over', 'beslissen', 'doen', 'doen/dilemmas', 'doen/teamscan', 'transitie', 'uitleg'];
+const STATIC_ROUTES = ['', 'waarom', 'model', 'rollen', 'ritme', 'sturen', 'woordenlijst', 'over', 'beslissen', 'doen', 'doen/dilemmas', 'doen/teamscan', 'doen/gereedschap', 'transitie', 'uitleg'];
 
 function walk(dir) {
   // Mappen die met _ beginnen (zoals _sjablonen) zijn hulpmateriaal en geen content.
@@ -245,8 +256,18 @@ export function loadContent(root = process.cwd()) {
     ...STATIC_ROUTES,
     ...[...rolIds].map((id) => `rollen/${id}`),
     ...[...eventIds].map((id) => `ritme/${id}`),
-    ...byType('uitleg').map((u) => `uitleg/${u.id}`)
+    ...byType('uitleg').map((u) => `uitleg/${u.id}`),
+    ...byType('werkvorm').map((w) => `doen/gereedschap/${w.id}`)
   ]);
+  for (const w of byType('werkvorm')) {
+    check(CATEGORIEEN.some((c) => c.id === w.categorie), `${w._file}: categorie "${w.categorie}" bestaat niet (kies uit ${CATEGORIEEN.map((c) => c.id).join(', ')})`);
+    check(NIVEAUS.includes(w.niveau), `${w._file}: niveau "${w.niveau}" bestaat niet (kies uit ${NIVEAUS.join(', ')})`);
+    check(ICONEN[w.icoon], `${w._file}: onbekend icoon "${w.icoon}"`);
+    for (const r of w.wie ?? []) check(rolIds.has(r), `${w._file}: onbekende rol "${r}" bij wie`);
+    for (const r of w.bij ?? []) check(routes.has(r), `${w._file}: bij "${r}" is geen bestaande pagina`);
+    for (const g of w.groepen ?? []) check(g.naam && Array.isArray(g.criteria), `${w._file}: elke groep heeft een naam en criteria nodig`);
+    for (const r of w.retros ?? []) check(r.id && r.naam && Array.isArray(r.stappen) && r.stappen.every((st) => st.titel && st.minuten), `${w._file}: retro "${r.naam ?? '?'}" mist id, naam of stappen met titel en minuten`);
+  }
   for (const [rol, stappen] of Object.entries(data.routes ?? {})) {
     check(rolIds.has(rol), `content/data/routes.yaml: onbekende rol "${rol}"`);
     for (const s of stappen) check(routes.has(s.route), `content/data/routes.yaml: route "${s.route}" bij ${rol} bestaat niet`);
@@ -264,8 +285,8 @@ export function loadContent(root = process.cwd()) {
   }
 
   const begrippen = (data.begrippen ?? []).slice().sort((a, b) => a.term.localeCompare(b.term, 'nl'));
-  const out = { rollen: [], events: [], lagen: [], paginas: [], explainers: [], dilemmas: [], uitleg: [] };
-  const plural = { rol: 'rollen', event: 'events', laag: 'lagen', pagina: 'paginas', explainer: 'explainers', dilemma: 'dilemmas', uitleg: 'uitleg' };
+  const out = { rollen: [], events: [], lagen: [], paginas: [], explainers: [], dilemmas: [], uitleg: [], werkvormen: [] };
+  const plural = { rol: 'rollen', event: 'events', laag: 'lagen', pagina: 'paginas', explainer: 'explainers', dilemma: 'dilemmas', uitleg: 'uitleg', werkvorm: 'werkvormen' };
   for (const item of items) {
     const { _file, body, ...rest } = item;
     out[plural[item.type]].push({ ...rest, html: body ? linkTerms(marked.parse(body), begrippen) : '' });
@@ -273,6 +294,7 @@ export function loadContent(root = process.cwd()) {
   out.lagen.sort((a, b) => a.niveau - b.niveau);
   out.rollen.sort((a, b) => (a.volgorde ?? 99) - (b.volgorde ?? 99));
   out.uitleg.sort((a, b) => (a.volgorde ?? 99) - (b.volgorde ?? 99));
+  out.werkvormen.sort((a, b) => CATEGORIEEN.findIndex((c) => c.id === a.categorie) - CATEGORIEEN.findIndex((c) => c.id === b.categorie) || (a.volgorde ?? 99) - (b.volgorde ?? 99));
   out.events.sort((a, b) => CADANS.indexOf(a.cadans) - CADANS.indexOf(b.cadans) || (a.volgorde ?? 99) - (b.volgorde ?? 99));
 
   return {
@@ -285,7 +307,8 @@ export function loadContent(root = process.cwd()) {
     beslisCodes: BESLIS_CODES,
     teamscan: scan ?? null,
     transitie: data.transitie ?? [],
-    start: data.start ?? null
+    start: data.start ?? null,
+    categorieen: CATEGORIEEN
   };
 }
 

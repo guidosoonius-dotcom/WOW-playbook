@@ -5,6 +5,7 @@
   import WaardestroomVerkenner from '../components/uitleg/WaardestroomVerkenner.svelte';
   import TeamPlaat from '../components/uitleg/TeamPlaat.svelte';
   import BacklogNiveaus from '../components/uitleg/BacklogNiveaus.svelte';
+  import WerkvormLinks from '../components/gereedschap/WerkvormLinks.svelte';
 
   let { id } = $props();
   const u = $derived(uitlegById(id));
@@ -35,6 +36,8 @@
   {#if Onderdeel}<Onderdeel uitleg={u} />{/if}
 
   {#if u.html}<section class="sectie prose">{@html u.html}</section>{/if}
+
+  <WerkvormLinks route={'uitleg/' + id} />
 
   <section class="sectie verder" aria-labelledby="verder-kop">
     <h2 id="verder-kop">Verder lezen</h2>

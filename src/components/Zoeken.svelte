@@ -18,6 +18,8 @@
     ...content.events.map((e) => ({ soort: CADANS_LABEL[e.cadans], titel: e.titel, kern: e.kern, route: `ritme/${e.id}`, tekst: [e.samenvatting, e.doel, strip(e.html)].join(' ') })),
     ...content.dilemmas.map((d) => ({ soort: 'Dilemma', titel: d.titel, kern: d.kern, route: 'doen/dilemmas', tekst: [d.situatie, d.leerpunt].join(' ') })),
     ...content.beslismatrix.map((b) => ({ soort: 'Wie beslist wat?', titel: b.besluit, kern: b.thema, route: 'beslissen', tekst: '' })),
+    ...content.werkvormen.filter((w) => w.beschikbaar).map((w) => ({ soort: 'Gereedschapskist', titel: w.titel, kern: w.kern, route: `doen/gereedschap/${w.id}`, tekst: [w.wanneer, strip(w.html)].join(' ') })),
+    { soort: 'Aan de slag', titel: 'Gereedschapskist', kern: 'Werkvormen om samen in te vullen', route: 'doen/gereedschap', tekst: 'werkvormen invullen sjablonen templates' },
     { soort: 'Aan de slag', titel: 'Teamscan', kern: 'Hoe staat jullie team ervoor?', route: 'doen/teamscan', tekst: 'scan volwassenheid retro' },
     { soort: 'Aan de slag', titel: 'De transitie', kern: 'Fasen van de kanteling', route: 'transitie', tekst: content.transitie.map((m) => m.titel + ' ' + m.wat).join(' ') },
     ...content.uitleg.map((u) => ({ soort: 'Uitgelegd', titel: u.titel, kern: u.kern, route: `uitleg/${u.id}`, tekst: [u.samenvatting, ...(u.kenmerken ?? []).map((k) => k.titel + ' ' + k.tekst), ...(u.teamrollen ?? []).map((r) => r.naam + ' ' + r.kort), ...(u.niveaus ?? []).map((n) => n.naam + ' ' + n.wat), strip(u.html)].join(' ') })),

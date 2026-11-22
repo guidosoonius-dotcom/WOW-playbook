@@ -1,0 +1,204 @@
+/* Gedeelde opmaak voor de werkvormen in de gereedschapskist (klassen beginnen met wv-). */
+
+.wv-kaart {
+  padding: clamp(16px, 2.5vw, 24px);
+  border-radius: var(--radius-m);
+  background: var(--surface);
+}
+
+.wv-raster {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
+  gap: 14px;
+}
+
+.wv-veld {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 700;
+}
+.wv-veld small {
+  font-weight: 400;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.wv-invoer {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 42px;
+  padding: 9px 12px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-s);
+  background: var(--bg);
+  color: var(--ink);
+  font: inherit;
+  font-weight: 400;
+  font-size: 15px;
+}
+textarea.wv-invoer {
+  min-height: 84px;
+  resize: vertical;
+  line-height: 1.45;
+}
+select.wv-invoer {
+  padding-right: 28px;
+}
+.wv-invoer:focus {
+  outline: 2px solid var(--line2);
+  outline-offset: 1px;
+  border-color: transparent;
+}
+.wv-invoer::placeholder {
+  color: var(--muted);
+  opacity: 0.75;
+}
+
+.wv-rij {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.wv-rij > .wv-invoer {
+  flex: 1;
+}
+
+.wv-knop {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 38px;
+  padding: 0 14px;
+  border-radius: var(--radius-tag);
+  border: 0;
+  background: var(--chip);
+  color: var(--ink);
+  font-weight: 600;
+  font-size: 14px;
+}
+.wv-knop--vol {
+  background: var(--line1);
+  color: var(--on-line1);
+}
+.wv-knop--link {
+  background: transparent;
+  color: var(--line2);
+  padding: 0;
+  min-height: 32px;
+}
+.wv-weg {
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: var(--radius-tag);
+  background: transparent;
+  color: var(--muted);
+  font-size: 20px;
+  line-height: 1;
+}
+.wv-weg:hover {
+  background: var(--chip);
+  color: var(--value-text);
+}
+
+.wv-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+.wv-voorstel {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: var(--radius-tag);
+  background: var(--chip);
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 600;
+  text-align: left;
+}
+
+/* Tabellen om in te vullen. */
+.wv-tabel-wrap {
+  position: relative; /* houdt ook verborgen labels (sr-only) binnen het scrollvak */
+  overflow-x: auto;
+  border-radius: var(--radius-m);
+  background: var(--surface);
+}
+.wv-tabel {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.wv-tabel th {
+  text-align: left;
+  font-size: 12.5px;
+  padding: 10px 10px;
+  background: var(--chip);
+  white-space: nowrap;
+}
+.wv-tabel td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+.wv-tabel tr:last-child td {
+  border-bottom: 0;
+}
+.wv-tabel .wv-invoer {
+  min-height: 38px;
+  padding: 6px 10px;
+}
+
+/* Keuzeknoppen (bijv. ja / nee). */
+.wv-segment {
+  display: inline-flex;
+  border-radius: var(--radius-tag);
+  overflow: hidden;
+  border: 1.5px solid var(--border);
+}
+.wv-segment button {
+  min-height: 32px;
+  padding: 0 12px;
+  border: 0;
+  background: var(--bg);
+  color: var(--muted);
+  font-weight: 700;
+  font-size: 13px;
+}
+.wv-segment button[aria-pressed='true'],
+.wv-segment button[aria-checked='true'] {
+  background: var(--line1);
+  color: var(--on-line1);
+}
+
+.wv-label {
+  display: inline-flex;
+  align-items: center;
+  min-height: 26px;
+  padding: 0 10px;
+  border-radius: var(--radius-tag);
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* Presentatiestand: groot, schermvullend. */
+.wv-presentatie {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  overflow: auto;
+  background: var(--bg);
+  padding: clamp(16px, 3vw, 40px);
+  font-size: 1.15em;
+}
+.wv-presentatie .wv-invoer {
+  font-size: 1.05em;
+}

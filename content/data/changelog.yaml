@@ -1,3 +1,10 @@
+- versie: "0.3"
+  datum: 2026-11-22
+  wijzigingen:
+    - Gereedschapskist met 18 werkvormen in vijf categorieën, waarvan 10 om direct in te vullen
+    - Werk wordt bewaard in de eigen browser en is te delen via Print of PDF, Word of tekst
+    - Presentatiestand voor sessies, met een timer bij de retrospectives
+    - Werkvormen staan ook bij de events, uitlegpagina's, Sturen en de rolkaarten waar ze bij horen
 - versie: "0.2"
   datum: 2026-11-07
   wijzigingen:

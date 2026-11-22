@@ -18,7 +18,8 @@ const ROUTES = [
   '', 'waarom', 'model', 'rollen', 'rollen/digital-lead', 'rollen/product-owner', 'ritme',
   'ritme/pi-planning', 'ritme/daily', 'sturen', 'woordenlijst', 'woordenlijst/wsjf', 'over', 'beslissen', 'doen',
   'doen/dilemmas', 'doen/teamscan', 'transitie', 'uitleg', 'uitleg/waardestroom', 'uitleg/productteam',
-  'uitleg/epics-features-stories', 'bestaat-niet'
+  'uitleg/epics-features-stories', 'doen/gereedschap', 'doen/gereedschap/wsjf', 'doen/gereedschap/teamcharter',
+  'doen/gereedschap/retrospectives', 'doen/gereedschap/pi-planningskit', 'doen/gereedschap/waardestroom-in-kaart', 'doen/gereedschap/kaderscheck', 'bestaat-niet'
 ];
 
 const browser = await chromium.launch();
@@ -83,6 +84,21 @@ for (const [naam, viewport] of [['desktop', { width: 1440, height: 900 }], ['mob
       else if (overlap > -8) fouten.push(`hero ${w}×${h}: de lijnen komen ${overlap + 8}px te dicht bij of over de knoppen`);
     }
     await page.setViewportSize(viewport);
+
+    // Gereedschapskist: invullen, rekenen en bewaren na herladen.
+    await page.evaluate(() => (location.hash = '#/doen/gereedschap/wsjf'));
+    await page.waitForTimeout(250);
+    await page.locator('td.naam input').first().fill('Rooktest-item');
+    await page.locator('tbody tr').first().locator('select').first().selectOption('8');
+    await page.waitForTimeout(150);
+    if (!(await page.locator('.volgorde li').first().innerText()).includes('10')) fouten.push('gereedschap: WSJF rekent niet (verwacht 10)');
+    await page.reload();
+    await page.waitForTimeout(300);
+    if ((await page.locator('td.naam input').first().inputValue()) !== 'Rooktest-item') fouten.push('gereedschap: werk niet bewaard na herladen');
+    page.once('dialog', (d) => d.accept());
+    await page.getByRole('button', { name: 'Leegmaken' }).click();
+    await page.evaluate(() => (location.hash = '#/'));
+    await page.waitForTimeout(200);
 
     // Doorklikken begint bovenaan; terug brengt je naar waar je was.
     await page.evaluate(() => window.scrollTo({ top: 2000, behavior: 'instant' }));
@@ -156,4 +172,4 @@ if (fouten.length) {
   console.error(`✗ ${fouten.length} probleem/problemen:\n  ${fouten.join('\n  ')}`);
   process.exit(1);
 }
-console.log(`✓ Rooktest geslaagd (${ROUTES.length} routes × 2 schermformaten, explainer, rolkeuze, zoeken, dilemma, teamscan, beslismatrix, uitleg)`);
+console.log(`✓ Rooktest geslaagd (${ROUTES.length} routes × 2 schermformaten, explainer, rolkeuze, zoeken, dilemma, teamscan, beslismatrix, uitleg, gereedschap)`);

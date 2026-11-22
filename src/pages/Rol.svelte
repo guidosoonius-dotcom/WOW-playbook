@@ -5,6 +5,7 @@
   import { prefs } from '../lib/state.svelte.js';
   import PaginaKop from '../components/PaginaKop.svelte';
   import RolIcoon from '../components/RolIcoon.svelte';
+  import WerkvormLinks from '../components/gereedschap/WerkvormLinks.svelte';
 
   let { id } = $props();
   const rol = $derived(rolById(id));
@@ -94,6 +95,7 @@
   {/if}
 
   {#if rol.html}<section class="sectie prose">{@html rol.html}</section>{/if}
+  <WerkvormLinks rol={rol.id} titel="Werkvormen voor jouw rol" />
 </div>
 
 <style>

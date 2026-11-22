@@ -3,6 +3,7 @@
   import { href } from '../lib/router.svelte.js';
   import PaginaKop from '../components/PaginaKop.svelte';
   import Explainer from '../components/Explainer.svelte';
+  import WerkvormLinks from '../components/gereedschap/WerkvormLinks.svelte';
 
   const p = paginaById('sturen');
 </script>
@@ -12,6 +13,7 @@
   <section class="sectie"><Explainer explainer={explainerById(p.explainer)} /></section>
   <p class="verwijzing card">Hoe verhouden epics, features en stories zich tot elkaar? <a href={href('uitleg/epics-features-stories')}>Lees de uitleg met een voorbeeld →</a></p>
   <section class="sectie prose">{@html p.html}</section>
+  <WerkvormLinks route="sturen" />
 </div>
 
 <style>

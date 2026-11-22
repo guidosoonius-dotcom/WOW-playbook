@@ -2,7 +2,7 @@
   import content from './lib/content.js';
   import { route, pad } from './lib/router.svelte.js';
   import { markeerGezien } from './lib/state.svelte.js';
-  import { rolById, eventById, uitlegById } from './lib/content.js';
+  import { rolById, eventById, uitlegById, werkvormById } from './lib/content.js';
   import Uitleg from './pages/Uitleg.svelte';
   import Uitgelegd from './pages/Uitgelegd.svelte';
   import Header from './components/Header.svelte';
@@ -24,12 +24,14 @@
   import Dilemmas from './pages/Dilemmas.svelte';
   import Teamscan from './pages/Teamscan.svelte';
   import Transitie from './pages/Transitie.svelte';
+  import Gereedschap from './pages/Gereedschap.svelte';
+  import Werkvorm from './pages/Werkvorm.svelte';
   import { href } from './lib/router.svelte.js';
 
   let zoekOpen = $state(false);
 
   const pagina = $derived.by(() => {
-    const [a = '', b] = route.parts;
+    const [a = '', b, c] = route.parts;
     if (a === '' && !b) return { comp: Start, titel: null };
     if (a === 'waarom' && !b) return { comp: Waarom, titel: 'Waarom we kantelen' };
     if (a === 'model' && !b) return { comp: Model, titel: 'Het model' };
@@ -42,6 +44,8 @@
     if (a === 'over' && !b) return { comp: Over, titel: 'Over dit playbook' };
     if (a === 'beslissen' && !b) return { comp: Beslissen, titel: 'Wie beslist wat?' };
     if (a === 'doen' && !b) return { comp: Doen, titel: 'Aan de slag' };
+    if (a === 'doen' && b === 'gereedschap' && !c) return { comp: Gereedschap, titel: 'Gereedschapskist' };
+    if (a === 'doen' && b === 'gereedschap' && werkvormById(c)) return { comp: Werkvorm, props: { id: c }, titel: werkvormById(c).titel };
     if (a === 'doen' && b === 'dilemmas') return { comp: Dilemmas, titel: "Dilemma's" };
     if (a === 'doen' && b === 'teamscan') return { comp: Teamscan, titel: 'Teamscan' };
     if (a === 'transitie' && !b) return { comp: Transitie, titel: 'De transitie' };

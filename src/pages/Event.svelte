@@ -5,6 +5,7 @@
   import PaginaKop from '../components/PaginaKop.svelte';
   import Explainer from '../components/Explainer.svelte';
   import RolIcoon from '../components/RolIcoon.svelte';
+  import WerkvormLinks from '../components/gereedschap/WerkvormLinks.svelte';
 
   let { id } = $props();
   const ev = $derived(eventById(id));
@@ -65,6 +66,7 @@
   {/if}
 
   {#if ev.html}<section class="sectie prose">{@html ev.html}</section>{/if}
+  <WerkvormLinks route={'ritme/' + ev.id} />
 </div>
 
 <style>

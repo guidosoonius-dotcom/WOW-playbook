@@ -8,7 +8,9 @@
   const scanIngevuld = $derived(Object.keys(prefs.scan).length);
   const huidigeFase = content.transitie.find((m) => m.status === 'bezig');
 
+  const werkvormenKlaar = content.werkvormen.filter((w) => w.beschikbaar).length;
   const tegels = $derived([
+    { route: 'doen/gereedschap', titel: 'Gereedschapskist', tekst: 'Werkvormen om samen in te vullen: teamcharter, WSJF, lean business case, PI-planningskit en meer.', meta: `${werkvormenKlaar} werkvormen · in te vullen en te delen`, icoon: 'M3 8 H21 V19 H3 Z M8 8 V5 H16 V8 M3 12.5 H21 M10.5 11 V14 H13.5 V11' },
     { route: 'doen/dilemmas', titel: "Dilemma's: wat doe jij?", tekst: 'Oefen met herkenbare situaties en ontdek waarom de ene keuze beter werkt dan de andere.', meta: `${dilemmasGedaan} van ${content.dilemmas.length} gedaan`, icoon: 'M12 3a9 9 0 1 0 0 18a9 9 0 1 0 0-18 M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6V14 M12 17h.01' },
     { route: 'doen/teamscan', titel: 'Teamscan', tekst: 'Breng samen in kaart hoe jullie team ervoor staat, en kies een verbetering voor de retro.', meta: scanIngevuld ? `${scanIngevuld} stellingen ingevuld` : '15 stellingen · 10 min', icoon: 'M12 3 L20.5 9.2 L17.3 19 H6.7 L3.5 9.2 Z M12 8 L16 11 L14.5 16 H9.5 L8 11 Z' },
     { route: 'beslissen', titel: 'Wie beslist wat?', tekst: 'Per besluit één rol die beslist. Filter op jouw rol en zie waar jij over gaat.', meta: `${content.beslismatrix.length} besluiten`, icoon: 'M4 5 H20 M4 12 H20 M4 19 H20 M9 3 V21 M15 3 V21' },

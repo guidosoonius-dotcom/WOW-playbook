@@ -26,6 +26,7 @@ De meeste wijzigingen zijn **content**: Markdown met YAML-frontmatter in `conten
 | van→naar | `content/data/verschuivingen.yaml` | |
 | teamscan | `content/data/teamscan.yaml` | |
 | transitie | `content/data/transitie.yaml` | |
+| werkvorm (gereedschapskist) | `content/gereedschap/<id>.md` | sjabloon `content/_sjablonen/werkvorm.md`; nieuwe werkvormen om in te vullen vragen code, teksten/voorbeelden/retro's/agenda niet |
 | startpagina | `content/data/start.yaml` | teksten van de startpagina (waarom, hoe, wat, aan de slag) |
 
 Volg altijd het sjabloon. Het volledige contentmodel staat in `docs/02-contentmodel.md`.

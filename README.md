@@ -35,6 +35,7 @@ Sjablonen staan in [`content/_sjablonen/`](content/_sjablonen/).
 | `content/data/beslismatrix.yaml` | Wie beslist wat? |
 | `content/data/teamscan.yaml` | Stellingen en duiding van de teamscan |
 | `content/data/transitie.yaml` | Fasen van de transitie |
+| `content/gereedschap/*.md` | Werkvormen in de gereedschapskist (teksten, voorbeelden, criteria, retro's, agenda) |
 | `content/data/start.yaml` | Teksten van de startpagina: waarom, hoe, wat |
 | `content/data/changelog.yaml` | "Wat is er nieuw" |
 
