@@ -1,3 +1,8 @@
+- versie: "0.6"
+  datum: 2026-11-22
+  wijzigingen:
+    - Redactiemodus - wijzig teksten direct in het playbook en sla het op als nieuw HTML-bestand
+    - Wijzigingen zijn te exporteren voor de bronbestanden, of als tekst voor Copilot
 - versie: "0.5"
   datum: 2026-11-22
   wijzigingen:

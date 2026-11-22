@@ -3,6 +3,7 @@
   import skill from '../lib/skill.js';
   import content from '../lib/content.js';
   import { kopieer } from '../lib/werkvorm.svelte.js';
+  import { redactie } from '../lib/redactie.svelte.js';
 
   const versie = content.changelog[0]?.versie;
   let melding = $state('');
@@ -48,6 +49,16 @@
         <li>Copilot levert de tekst; stuur die naar het programmateam of dien hem in via GitHub.</li>
       </ol>
       <button class="btn" onclick={kopieerPrompt}>Kopieer de prompt</button>
+    </article>
+    <article class="card">
+      <h3>Direct in het bestand</h3>
+      <p>Een tikfout of een zin die beter kan? Pas de tekst aan in het playbook zelf, zonder Copilot of GitHub.</p>
+      <ol>
+        <li>Zet de redactiemodus aan en klik op een tekst. Enter bewaart, Esc annuleert.</li>
+        <li>Klaar? Kies <i>Opslaan als HTML-bestand</i> en zet dat bestand op SharePoint in plaats van het oude.</li>
+        <li>Kies ook <i>Exporteren</i>, zodat de wijzigingen in de bron komen en bij de volgende versie niet verloren gaan.</li>
+      </ol>
+      <button class="btn" onclick={() => (redactie.aan = true)} disabled={redactie.aan}>{redactie.aan ? 'De redactiemodus staat aan' : 'Zet de redactiemodus aan'}</button>
     </article>
   </div>
   <p class="meta" aria-live="polite">{melding || `De skill en de prompt horen bij playbook-versie ${versie} en worden bij elke nieuwe versie bijgewerkt.`}</p>

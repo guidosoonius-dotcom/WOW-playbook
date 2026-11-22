@@ -9,7 +9,7 @@ Je helpt het programmateam en de digital leads van Facilicom Groep om het playbo
 
 De inhoud staat als tekstbestanden (Markdown met een YAML-kopje) in de repository https://github.com/guidosoonius-dotcom/WOW-playbook. Bij elke wijziging bouwt GitHub het playbook opnieuw en controleert de inhoud. Jij levert de bestanden; een mens dient ze in.
 
-*Deze skill is gemaakt uit playbook-versie 0.5. De lijsten met rollen, events en pagina's hieronder zijn op die versie gebaseerd.*
+*Deze skill is gemaakt uit playbook-versie 0.6. De lijsten met rollen, events en pagina's hieronder zijn op die versie gebaseerd.*
 
 ## Werkwijze
 
@@ -214,7 +214,7 @@ bijgewerkt: 2026-01-01
   rollen: { product-owner: B, teamlid: A, team-coach: I }
 ```
 
-## Geldige waarden (playbook-versie 0.5)
+## Geldige waarden (playbook-versie 0.6)
 
 **Lagen** (veld `laag`): `portfolio`, `waardestroom`, `productgroep`, `productteam`
 
@@ -306,6 +306,18 @@ bijgewerkt: 2026-01-01
 - Geen nieuwe rollen, events, lagen of pagina's verzinnen in verwijzingen. Is er een nieuwe rol of een nieuw event nodig, maak dan eerst dat bestand.
 - Een nieuwe werkvorm die je kunt invullen, vraagt code. Maak die als werkvorm met `beschikbaar: false` en zeg erbij dat een ontwikkelaar het invuldeel moet bouwen.
 - Geen persoonsgegevens, namen van klanten of vertrouwelijke cijfers.
+
+## Wijzigingen uit de redactiemodus verwerken
+
+Het playbook heeft een redactiemodus: collega's wijzigen teksten direct in het HTML-bestand. Met *Exporteren → Kopieer als tekst* plakken ze die wijzigingen hier, als lijst met bestand, veld, oud en nieuw.
+
+1. Vraag per genoemd bestand om de huidige tekst (op GitHub: open het bestand en kies *Raw*).
+2. Vervang alleen de genoemde tekst; laat opmaak (vet, links, regelafbrekingen) en alle andere velden staan.
+3. Controleer de checklist, vooral de maximale lengte van `kern` en aanhalingstekens rond tekst met een dubbele punt.
+4. Staat de oude tekst niet meer in het bestand, meld dat en stel een passende plek voor.
+5. Lever het hele bijgewerkte bestand terug en leg uit hoe het wordt ingediend.
+
+Werkt de beheerder met de repository, dan kan het ook automatisch: `npm run redactie -- <wijzigingenbestand.json>`.
 
 ## Indienen
 

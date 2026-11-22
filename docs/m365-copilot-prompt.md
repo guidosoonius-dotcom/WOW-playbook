@@ -1,6 +1,6 @@
 # Prompt voor Microsoft 365 Copilot Chat
 
-> Wordt automatisch gemaakt uit de content (playbook-versie 0.5). Niet met de hand aanpassen: draai `npm run skill`.
+> Wordt automatisch gemaakt uit de content (playbook-versie 0.6). Niet met de hand aanpassen: draai `npm run skill`.
 > Werk je met **Copilot Cowork**, gebruik dan de skill in `cowork/playbook-redacteur/SKILL.md`. Die is uitgebreider en bevat de sjablonen.
 
 Kopieer alles tussen de lijnen naar Copilot Chat (in Word, Teams of de Microsoft 365-app) en voeg je bron toe.

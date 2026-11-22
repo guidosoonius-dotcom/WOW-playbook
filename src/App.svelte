@@ -27,8 +27,12 @@
   import Gereedschap from './pages/Gereedschap.svelte';
   import Werkvorm from './pages/Werkvorm.svelte';
   import { href } from './lib/router.svelte.js';
+  import Redactie from './components/Redactie.svelte';
+  import { redactie } from './lib/redactie.svelte.js';
 
   let zoekOpen = $state(false);
+  // Na een wijziging in de redactiemodus wordt de pagina opnieuw opgebouwd met de nieuwe tekst.
+  let versie = $state(0);
 
   const pagina = $derived.by(() => {
     const [a = '', b, c] = route.parts;
@@ -73,7 +77,7 @@
 <Header onzoek={() => (zoekOpen = true)} />
 
 <main id="inhoud" tabindex="-1">
-  {#key route.parts.join('/')}
+  {#key route.parts.join('/') + '|' + versie}
     <pagina.comp {...pagina.props ?? {}} />
   {/key}
 </main>
@@ -84,11 +88,13 @@
     <nav aria-label="Naslag">
       <a href={href('woordenlijst')}>Woordenlijst</a>
       <a href={href('over')}>Over dit playbook</a>
+      <button class="redigeer" onclick={() => (redactie.aan = !redactie.aan)}>{redactie.aan ? 'Stop met redigeren' : 'Teksten redigeren'}</button>
     </nav>
   </div>
 </footer>
 
 <Zoeken bind:open={zoekOpen} />
+<Redactie onherteken={() => versie++} />
 
 <style>
   .skip {
@@ -136,5 +142,16 @@
   }
   .voet a {
     color: var(--ink);
+  }
+  .redigeer {
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--ink);
+    font: inherit;
+    text-decoration: underline;
+  }
+  :global(body.redactie-aan) footer {
+    padding-bottom: 96px;
   }
 </style>

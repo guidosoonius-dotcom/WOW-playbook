@@ -1,4 +1,21 @@
 import content from 'virtual:content';
+import { pasToe } from './redactie-data.js';
+
+// Redactiemodus: wijzigingen die in dit HTML-bestand zijn opgeslagen, en wijzigingen uit deze browser die nog niet
+// zijn opgeslagen. Ze worden toegepast voordat de pagina wordt getoond (zie src/lib/redactie.svelte.js).
+export const REDACTIE_SLEUTEL = 'samen-digitaal-redactie';
+function leesJson(f) {
+  try {
+    return f() ?? [];
+  } catch {
+    return [];
+  }
+}
+export const redactieStart = {
+  inBestand: leesJson(() => JSON.parse(document.getElementById('playbook-redactie')?.textContent || '[]')),
+  lokaal: leesJson(() => JSON.parse(localStorage.getItem(REDACTIE_SLEUTEL) || '[]'))
+};
+redactieStart.resultaat = pasToe(content, [...redactieStart.inBestand, ...redactieStart.lokaal]);
 
 export default content;
 

@@ -65,6 +65,35 @@ Handig als je bronmateriaal in Word, PowerPoint of Teams staat en je geen Cowork
 Kopieer een sjabloon uit [`content/_sjablonen/`](../content/_sjablonen/) naar de juiste map, vul het in, en draai `npm run content:check`
 (of laat de GitHub-controle het doen).
 
+## Route 5 — Direct in het HTML-bestand (redactiemodus)
+
+Voor kleine tekstwijzigingen: een tikfout, een betere zin, een aangescherpte kern. Er is niets voor nodig behalve het playbook zelf.
+
+1. Open het playbook en klik onderaan op **Teksten redigeren** (of op *Over dit playbook* → *Zet de redactiemodus aan*).
+2. Klik op een tekst en pas hem aan. **Enter** bewaart, **Esc** annuleert. Staat dezelfde tekst op meer plekken (bijvoorbeeld
+   de kern van een rol), dan verandert hij overal. Wijzigingen worden tussentijds in de browser bewaard.
+3. Kies **Opslaan als HTML-bestand**. Je krijgt een nieuw, zelfstandig playbook-bestand met je wijzigingen erin. Zet dat op
+   SharePoint in plaats van het oude. Iemand anders kan in dat bestand gewoon verder redigeren.
+4. Kies **Exporteren → Wijzigingenbestand** en stuur het JSON-bestand naar de beheerder (of kies *Kopieer als tekst* en plak
+   het in Copilot met de skill Playbook-redacteur).
+
+Wat kan wel en niet: alle teksten uit de content (titels, kernen, samenvattingen, lopende tekst, opties van dilemma's, begrippen)
+zijn te wijzigen. Knoppen, menu's en vaste teksten in de code niet; nieuwe onderdelen toevoegen gaat via route 1 tot 4.
+
+**Voor de beheerder: wijzigingen terugzetten in de bron.** Zonder deze stap is de wijziging weg zodra er een nieuwe versie uit
+de repository op SharePoint komt.
+
+```bash
+npm run redactie -- playbook-wijzigingen-2026-11-22.json --proef   # eerst kijken wat er verandert
+npm run redactie -- playbook-wijzigingen-2026-11-22.json           # verwerken
+npm run content:check
+```
+
+Het script zoekt de oude tekst in het bronbestand en vervangt hem; bij lopende tekst alleen het gewijzigde stuk, zodat de opmaak
+blijft staan. Wat het niet kan vinden (omdat de bron intussen veranderd is), meldt het met oud en nieuw, zodat je het met de
+hand kunt doen. Komt er een nieuwe versie op SharePoint terwijl iemand nog in een oud bestand redigeert, dan worden wijzigingen
+waarvan de oorspronkelijke tekst niet meer klopt overgeslagen en gemeld onder *Wijzigingen*.
+
 ---
 
 ## Van concept naar vastgesteld

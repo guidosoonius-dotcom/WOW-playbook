@@ -292,7 +292,7 @@ export function loadContent(root = process.cwd()) {
   const plural = { rol: 'rollen', event: 'events', laag: 'lagen', pagina: 'paginas', explainer: 'explainers', dilemma: 'dilemmas', uitleg: 'uitleg', werkvorm: 'werkvormen' };
   for (const item of items) {
     const { _file, body, ...rest } = item;
-    out[plural[item.type]].push({ ...rest, html: body ? linkTerms(marked.parse(body), begrippen) : '' });
+    out[plural[item.type]].push({ ...rest, bron: _file, html: body ? linkTerms(marked.parse(body), begrippen) : '' });
   }
   out.lagen.sort((a, b) => a.niveau - b.niveau);
   out.rollen.sort((a, b) => (a.volgorde ?? 99) - (b.volgorde ?? 99));
