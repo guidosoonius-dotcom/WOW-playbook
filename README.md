@@ -36,6 +36,7 @@ Sjablonen staan in [`content/_sjablonen/`](content/_sjablonen/).
 | `content/data/teamscan.yaml` | Stellingen en duiding van de teamscan |
 | `content/data/transitie.yaml` | Fasen van de transitie |
 | `content/gereedschap/*.md` | Werkvormen in de gereedschapskist (teksten, voorbeelden, criteria, retro's, agenda) |
+| `cowork/playbook-redacteur/SKILL.md` | Copilot Cowork-skill voor redacteuren, gemaakt uit de content met `npm run skill` (zie `docs/04-content-toevoegen.md`) |
 | `content/data/start.yaml` | Teksten van de startpagina: waarom, hoe, wat |
 | `content/data/changelog.yaml` | "Wat is er nieuw" |
 

@@ -29,3 +29,12 @@ jobs:
         with:
           name: samen-digitaal-playbook
           path: dist/samen-digitaal-playbook.html
+      - name: Copilot-skill en prompt actueel maken
+        run: npm run skill
+      - name: Copilot-skill als download beschikbaar maken
+        uses: actions/upload-artifact@v4
+        with:
+          name: copilot-skill-playbook-redacteur
+          path: |
+            cowork/playbook-redacteur/SKILL.md
+            docs/m365-copilot-prompt.md

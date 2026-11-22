@@ -19,7 +19,7 @@ De meeste wijzigingen zijn **content**: Markdown met YAML-frontmatter in `conten
 | `laag` | `content/lagen/` | `content/_sjablonen/laag.md` |
 | `pagina` | `content/paginas/` | `content/_sjablonen/pagina.md` |
 | `uitleg` | `content/uitleg/` | `content/_sjablonen/uitleg.md` (uitlegpagina's: waardestroom, productteam, epics-features-stories) |
-| `explainer` | `content/explainers/` | alleen teksten; de animatie staat in `src/components/explainers/` |
+| `explainer` | `content/explainers/` | alleen teksten; de isometrische scène staat in `src/lib/iso-tekeningen.js` (veld `scene: iso-<naam>`) |
 | begrippen | `content/data/begrippen.yaml` | `content/_sjablonen/begrip.yaml` |
 | beslismatrix | `content/data/beslismatrix.yaml` | `content/_sjablonen/besluit.yaml` |
 | routes per rol | `content/data/routes.yaml` | |
@@ -45,3 +45,4 @@ Volg altijd het sjabloon. Het volledige contentmodel staat in `docs/02-contentmo
 
 ## Controleren
 Voer na elke wijziging `npm run content:check` uit en los alle meldingen op. Zet `bijgewerkt` op de datum van vandaag.
+Veranderen er rollen, events, uitlegpagina's, werkvormen, begrippen of sjablonen? Draai dan ook `npm run skill`: dat werkt de Copilot Cowork-skill (`cowork/playbook-redacteur/SKILL.md`) en de prompt voor Copilot Chat (`docs/m365-copilot-prompt.md`) bij.

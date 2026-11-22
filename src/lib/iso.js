@@ -1,6 +1,6 @@
 // Isometrisch tekenen in de podiumstijl: scènes op een rond podium met een cirkel erachter,
 // donkerblauwe omlijning, gebouwen met ramen, figuurtjes, ballonnen, borden en Facilicom-details
-// (drones en camera's van Trigion, schoonmaakrobots en -kar van GOM, koffie van Prorest).
+// (drones en camera's van Trigion, schoonmaakrobots en -kar van GOM, koffie van Food&i (bedrijfscatering)).
 //
 // Elk onderdeel wordt een stukje SVG met een diepte (tekenvolgorde) en een fase (opbouw).
 // iso.fase = n zet alles wat daarna komt in die stap.
@@ -334,7 +334,7 @@ export class Iso {
     this.add(dp + 0.1, wielen + emmer + `<path d="M${r1(X1)} ${r1(Y1)} L${r1(X2)} ${r1(Y2)}" stroke="${BRUIN}" stroke-width="3" stroke-linecap="round"/><path d="M${r1(X1 - 6)} ${r1(Y1 + 2)} q6 6 12 0" stroke="${INK}" stroke-width="2" fill="${WIT}"/>`);
   }
 
-  // Prorest: kopje koffie met een wolkje.
+  // Food&i (bedrijfscatering): kopje koffie met een wolkje.
   koffie(x, y, z, o = {}) {
     const [X, Y, kop] = this.cil(x, y, z, 4.5, 7, { top: '#6D4C41', zij: WIT, sw: 1.4 });
     this.add(o.diepte ?? x + y + z / 4, kop + `<path d="M${r1(X + 5.5)} ${r1(Y + 3)} q4 1 0 5" stroke="${INK}" stroke-width="1.4" fill="none"/><path class="damp" d="M${r1(X - 1)} ${r1(Y - 4)} q-3 -4 0 -7 q3 -3 0 -7" stroke="${TAUPE3}" stroke-width="1.4" fill="none" stroke-linecap="round"/>`);

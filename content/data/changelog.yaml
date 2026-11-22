@@ -1,3 +1,8 @@
+- versie: "0.5"
+  datum: 2026-11-22
+  wijzigingen:
+    - Meeschrijven met Copilot - een Copilot Cowork-skill "Playbook-redacteur" en een prompt voor Copilot Chat, te downloaden op deze pagina
+    - De skill en de prompt worden bij elke versie automatisch bijgewerkt uit de inhoud
 - versie: "0.4"
   datum: 2026-11-22
   wijzigingen:

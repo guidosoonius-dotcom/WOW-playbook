@@ -1,6 +1,7 @@
 <script>
   import content, { paginaById } from '../lib/content.js';
   import PaginaKop from '../components/PaginaKop.svelte';
+  import CopilotMeeschrijven from '../components/CopilotMeeschrijven.svelte';
 
   const p = paginaById('over');
   const datum = (d) => new Date(d).toLocaleDateString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' });
@@ -9,6 +10,7 @@
 <div class="container">
   <PaginaKop eyebrow="Naslag" titel={p.titel} kern={p.kern} samenvatting={p.samenvatting} status={p.status} />
   <section class="sectie prose">{@html p.html}</section>
+  <CopilotMeeschrijven />
   <section class="sectie" aria-labelledby="nieuw">
     <h2 id="nieuw">Wat is er nieuw?</h2>
     {#each content.changelog as r}

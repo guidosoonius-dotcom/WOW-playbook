@@ -6,8 +6,10 @@ import { join, relative, sep } from 'node:path';
 import yaml from 'js-yaml';
 import { ICONEN } from '../src/lib/iconen.js';
 import { marked } from 'marked';
+import { maakSkill } from './skill.js';
 
 const VIRTUAL_ID = 'virtual:content';
+const SKILL_ID = 'virtual:copilot-skill';
 const RESOLVED_ID = '\0' + VIRTUAL_ID;
 const CONTENT_DIR = 'content';
 
@@ -317,20 +319,29 @@ export function contentPlugin() {
   return {
     name: 'playbook-content',
     resolveId(id) {
-      return id === VIRTUAL_ID ? RESOLVED_ID : null;
+      if (id === VIRTUAL_ID) return RESOLVED_ID;
+      if (id === SKILL_ID) return '\0' + SKILL_ID;
+      return null;
     },
     load(id) {
+      // De Copilot-skill, altijd actueel, om te downloaden op "Over dit playbook".
+      if (id === '\0' + SKILL_ID) return `export default ${JSON.stringify(maakSkill(loadContent()))};`;
       if (id !== RESOLVED_ID) return null;
       for (const f of walk(join(process.cwd(), CONTENT_DIR))) this.addWatchFile(f);
       return `export default ${JSON.stringify(loadContent())};`;
     },
     handleHotUpdate({ file, server }) {
       if (file.includes(`${sep}${CONTENT_DIR}${sep}`)) {
-        const mod = server.moduleGraph.getModuleById(RESOLVED_ID);
-        if (mod) server.moduleGraph.invalidateModule(mod);
+        for (const m of [RESOLVED_ID, '\0' + SKILL_ID]) {
+          const mod = server.moduleGraph.getModuleById(m);
+          if (mod) server.moduleGraph.invalidateModule(mod);
+        }
         server.ws.send({ type: 'full-reload' });
         return [];
       }
     }
   };
 }
+
+// De regels van de contentcontrole, ook voor de generator van de Copilot-skill (build/skill.js).
+export const REGELS = { BASE_REQUIRED, STATUS, CADANS, TYPE_REQUIRED, CATEGORIEEN, NIVEAUS, BESLIS_CODES, KWALITEIT, MIJLPAAL_STATUS, STATIC_ROUTES };
