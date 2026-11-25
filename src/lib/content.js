@@ -64,7 +64,9 @@ export function titelVoorRoute(path) {
     manieren: 'Manieren van werken',
     'manieren/keuzehulp': 'Keuzehulp: welke vorm past?',
     teams: 'Teams en teaminrichting',
-    portfolio: 'Portfolio en routes'
+    portfolio: 'Portfolio en routes',
+    hulpmiddelen: 'Hulpmiddelen en systemen',
+    templates: 'Templates'
   };
   return paginaById(a)?.titel ?? vast[path] ?? vast[a] ?? path;
 }

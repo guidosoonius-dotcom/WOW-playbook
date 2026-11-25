@@ -74,4 +74,10 @@ Stel drie vragen:
 
 Teken daarna de stappen ertussen. Zet bij elke stap welke systemen of apps worden gebruikt.
 
+## Procesmanagement
+
+Om blijvend inzicht te houden vanuit verschillende partijen, leg je het proces rond de waardestroom vast op verschillende niveaus: het hoofdproces en de deelprocessen. Daarvoor gebruiken we BPMN 2.0. De proceseigenaar is verantwoordelijk voor de inhoud en de actualiteit, en de modellen staan in Blue Dolphin (zie [Hulpmiddelen en systemen](#/hulpmiddelen)).
+
+*Het overzicht van de niveaus, in de vorm van een piramide, volgt.*
+
 *De voorbeelden op deze pagina zijn illustraties. De echte waardestromen worden per divisie uitgewerkt.*

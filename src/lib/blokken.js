@@ -32,7 +32,9 @@ export const BLOKKEN = [
     items: [
       { pad: 'portfolio', titel: 'Portfolio en routes', kern: 'Van idee naar uitvoering', nieuw: true },
       { pad: 'beslissen', titel: 'Wie beslist wat?', kern: 'De beslismatrix en de mandaten' },
-      { pad: 'ritme', titel: 'Ritme', kern: 'Elf events, van dagstart tot portfolio-sync' }
+      { pad: 'ritme', titel: 'Ritme', kern: 'Elf events, van dagstart tot portfolio-sync' },
+      { pad: 'implementatie', titel: 'Implementatie', kern: 'Teams trainen en opschalen', volgt: true },
+      { pad: 'samenwerking', titel: 'Samenwerking en demarcatie', kern: 'Groep, divisie en bedrijfsonderdeel', volgt: true }
     ]
   },
   {
@@ -41,7 +43,10 @@ export const BLOKKEN = [
     kern: 'Wat je nodig hebt om het te doen en te verbeteren',
     items: [
       { pad: 'doen/gereedschap', titel: 'Gereedschapskist', kern: 'Werkvormen om samen in te vullen' },
-      { pad: 'sturen', titel: 'Sturen en financieren', kern: 'Van projectbudget naar productbudget' },
+      { pad: 'hulpmiddelen', titel: 'Hulpmiddelen en systemen', kern: 'De systemen die al het werk ondersteunen', nieuw: true },
+      { pad: 'templates', titel: 'Templates', kern: 'Documenten om in te vullen', nieuw: true },
+      { pad: 'sturen', titel: 'Sturen en financieren', kern: 'Van strategie naar waarde, en de financiering' },
+      { pad: 'verbeteren', titel: 'Continu verbeteren', kern: 'Ook de Way of Working blijft in beweging', nieuw: true },
       { pad: 'doen/dilemmas', titel: "Dilemma's", kern: 'Oefen met herkenbare situaties' },
       { pad: 'doen/teamscan', titel: 'Teamscan', kern: 'Hoe staat jullie team ervoor?' },
       { pad: 'uitleg', titel: 'Uitgelegd', kern: 'De bouwstenen en de praktijk' }
@@ -53,8 +58,8 @@ export const BLOKKEN = [
 const BLOK_VAN = {
   waarom: 'A', uitgangspunten: 'A', model: 'A', transitie: 'A',
   manieren: 'B', teams: 'B', rollen: 'B', spelregels: 'B',
-  portfolio: 'C', beslissen: 'C', ritme: 'C',
-  sturen: 'D', doen: 'D', uitleg: 'D', woordenlijst: 'D'
+  portfolio: 'C', beslissen: 'C', ritme: 'C', implementatie: 'C', samenwerking: 'C',
+  sturen: 'D', doen: 'D', uitleg: 'D', woordenlijst: 'D', hulpmiddelen: 'D', templates: 'D', verbeteren: 'D'
 };
 
 export function blokVoorRoute(parts) {

@@ -27,6 +27,7 @@ De meeste wijzigingen zijn **content**: Markdown met YAML-frontmatter in `conten
 | manieren van werken en keuzehulp | `content/data/manieren.yaml` | Alleen tekst. Komma of dubbele punt in een `{ }`-regel: tussen aanhalingstekens. De keuzehulp heeft precies 6 vragen. |
 | uitgangspunten en spelregels | `content/data/uitgangspunten.yaml` | |
 | teams, portfolio en routes, rollen in groepen, mandaten | `content/data/teams.yaml`, `portfolio.yaml`, `rollengroepen.yaml`, `mandaten.yaml` | |
+| hulpmiddelen en templates | `content/data/hulpmiddelen.yaml` | Een template met `werkvorm:` krijgt een knop naar de invulbare versie in de gereedschapskist. |
 | teamscan | `content/data/teamscan.yaml` | |
 | transitie | `content/data/transitie.yaml` | |
 | werkvorm (gereedschapskist) | `content/gereedschap/<id>.md` | sjabloon `content/_sjablonen/werkvorm.md`; nieuwe werkvormen om in te vullen vragen code, teksten/voorbeelden/retro's/agenda niet |

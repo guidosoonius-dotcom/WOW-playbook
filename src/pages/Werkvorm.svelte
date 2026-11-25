@@ -22,6 +22,7 @@
   import Budget from '../components/gereedschap/Budget.svelte';
   import Kaderscheck from '../components/gereedschap/Kaderscheck.svelte';
   import Probleemoplossing from '../components/gereedschap/Probleemoplossing.svelte';
+  import Ipk from '../components/gereedschap/Ipk.svelte';
 
   let { id } = $props();
 
@@ -43,7 +44,8 @@
     'okr-opsteller': Okr,
     'budget-verdelen': Budget,
     kaderscheck: Kaderscheck,
-    probleemoplossing: Probleemoplossing
+    probleemoplossing: Probleemoplossing,
+    'idee-project-kaart': Ipk
   };
   const NIVEAU = { team: 'Team', productgroep: 'Productgroep', portfolio: 'Portfolio' };
 

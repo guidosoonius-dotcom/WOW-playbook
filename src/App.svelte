@@ -31,6 +31,9 @@
   import Manieren from './pages/Manieren.svelte';
   import Teams from './pages/Teams.svelte';
   import Portfolio from './pages/Portfolio.svelte';
+  import Hulpmiddelen from './pages/Hulpmiddelen.svelte';
+  import Templates from './pages/Templates.svelte';
+  import Tekstpagina from './pages/Tekstpagina.svelte';
   import { href } from './lib/router.svelte.js';
   import Redactie from './components/Redactie.svelte';
   import { redactie } from './lib/redactie.svelte.js';
@@ -48,6 +51,11 @@
     if (a === 'manieren' && (!b || (b === 'keuzehulp' && !c))) return { comp: Manieren, titel: 'Manieren van werken' };
     if (a === 'teams' && !b) return { comp: Teams, titel: 'Teams en teaminrichting' };
     if (a === 'portfolio' && !b) return { comp: Portfolio, titel: 'Portfolio en routes' };
+    if (a === 'hulpmiddelen' && !b) return { comp: Hulpmiddelen, titel: 'Hulpmiddelen en systemen' };
+    if (a === 'templates' && !b) return { comp: Templates, titel: 'Templates' };
+    if (a === 'implementatie' && !b) return { comp: Tekstpagina, props: { id: 'implementatie', blok: 'C' }, titel: 'Implementatie van de Way of Working' };
+    if (a === 'samenwerking' && !b) return { comp: Tekstpagina, props: { id: 'samenwerking', blok: 'C' }, titel: 'Samenwerking en demarcatie' };
+    if (a === 'verbeteren' && !b) return { comp: Tekstpagina, props: { id: 'verbeteren', blok: 'D' }, titel: 'Continu verbeteren' };
     if (a === 'model' && !b) return { comp: Model, titel: 'Het model' };
     if (a === 'rollen' && !b) return { comp: Rollen, titel: 'Rollen' };
     if (a === 'rollen' && rolById(b)) return { comp: Rol, props: { id: b }, titel: rolById(b).titel };

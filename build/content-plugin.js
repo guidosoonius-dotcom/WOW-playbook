@@ -43,7 +43,7 @@ const KWALITEIT = ['beste', 'kan', 'valkuil'];
 const MIJLPAAL_STATUS = ['afgerond', 'bezig', 'gepland'];
 
 // Routes die buiten de content om bestaan (pagina's in src/pages).
-const STATIC_ROUTES = ['', 'waarom', 'uitgangspunten', 'model', 'manieren', 'manieren/keuzehulp', 'teams', 'spelregels', 'portfolio', 'rollen', 'ritme', 'sturen', 'woordenlijst', 'over', 'beslissen', 'doen', 'doen/dilemmas', 'doen/teamscan', 'doen/gereedschap', 'transitie', 'uitleg'];
+const STATIC_ROUTES = ['', 'waarom', 'uitgangspunten', 'model', 'manieren', 'manieren/keuzehulp', 'teams', 'hulpmiddelen', 'templates', 'implementatie', 'samenwerking', 'verbeteren', 'spelregels', 'portfolio', 'rollen', 'ritme', 'sturen', 'woordenlijst', 'over', 'beslissen', 'doen', 'doen/dilemmas', 'doen/teamscan', 'doen/gereedschap', 'transitie', 'uitleg'];
 
 function walk(dir) {
   // Mappen die met _ beginnen (zoals _sjablonen) zijn hulpmateriaal en geen content.
@@ -255,7 +255,7 @@ export function loadContent(root = process.cwd()) {
   });
 
   // Een komma in een niet-aangehaalde waarde binnen { … } knipt de tekst in stukken en laat lege sleutels achter. Dat vangen we af.
-  for (const key of ['manieren', 'uitgangspunten', 'portfolio', 'teams', 'rollengroepen', 'mandaten']) {
+  for (const key of ['manieren', 'uitgangspunten', 'portfolio', 'teams', 'rollengroepen', 'mandaten', 'hulpmiddelen']) {
     const zoek = (o, pad) => {
       if (Array.isArray(o)) o.forEach((x, i) => zoek(x, `${pad}[${i}]`));
       else if (o && typeof o === 'object')
@@ -287,6 +287,10 @@ export function loadContent(root = process.cwd()) {
   if (data.rollengroepen) {
     const inGroep = new Set((data.rollengroepen.groepen ?? []).flatMap((g) => (g.rollen ?? []).map((r) => r.rol).filter(Boolean)));
     for (const id of rolIds) check(inGroep.has(id), `content/data/rollengroepen.yaml: rol "${id}" staat in geen enkele groep`);
+  }
+  for (const t of data.hulpmiddelen?.templates?.lijst ?? []) {
+    check(t.naam && t.wanneer && t.tekst, `content/data/hulpmiddelen.yaml: template "${t.naam ?? '?'}" mist naam, wanneer of tekst`);
+    if (t.werkvorm) check(byType('werkvorm').some((w) => w.id === t.werkvorm), `content/data/hulpmiddelen.yaml: template "${t.naam}" verwijst naar onbekende werkvorm "${t.werkvorm}"`);
   }
   for (const r of data.mandaten?.rijen ?? []) check(r.wie && r.over && r.niet, `content/data/mandaten.yaml: elke rij heeft wie, over en niet nodig`);
 
@@ -353,6 +357,7 @@ export function loadContent(root = process.cwd()) {
     teams: data.teams ?? null,
     rollengroepen: data.rollengroepen ?? null,
     mandaten: data.mandaten ?? null,
+    hulpmiddelen: data.hulpmiddelen ?? null,
     categorieen: CATEGORIEEN
   };
 }

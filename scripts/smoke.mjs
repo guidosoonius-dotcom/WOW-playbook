@@ -15,7 +15,7 @@ const shots = shotsIdx > -1 ? process.argv[shotsIdx + 1] : null;
 if (shots) mkdirSync(shots, { recursive: true });
 
 const ROUTES = [
-  '', 'waarom', 'uitgangspunten', 'spelregels', 'manieren', 'manieren/keuzehulp', 'teams', 'portfolio', 'model', 'rollen', 'rollen/digital-lead', 'rollen/product-owner', 'ritme',
+  '', 'waarom', 'uitgangspunten', 'spelregels', 'manieren', 'manieren/keuzehulp', 'teams', 'portfolio', 'hulpmiddelen', 'templates', 'implementatie', 'samenwerking', 'verbeteren', 'doen/gereedschap/idee-project-kaart', 'model', 'rollen', 'rollen/digital-lead', 'rollen/product-owner', 'ritme',
   'ritme/pi-planning', 'ritme/daily', 'sturen', 'woordenlijst', 'woordenlijst/wsjf', 'over', 'beslissen', 'doen',
   'doen/dilemmas', 'doen/teamscan', 'transitie', 'uitleg', 'uitleg/waardestroom', 'uitleg/productteam',
   'uitleg/epics-features-stories', 'doen/gereedschap', 'doen/gereedschap/wsjf', 'doen/gereedschap/teamcharter',
@@ -212,6 +212,14 @@ for (const [naam, viewport] of [['laptop', { width: 1280, height: 720 }], ['tele
   if ((await uitkomst()) !== 'Servicedesk') fouten.push(`[${naam}] keuzehulp: storing geeft "${await uitkomst()}" in plaats van Servicedesk`);
   await page.getByRole('button', { name: 'Opnieuw beginnen' }).click();
   if ((await uitkomst()) !== 'Nog niet bekend') fouten.push(`[${naam}] keuzehulp: opnieuw beginnen wist niet`);
+
+  // Idee Project Kaart: invullen tot "klaar voor de intake".
+  await page.evaluate(() => (location.hash = '#/doen/gereedschap/idee-project-kaart'));
+  await page.waitForTimeout(250);
+  if (!(await page.getByText('Nog niet klaar').count())) fouten.push(`[${naam}] IPK: begint niet als "Nog niet klaar"`);
+  const velden = [['Eigenaar', 'Teamleider Planning'], ['Wat is het probleem', 'Ruilen kost veel telefoontjes'], ['Voor wie', 'Planners'], ['Wat is het doel', 'Ruilen zonder planner'], ['Verwacht resultaat', 'Minder uren planning'], ['Past het bij de strategie', 'Thema digitale dienstverlening']];
+  for (const [label, tekst] of velden) await page.getByLabel(label, { exact: false }).first().fill(tekst);
+  if (!(await page.getByText('Klaar voor de intake').count())) fouten.push(`[${naam}] IPK: wordt niet "Klaar voor de intake" na invullen`);
 
   // Rollen filteren op groep.
   await page.evaluate(() => (location.hash = '#/rollen'));

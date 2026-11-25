@@ -76,7 +76,7 @@
                   {#each blok.items as item}
                     <li>
                       <a href={href(item.pad)} aria-current={isActief(item) ? 'page' : undefined}>
-                        <b>{item.titel}{#if item.nieuw}<i class="nieuw">Nieuw</i>{/if}</b>
+                        <b>{item.titel}{#if item.nieuw}<i class="nieuw">Nieuw</i>{:else if item.volgt}<i class="nieuw volgt">Volgt</i>{/if}</b>
                         <span>{item.kern}</span>
                       </a>
                     </li>
@@ -284,6 +284,12 @@
     font-style: normal;
     font-weight: 700;
     vertical-align: 1px;
+  }
+  .nieuw.volgt {
+    background: transparent;
+    border: 1.5px dashed var(--muted);
+    color: var(--muted);
+    padding: 0 7px;
   }
   @media (prefers-color-scheme: dark) {
     :global(:root:not([data-theme='light'])) .nieuw {

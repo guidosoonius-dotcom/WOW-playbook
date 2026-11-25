@@ -46,8 +46,8 @@ Het menu en de pagina's volgen de blokken van de Way of Working. De indeling sta
 |---|---|---|
 | **A · Richting** | Waarom we kantelen, Uitgangspunten, Het model, De transitie | `content/paginas/`, `content/data/uitgangspunten.yaml`, `content/data/transitie.yaml` |
 | **B · Organiseren** | Manieren van werken (met keuzehulp), Teams en teaminrichting, Waardestromen, Rollen, Spelregels | `content/data/manieren.yaml`, `teams.yaml`, `rollengroepen.yaml`, `uitgangspunten.yaml`, `content/rollen/` |
-| **C · Besturen** | Portfolio en routes, Wie beslist wat?, Ritme | `content/data/portfolio.yaml`, `mandaten.yaml`, `beslismatrix.yaml`, `content/events/` |
-| **D · Ondersteunen** | Gereedschapskist, Sturen en financieren, Dilemma's, Teamscan, Uitgelegd | `content/gereedschap/`, `content/paginas/sturen.md`, `content/dilemmas/`, `content/uitleg/` |
+| **C · Besturen** | Portfolio en routes, Wie beslist wat?, Ritme, Implementatie (volgt), Samenwerking en demarcatie (volgt) | `content/data/portfolio.yaml`, `mandaten.yaml`, `beslismatrix.yaml`, `content/events/` |
+| **D · Ondersteunen** | Gereedschapskist, Hulpmiddelen en systemen, Templates, Sturen en financieren, Continu verbeteren, Dilemma's, Teamscan, Uitgelegd | `content/gereedschap/`, `content/data/hulpmiddelen.yaml`, `content/paginas/` (sturen, verbeteren, implementatie, samenwerking), `content/dilemmas/`, `content/uitleg/` |
 
 Twee vormen voor verandering (vast team en project) en de run (ITSM) eronder. De combinatie van een project met vaste teams staat bewust nog niet in het playbook.
 
