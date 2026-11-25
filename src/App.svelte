@@ -1,40 +1,16 @@
 <script>
   import content from './lib/content.js';
-  import { route, pad } from './lib/router.svelte.js';
+  import { route, pad, href } from './lib/router.svelte.js';
   import { markeerGezien } from './lib/state.svelte.js';
-  import { rolById, eventById, uitlegById, werkvormById } from './lib/content.js';
-  import Uitleg from './pages/Uitleg.svelte';
-  import Uitgelegd from './pages/Uitgelegd.svelte';
+  import { resolvePagina } from './lib/pagina.js';
+  import { blokVoorRoute } from './lib/blokken.js';
+  import NietGevonden from './pages/NietGevonden.svelte';
+  import BlokVerhaal from './pages/BlokVerhaal.svelte';
+  import BlokTabs from './components/BlokTabs.svelte';
+  import BlokVolgende from './components/BlokVolgende.svelte';
   import Header from './components/Header.svelte';
   import FacilicomLogo from './components/FacilicomLogo.svelte';
   import Zoeken from './components/Zoeken.svelte';
-  import Start from './pages/Start.svelte';
-  import Waarom from './pages/Waarom.svelte';
-  import Model from './pages/Model.svelte';
-  import Rollen from './pages/Rollen.svelte';
-  import Rol from './pages/Rol.svelte';
-  import Ritme from './pages/Ritme.svelte';
-  import Event from './pages/Event.svelte';
-  import Sturen from './pages/Sturen.svelte';
-  import Woordenlijst from './pages/Woordenlijst.svelte';
-  import Over from './pages/Over.svelte';
-  import NietGevonden from './pages/NietGevonden.svelte';
-  import Beslissen from './pages/Beslissen.svelte';
-  import Doen from './pages/Doen.svelte';
-  import Dilemmas from './pages/Dilemmas.svelte';
-  import Teamscan from './pages/Teamscan.svelte';
-  import Transitie from './pages/Transitie.svelte';
-  import Gereedschap from './pages/Gereedschap.svelte';
-  import Werkvorm from './pages/Werkvorm.svelte';
-  import Uitgangspunten from './pages/Uitgangspunten.svelte';
-  import Spelregels from './pages/Spelregels.svelte';
-  import Manieren from './pages/Manieren.svelte';
-  import Teams from './pages/Teams.svelte';
-  import Portfolio from './pages/Portfolio.svelte';
-  import Hulpmiddelen from './pages/Hulpmiddelen.svelte';
-  import Templates from './pages/Templates.svelte';
-  import Tekstpagina from './pages/Tekstpagina.svelte';
-  import { href } from './lib/router.svelte.js';
   import Redactie from './components/Redactie.svelte';
   import { redactie } from './lib/redactie.svelte.js';
 
@@ -42,39 +18,14 @@
   // Na een wijziging in de redactiemodus wordt de pagina opnieuw opgebouwd met de nieuwe tekst.
   let versie = $state(0);
 
+  // Een blok als één lange pagina (blok/A en blok/B), anders de pagina bij de route.
   const pagina = $derived.by(() => {
-    const [a = '', b, c] = route.parts;
-    if (a === '' && !b) return { comp: Start, titel: null };
-    if (a === 'waarom' && !b) return { comp: Waarom, titel: 'Waarom we kantelen' };
-    if (a === 'uitgangspunten' && !b) return { comp: Uitgangspunten, titel: 'Uitgangspunten' };
-    if (a === 'spelregels' && !b) return { comp: Spelregels, titel: 'Spelregels' };
-    if (a === 'manieren' && (!b || (b === 'keuzehulp' && !c))) return { comp: Manieren, titel: 'Manieren van werken' };
-    if (a === 'teams' && !b) return { comp: Teams, titel: 'Teams en teaminrichting' };
-    if (a === 'portfolio' && !b) return { comp: Portfolio, titel: 'Portfolio en routes' };
-    if (a === 'hulpmiddelen' && !b) return { comp: Hulpmiddelen, titel: 'Hulpmiddelen en systemen' };
-    if (a === 'templates' && !b) return { comp: Templates, titel: 'Templates' };
-    if (a === 'implementatie' && !b) return { comp: Tekstpagina, props: { id: 'implementatie', blok: 'C' }, titel: 'Implementatie van de Way of Working' };
-    if (a === 'samenwerking' && !b) return { comp: Tekstpagina, props: { id: 'samenwerking', blok: 'C' }, titel: 'Samenwerking en demarcatie' };
-    if (a === 'verbeteren' && !b) return { comp: Tekstpagina, props: { id: 'verbeteren', blok: 'D' }, titel: 'Continu verbeteren' };
-    if (a === 'model' && !b) return { comp: Model, titel: 'Het model' };
-    if (a === 'rollen' && !b) return { comp: Rollen, titel: 'Rollen' };
-    if (a === 'rollen' && rolById(b)) return { comp: Rol, props: { id: b }, titel: rolById(b).titel };
-    if (a === 'ritme' && !b) return { comp: Ritme, titel: 'Ritme' };
-    if (a === 'ritme' && eventById(b)) return { comp: Event, props: { id: b }, titel: eventById(b).titel };
-    if (a === 'sturen' && !b) return { comp: Sturen, titel: 'Sturen en financieren' };
-    if (a === 'woordenlijst') return { comp: Woordenlijst, titel: 'Woordenlijst' };
-    if (a === 'over' && !b) return { comp: Over, titel: 'Over dit playbook' };
-    if (a === 'beslissen' && !b) return { comp: Beslissen, titel: 'Wie beslist wat?' };
-    if (a === 'doen' && !b) return { comp: Doen, titel: 'Aan de slag' };
-    if (a === 'doen' && b === 'gereedschap' && !c) return { comp: Gereedschap, titel: 'Gereedschapskist' };
-    if (a === 'doen' && b === 'gereedschap' && werkvormById(c)) return { comp: Werkvorm, props: { id: c }, titel: werkvormById(c).titel };
-    if (a === 'doen' && b === 'dilemmas') return { comp: Dilemmas, titel: "Dilemma's" };
-    if (a === 'doen' && b === 'teamscan') return { comp: Teamscan, titel: 'Teamscan' };
-    if (a === 'transitie' && !b) return { comp: Transitie, titel: 'De transitie' };
-    if (a === 'uitleg' && !b) return { comp: Uitgelegd, titel: 'Uitgelegd' };
-    if (a === 'uitleg' && uitlegById(b)) return { comp: Uitleg, props: { id: b }, titel: uitlegById(b).titel };
-    return { comp: NietGevonden, titel: 'Niet gevonden' };
+    const [a, b] = route.parts;
+    if (a === 'blok' && ['A', 'B'].includes(b)) return { comp: BlokVerhaal, props: { blok: b, resolve: resolvePagina }, titel: `Blok ${b} als één verhaal`, verhaal: b };
+    return resolvePagina(route.parts);
   });
+  const blok = $derived(pagina.verhaal ?? blokVoorRoute(route.parts));
+  const metNavigatie = $derived(blok && !pagina.verhaal && route.parts.length > 0);
 
   $effect(() => {
     document.title = pagina.titel ? `${pagina.titel} · Samen Digitaal` : 'Samen Digitaal · Playbook';
@@ -94,10 +45,13 @@
 <a class="skip" href="#inhoud" onclick={(e) => { e.preventDefault(); document.getElementById('inhoud')?.focus(); }}>Naar de inhoud</a>
 <Header onzoek={() => (zoekOpen = true)} />
 
+{#if metNavigatie}<BlokTabs {blok} />{/if}
+
 <main id="inhoud" tabindex="-1">
   {#key (route.parts[0] === 'manieren' ? 'manieren' : route.parts.join('/')) + '|' + versie}
     <pagina.comp {...pagina.props ?? {}} />
   {/key}
+  {#if metNavigatie}<BlokVolgende {blok} />{/if}
 </main>
 
 <footer>

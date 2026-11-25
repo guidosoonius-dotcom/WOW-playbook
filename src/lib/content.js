@@ -61,6 +61,8 @@ export function titelVoorRoute(path) {
     uitleg: 'Uitgelegd',
     uitgangspunten: 'Uitgangspunten',
     spelregels: 'Spelregels',
+    'blok/A': 'Blok A als één verhaal',
+    'blok/B': 'Blok B als één verhaal',
     manieren: 'Manieren van werken',
     'manieren/keuzehulp': 'Keuzehulp: welke vorm past?',
     teams: 'Teams en teaminrichting',

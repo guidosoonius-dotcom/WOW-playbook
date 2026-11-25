@@ -1,0 +1,115 @@
+/* Animaties die het verhaal uitleggen. Ze beginnen zodra het onderdeel in beeld komt (klasse "speelt", zie src/lib/inbeeld.js).
+   Een element met class "anim" is de wortel; daarbinnen:
+   .tek   een lijn die zich tekent (de path heeft pathLength="1")
+   .pop   een punt of blokje dat verschijnt
+   .fade  tekst of lijn die infade
+   --t en --d zetten de vertraging en de duur. */
+.anim .tek {
+  fill: none;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+.anim .pop,
+.anim .fade {
+  opacity: 0;
+}
+.anim .pop {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.anim.speelt .tek {
+  animation: an-tek var(--d, 1.4s) cubic-bezier(0.5, 0.1, 0.3, 1) forwards;
+  animation-delay: var(--t, 0s);
+}
+.anim.speelt .pop {
+  animation: an-pop 0.45s cubic-bezier(0.2, 1.6, 0.4, 1) forwards;
+  animation-delay: var(--t, 0s);
+}
+.anim.speelt .fade {
+  animation: an-fade 0.7s ease forwards;
+  animation-delay: var(--t, 0s);
+}
+/* Een storing die van boven op de run valt en naar de servicedesk rijdt. */
+.anim .storing {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.anim.speelt .storing {
+  animation: an-storing 2.6s cubic-bezier(0.45, 0.05, 0.3, 1) forwards;
+  animation-delay: var(--t, 0s);
+}
+@keyframes an-tek {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@keyframes an-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.2);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes an-fade {
+  to {
+    opacity: 1;
+  }
+}
+@keyframes an-storing {
+  0% {
+    opacity: 0;
+    transform: translate(0, -120px);
+  }
+  22% {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(var(--naar, -740px), 0);
+  }
+}
+/* Kaarten die na elkaar binnenkomen. */
+@keyframes an-kaart {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .anim .tek {
+    stroke-dashoffset: 0;
+  }
+  .anim .pop,
+  .anim .fade,
+  .anim .storing {
+    opacity: 1;
+  }
+  .anim .storing {
+    transform: translate(var(--naar, -740px), 0);
+  }
+  .anim.speelt .tek,
+  .anim.speelt .pop,
+  .anim.speelt .fade,
+  .anim.speelt .storing {
+    animation: none;
+  }
+}
+@media print {
+  .anim .tek {
+    stroke-dashoffset: 0;
+  }
+  .anim .pop,
+  .anim .fade,
+  .anim .storing {
+    opacity: 1;
+  }
+}

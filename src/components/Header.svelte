@@ -5,7 +5,7 @@
   import { route, href } from '../lib/router.svelte.js';
   import { prefs } from '../lib/state.svelte.js';
   import { rolById } from '../lib/content.js';
-  import { BLOKKEN, blokVoorRoute } from '../lib/blokken.js';
+  import { BLOKKEN, blokVoorRoute, itemActief, VERHAAL } from '../lib/blokken.js';
 
   let { onzoek } = $props();
 
@@ -32,7 +32,17 @@
   function klik(e) {
     if (open && kop && !kop.contains(e.target)) open = null;
   }
-  const isActief = (item) => pad === item.pad || (item.pad === 'uitleg' && pad.startsWith('uitleg') && pad !== 'uitleg/waardestroom') || (item.pad !== 'uitleg' && item.pad !== 'doen/gereedschap' && pad.startsWith(item.pad + '/'));
+  const isActief = (item) => itemActief(item, pad);
+
+  // De hoogte van de kopbalk, voor onderdelen die eronder blijven plakken.
+  $effect(() => {
+    if (!kop) return;
+    const zet = () => document.documentElement.style.setProperty('--kop-h', kop.offsetHeight + 'px');
+    zet();
+    const ro = new ResizeObserver(zet);
+    ro.observe(kop);
+    return () => ro.disconnect();
+  });
 </script>
 
 <svelte:window onkeydown={toets} onclick={klik} />
@@ -71,6 +81,9 @@
                     <strong>{blok.titel}</strong>
                     <span>{blok.kern}</span>
                   </div>
+                  {#if VERHAAL.includes(blok.id)}
+                    <a class="leesverhaal" href={href('blok/' + blok.id)}>Lees als één verhaal</a>
+                  {/if}
                 </div>
                 <ul class="items">
                   {#each blok.items as item}
@@ -240,6 +253,21 @@
   .paneel-kop span {
     font-size: 14px;
     color: var(--muted);
+  }
+  .leesverhaal {
+    margin-left: auto;
+    padding: 9px 16px;
+    border-radius: 999px;
+    border: 1.5px solid var(--ink);
+    color: var(--ink);
+    font-size: 13.5px;
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+  .leesverhaal:hover {
+    background: var(--ink);
+    color: var(--surface);
   }
   .items {
     grid-column: 1;

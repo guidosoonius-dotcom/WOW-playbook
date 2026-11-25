@@ -19,6 +19,8 @@
     ...content.dilemmas.map((d) => ({ soort: 'Dilemma', titel: d.titel, kern: d.kern, route: 'doen/dilemmas', tekst: [d.situatie, d.leerpunt].join(' ') })),
     ...content.beslismatrix.map((b) => ({ soort: 'Wie beslist wat?', titel: b.besluit, kern: b.thema, route: 'beslissen', tekst: '' })),
     ...content.werkvormen.filter((w) => w.beschikbaar).map((w) => ({ soort: 'Gereedschapskist', titel: w.titel, kern: w.kern, route: `doen/gereedschap/${w.id}`, tekst: [w.wanneer, strip(w.html)].join(' ') })),
+    { soort: 'Verhaal', titel: 'Blok A als één verhaal', kern: 'Richting: waarom, uitgangspunten, model en transitie', route: 'blok/A', tekst: 'richting doorlezen lange pagina' },
+    { soort: 'Verhaal', titel: 'Blok B als één verhaal', kern: 'Organiseren: vormen, teams, waardestromen, rollen en spelregels', route: 'blok/B', tekst: 'organiseren doorlezen lange pagina' },
     { soort: 'Richting', titel: 'Uitgangspunten', kern: content.uitgangspunten.uitgangspunten.kern, route: 'uitgangspunten', tekst: [content.uitgangspunten.uitgangspunten.missie, ...content.uitgangspunten.uitgangspunten.punten.map((p) => p.titel + ' ' + p.tekst)].join(' ') },
     { soort: 'Organiseren', titel: 'Spelregels', kern: content.uitgangspunten.spelregels.kern, route: 'spelregels', tekst: content.uitgangspunten.spelregels.regels.join(' ') },
     { soort: 'Organiseren', titel: 'Manieren van werken', kern: 'Vast team of project, met de run eronder', route: 'manieren', tekst: [content.manieren.intro, ...content.manieren.vormen.map((v) => v.titel + ' ' + v.tekst), content.manieren.run.tekst, ...content.manieren.fasen.stappen.map((f) => f.naam + ' ' + f.wat)].join(' ') },

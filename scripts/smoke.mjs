@@ -15,7 +15,7 @@ const shots = shotsIdx > -1 ? process.argv[shotsIdx + 1] : null;
 if (shots) mkdirSync(shots, { recursive: true });
 
 const ROUTES = [
-  '', 'waarom', 'uitgangspunten', 'spelregels', 'manieren', 'manieren/keuzehulp', 'teams', 'portfolio', 'hulpmiddelen', 'templates', 'implementatie', 'samenwerking', 'verbeteren', 'doen/gereedschap/idee-project-kaart', 'doen/gereedschap/project-opdracht-kaart', 'doen/gereedschap/plan-van-aanpak', 'model', 'rollen', 'rollen/digital-lead', 'rollen/product-owner', 'ritme',
+  '', 'blok/A', 'blok/B', 'waarom', 'uitgangspunten', 'spelregels', 'manieren', 'manieren/keuzehulp', 'teams', 'portfolio', 'hulpmiddelen', 'templates', 'implementatie', 'samenwerking', 'verbeteren', 'doen/gereedschap/idee-project-kaart', 'doen/gereedschap/project-opdracht-kaart', 'doen/gereedschap/plan-van-aanpak', 'model', 'rollen', 'rollen/digital-lead', 'rollen/product-owner', 'ritme',
   'ritme/pi-planning', 'ritme/daily', 'sturen', 'woordenlijst', 'woordenlijst/wsjf', 'over', 'beslissen', 'doen',
   'doen/dilemmas', 'doen/teamscan', 'transitie', 'uitleg', 'uitleg/waardestroom', 'uitleg/productteam',
   'uitleg/epics-features-stories', 'doen/gereedschap', 'doen/gereedschap/wsjf', 'doen/gereedschap/teamcharter',
@@ -212,6 +212,33 @@ for (const [naam, viewport] of [['laptop', { width: 1280, height: 720 }], ['tele
   if ((await uitkomst()) !== 'Servicedesk') fouten.push(`[${naam}] keuzehulp: storing geeft "${await uitkomst()}" in plaats van Servicedesk`);
   await page.getByRole('button', { name: 'Opnieuw beginnen' }).click();
   if ((await uitkomst()) !== 'Nog niet bekend') fouten.push(`[${naam}] keuzehulp: opnieuw beginnen wist niet`);
+
+  // Blok B als één verhaal: alle vijf de pagina's, één h1, een zijbalk die de plek volgt, en springen.
+  await page.evaluate(() => (location.hash = '#/blok/B'));
+  await page.waitForTimeout(500);
+  const verhaal = await page.evaluate(() => ({ delen: document.querySelectorAll('.deel').length, h1: document.querySelectorAll('main h1').length, over: document.documentElement.scrollWidth - document.documentElement.clientWidth }));
+  if (verhaal.delen !== 5) fouten.push(`[${naam}] verhaal B: ${verhaal.delen} delen in plaats van 5`);
+  if (verhaal.h1 !== 1) fouten.push(`[${naam}] verhaal B: ${verhaal.h1} h1's in plaats van 1`);
+  if (verhaal.over > 1) fouten.push(`[${naam}] verhaal B: ${verhaal.over}px horizontaal scrollen`);
+  if (naam === 'telefoon') await page.locator('.inhoud').click();
+  await page.locator('.zij ol button', { hasText: 'Rollen' }).click();
+  await page.waitForTimeout(2200);
+  const nu = await page.evaluate(() => document.querySelector('.zij button.nu')?.textContent?.trim());
+  if (!nu?.includes('Rollen')) fouten.push(`[${naam}] verhaal B: na springen naar Rollen staat de zijbalk op "${nu}"`);
+
+  // Losse pagina: tabs van het blok en vorige/volgende onderaan.
+  await page.evaluate(() => (location.hash = '#/teams'));
+  await page.waitForTimeout(300);
+  const tabs = await page.locator('.tabs ul a').count();
+  const volgende = (await page.locator('.onder .door strong').textContent())?.trim();
+  if (tabs !== 5 || volgende !== 'Waardestromen') fouten.push(`[${naam}] blok-navigatie: ${tabs} tabs, volgende "${volgende}"`);
+
+  // De animaties spelen af zodra ze in beeld komen en eindigen op de eindstand.
+  await page.evaluate(() => (location.hash = '#/manieren'));
+  await page.waitForTimeout(300);
+  await page.locator('.sporen').scrollIntoViewIfNeeded();
+  await page.waitForTimeout(600);
+  if (!(await page.evaluate(() => document.querySelector('.sporen').classList.contains('speelt')))) fouten.push(`[${naam}] animatie: de drie sporen beginnen niet in beeld`);
 
   // Idee Project Kaart: invullen tot "klaar voor de intake".
   await page.evaluate(() => (location.hash = '#/doen/gereedschap/idee-project-kaart'));

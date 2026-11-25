@@ -3,6 +3,7 @@
   import { href } from '../lib/router.svelte.js';
   import { prefs } from '../lib/state.svelte.js';
   import PaginaKop from '../components/PaginaKop.svelte';
+  import { inBeeld } from '../lib/inbeeld.js';
   import RolIcoon from '../components/RolIcoon.svelte';
 
   const rg = content.rollengroepen;
@@ -24,10 +25,10 @@
   {#each zichtbaar as g}
     <section class="sectie" aria-labelledby="groep-{g.id}">
       <h2 id="groep-{g.id}">{g.titel}</h2>
-      <ul class="raster">
-        {#each g.rollen as r}
+      <ul class="raster anim" use:inBeeld>
+        {#each g.rollen as r, i}
           {@const bestaand = r.rol ? rolById(r.rol) : null}
-          <li>
+          <li style="--i: {i}">
             {#if bestaand}
               <a class="rolkaart" class:mijn={prefs.rol === bestaand.id} href={href('rollen/' + bestaand.id)}>
                 <span class="icoon"><RolIcoon rol={bestaand.id} size={26} /></span>
@@ -83,6 +84,21 @@
   .chip.aan {
     background: var(--line1);
     color: var(--on-line1);
+  }
+  .raster.anim li {
+    opacity: 0;
+  }
+  .raster:global(.speelt) li {
+    animation: an-kaart 0.5s cubic-bezier(0.2, 0.8, 0.3, 1) forwards;
+    animation-delay: calc(var(--i) * 0.06s);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .raster.anim li {
+      opacity: 1;
+    }
+    .raster:global(.speelt) li {
+      animation: none;
+    }
   }
   .rolkaart.zonder {
     cursor: default;

@@ -1,6 +1,7 @@
 <script>
   import content from '../lib/content.js';
   import PaginaKop from '../components/PaginaKop.svelte';
+  import { inBeeld } from '../lib/inbeeld.js';
 
   const t = content.teams;
 </script>
@@ -29,9 +30,9 @@
         <h2 id="g-{soort}">{groep.titel}</h2>
         <span class="groepkern">{groep.kern}</span>
       </div>
-      <ul class="teams">
-        {#each groep.teams as team}
-          <li class="team" class:accent={team.accent} class:streep={team.streep}>
+      <ul class="teams anim" use:inBeeld>
+        {#each groep.teams as team, i}
+          <li style="--i: {i}" class="team" class:accent={team.accent} class:streep={team.streep}>
             <span class="plek {soort}">{team.plek}</span>
             <h3>{team.titel}</h3>
             <p>{team.tekst}</p>
@@ -113,6 +114,21 @@
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 16px;
+  }
+  .teams.anim .team {
+    opacity: 0;
+  }
+  .teams:global(.speelt) .team {
+    animation: an-kaart 0.55s cubic-bezier(0.2, 0.8, 0.3, 1) forwards;
+    animation-delay: calc(var(--i) * 0.16s);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .teams.anim .team {
+      opacity: 1;
+    }
+    .teams:global(.speelt) .team {
+      animation: none;
+    }
   }
   .team {
     display: flex;

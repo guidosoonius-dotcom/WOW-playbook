@@ -1,18 +1,21 @@
 <script>
+  import { getContext } from 'svelte';
   import SafeLabel from './SafeLabel.svelte';
   import IsoTekening from './IsoTekening.svelte';
   import BlokBadge from './BlokBadge.svelte';
   // rood: alleen voor de hoofdstukpagina's; titels elders blijven blauw (Blauw 08).
+  // In een blokverhaal staat de koptitel van het blok bovenaan, en zijn de pagina's eronder een niveau lager.
+  const verhaal = getContext('verhaal') ?? false;
   let { eyebrow, blok = null, titel, kern, samenvatting = '', safe = null, status = null, rood = false, beeld = null } = $props();
 </script>
 
 <header class="kop" class:met-beeld={beeld}>
   <div class="tekst">
   <div class="meta">
-    {#if blok}<BlokBadge {blok} />{:else if eyebrow}<span class="eyebrow">{eyebrow}</span>{/if}
+    {#if blok && !verhaal}<BlokBadge {blok} />{:else if eyebrow}<span class="eyebrow">{eyebrow}</span>{/if}
     {#if status === 'concept'}<span class="status" title="Deze inhoud is nog niet vastgesteld">Concept</span>{/if}
   </div>
-  <h1 class:rood>{titel}</h1>
+  <svelte:element this={verhaal ? 'h2' : 'h1'} class="titel" class:rood>{titel}</svelte:element>
   {#if kern}<p class="lead">{kern}</p>{/if}
   {#if samenvatting}<p class="samenvatting">{samenvatting}</p>{/if}
   <SafeLabel {safe} />
@@ -63,7 +66,7 @@
   .rood {
     color: var(--titel);
   }
-  h1 {
+  .titel {
     font-size: clamp(34px, 5vw, 52px);
     font-weight: 700;
     letter-spacing: -0.025em;

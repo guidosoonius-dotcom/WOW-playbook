@@ -1,3 +1,9 @@
+- versie: "0.11"
+  datum: 2026-11-27
+  wijzigingen:
+    - Blok A en B zijn ook als één lang verhaal te lezen, met een zijbalk die meeloopt en een metrolijn langs de kant
+    - Elke pagina in een blok heeft tabs bovenaan en vorige en volgende onderaan
+    - Animaties bij de drie sporen, de routes, de teams, de rollen en de keuzehulp. Wie minder beweging wil, ziet direct de eindstand
 - versie: "0.10"
   datum: 2026-11-26
   wijzigingen:

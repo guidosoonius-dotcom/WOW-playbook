@@ -2,6 +2,7 @@
   import content from '../lib/content.js';
   import { href } from '../lib/router.svelte.js';
   import PaginaKop from '../components/PaginaKop.svelte';
+  import { inBeeld } from '../lib/inbeeld.js';
 
   const p = content.portfolio;
   const vast = p.routes[0];
@@ -36,9 +37,9 @@
         <span class="past vast">{vast.past}</span>
       </div>
       <p>{vast.tekst}</p>
-      <ol class="lijn lijn-vast" style="--n: {vast.stations.length}">
+      <ol class="lijn lijn-vast anim" use:inBeeld style="--n: {vast.stations.length}">
         {#each vast.stations as s, i}
-          <li><span class="dot" class:uit={i === vast.stations.length - 1}></span><span class="t">{s}</span></li>
+          <li style="--i: {i}"><span class="dot" class:uit={i === vast.stations.length - 1}></span><span class="t">{s}</span></li>
         {/each}
       </ol>
     </section>
@@ -50,9 +51,9 @@
         <span class="past">{project.past}</span>
       </div>
       <p>{project.tekst}</p>
-      <ol class="lijn lijn-project" style="--n: {project.stations.length}">
+      <ol class="lijn lijn-project anim" use:inBeeld style="--n: {project.stations.length}">
         {#each project.stations as s, i}
-          <li>
+          <li style="--i: {i}">
             <span class="dot" class:poort={s.poort} class:open={i === 0} class:uit={i === project.stations.length - 1}></span>
             <span class="t">{#if s.poort}<i>{s.poort}</i>{/if}{s.naam}</span>
           </li>
@@ -68,9 +69,9 @@
         <span class="past">{p.run.past}</span>
       </div>
       <p>{p.run.tekst}</p>
-      <ol class="lijn lijn-run" style="--n: {p.run.stations.length}">
-        {#each p.run.stations as s}
-          <li><span class="dot"></span><span class="t">{s}</span></li>
+      <ol class="lijn lijn-run anim" use:inBeeld style="--n: {p.run.stations.length}">
+        {#each p.run.stations as s, i}
+          <li style="--i: {i}"><span class="dot"></span><span class="t">{s}</span></li>
         {/each}
       </ol>
       <p class="terug"><b>{p.run.terug_label}</b> {p.run.terug}</p>
@@ -304,6 +305,45 @@
     letter-spacing: 0.04em;
     color: var(--muted);
   }
+  /* De lijn tekent zich, de stations verschijnen na elkaar. */
+  .lijn.anim::before {
+    transform: scaleX(0);
+    transform-origin: left center;
+  }
+  .lijn.anim :global(.dot),
+  .lijn.anim .t {
+    opacity: 0;
+  }
+  .lijn:global(.speelt)::before {
+    animation: lijn 1.4s cubic-bezier(0.5, 0.1, 0.3, 1) 0.1s forwards;
+  }
+  .lijn:global(.speelt) :global(.dot) {
+    animation: an-pop 0.45s cubic-bezier(0.2, 1.6, 0.4, 1) forwards;
+    animation-delay: calc(var(--i) * 0.14s + 0.35s);
+  }
+  .lijn:global(.speelt) .t {
+    animation: an-fade 0.6s ease forwards;
+    animation-delay: calc(var(--i) * 0.14s + 0.5s);
+  }
+  @keyframes lijn {
+    to {
+      transform: none;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .lijn.anim::before {
+      transform: none;
+    }
+    .lijn.anim :global(.dot),
+    .lijn.anim .t {
+      opacity: 1;
+    }
+    .lijn:global(.speelt)::before,
+    .lijn:global(.speelt) :global(.dot),
+    .lijn:global(.speelt) .t {
+      animation: none;
+    }
+  }
   .terug {
     margin: 0;
     padding: 12px 14px;
@@ -380,6 +420,10 @@
       bottom: 8px;
       border-top: 0;
       border-left: 5px solid var(--lijnkleur);
+    }
+    .lijn.anim::before {
+      transform: scaleY(0);
+      transform-origin: center top;
     }
     .lijn-project::before {
       border-left-style: dashed;

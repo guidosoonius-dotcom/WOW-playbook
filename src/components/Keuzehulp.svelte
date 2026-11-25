@@ -95,6 +95,11 @@
       <h3>{uitkomst.titel}</h3>
     </div>
     <p>{uitkomst.tekst}</p>
+    <ol class="jouwspoor" aria-hidden="true">
+      {#each k.vragen as q}
+        {#key a[q.id]}<li class="st {a[q.id] ?? ''}"></li>{/key}
+      {/each}
+    </ol>
     {#if uitkomst.signalen.length}
       <ul class="signalen">
         {#each uitkomst.signalen as s}
@@ -256,6 +261,60 @@
   .leeg { stroke: #a39a96; fill: #a39a96; background: #a39a96; }
   .spoor { fill: none !important; }
   .stat { stroke: var(--vlak-blauw) !important; }
+  /* Zes stations: elk antwoord kleurt er één. Vast team licht, project wit, weet ik niet gestippeld. */
+  .jouwspoor {
+    list-style: none;
+    margin: 0;
+    padding: 0 4px;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+  }
+  .jouwspoor::before {
+    content: '';
+    position: absolute;
+    left: 10px;
+    right: 10px;
+    top: 50%;
+    border-top: 4px solid rgb(255 255 255 / 0.25);
+    border-radius: 2px;
+  }
+  .st {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    box-sizing: border-box;
+    border-radius: 50%;
+    border: 3px solid rgb(255 255 255 / 0.4);
+    background: var(--vlak-blauw);
+    animation: stpop 0.4s cubic-bezier(0.2, 1.6, 0.4, 1);
+  }
+  .st.a {
+    background: #8cc2f2;
+    border-color: #8cc2f2;
+  }
+  .st.b {
+    background: #fff;
+    border-color: #fff;
+    border-radius: 3px;
+  }
+  .st.c {
+    border-style: dashed;
+    border-color: #c9d8ea;
+  }
+  @keyframes stpop {
+    from {
+      transform: scale(0.3);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .st {
+      animation: none;
+    }
+  }
   .signalen {
     list-style: none;
     margin: 0;

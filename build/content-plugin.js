@@ -43,7 +43,7 @@ const KWALITEIT = ['beste', 'kan', 'valkuil'];
 const MIJLPAAL_STATUS = ['afgerond', 'bezig', 'gepland'];
 
 // Routes die buiten de content om bestaan (pagina's in src/pages).
-const STATIC_ROUTES = ['', 'waarom', 'uitgangspunten', 'model', 'manieren', 'manieren/keuzehulp', 'teams', 'hulpmiddelen', 'templates', 'implementatie', 'samenwerking', 'verbeteren', 'spelregels', 'portfolio', 'rollen', 'ritme', 'sturen', 'woordenlijst', 'over', 'beslissen', 'doen', 'doen/dilemmas', 'doen/teamscan', 'doen/gereedschap', 'transitie', 'uitleg'];
+const STATIC_ROUTES = ['', 'waarom', 'uitgangspunten', 'model', 'blok/A', 'blok/B', 'manieren', 'manieren/keuzehulp', 'teams', 'hulpmiddelen', 'templates', 'implementatie', 'samenwerking', 'verbeteren', 'spelregels', 'portfolio', 'rollen', 'ritme', 'sturen', 'woordenlijst', 'over', 'beslissen', 'doen', 'doen/dilemmas', 'doen/teamscan', 'doen/gereedschap', 'transitie', 'uitleg'];
 
 function walk(dir) {
   // Mappen die met _ beginnen (zoals _sjablonen) zijn hulpmateriaal en geen content.

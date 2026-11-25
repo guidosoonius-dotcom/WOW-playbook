@@ -4,6 +4,7 @@
   import { route } from '../lib/router.svelte.js';
   import PaginaKop from '../components/PaginaKop.svelte';
   import Keuzehulp from '../components/Keuzehulp.svelte';
+  import { inBeeld } from '../lib/inbeeld.js';
 
   const m = content.manieren;
 
@@ -20,24 +21,31 @@
   <PaginaKop rood blok="B" titel="Manieren van werken" kern="Twee vormen voor verandering, en de run eronder." samenvatting={m.intro} status="concept" />
 
   <!-- Drie sporen: vast team, project, de run -->
-  <figure class="sporen">
-    <svg viewBox="0 0 1144 200" role="img" aria-label="Drie sporen onder elkaar. Bovenaan een doorlopend spoor voor vaste teams. Daaronder korte stukken met begin en eind voor projecten. Onderaan een gestippeld spoor voor de run, het werk van ITSM en operationele teams.">
-      <path class="s-vast" d="M0 36 H1144" />
-      {#each [250, 400, 560, 720, 880, 1040] as x}<circle class="p-vast" cx={x} cy="36" r="11" />{/each}
-      <text class="t-kop" x="0" y="12">{m.sporen.vast}</text>
-      <text class="t-sub" x="0" y="66">{m.sporen.vast_tekst}</text>
+  <figure class="sporen anim" use:inBeeld={{ drempel: 0.4 }}>
+    <svg viewBox="0 0 1144 200" role="img" aria-label="Drie sporen onder elkaar. Bovenaan een doorlopend spoor voor vaste teams. Daaronder korte stukken met begin en eind voor projecten, die overdragen aan een vast team. Onderaan een gestippeld spoor voor de run, het werk van ITSM en operationele teams, waar een storing naar de servicedesk rijdt.">
+      <path class="s-vast tek" pathLength="1" d="M0 36 H1144" style="--t: 0s; --d: 1.2s" />
+      {#each [250, 400, 560, 720, 880, 1040] as x, i}<circle class="p-vast pop" cx={x} cy="36" r="11" style="--t: {1.2 + i * 0.12}s" />{/each}
+      <text class="t-kop fade" x="0" y="12" style="--t: 0.2s">{m.sporen.vast}</text>
+      <text class="t-sub fade" x="0" y="66" style="--t: 0.4s">{m.sporen.vast_tekst}</text>
 
-      <path class="s-project" d="M120 112 H330 M470 112 H690 M820 112 H1010" />
-      {#each [120, 470, 820] as x}<circle class="begin" cx={x} cy="112" r="9" />{/each}
-      {#each [325, 685, 1005] as x}<rect class="eind" {x} y="104" width="10" height="16" rx="2" />{/each}
-      {#each [225, 580, 915] as x}<circle class="p-project" cx={x} cy="112" r="10" />{/each}
-      <text class="t-kop" x="0" y="90">{m.sporen.project}</text>
-      <text class="t-sub" x="0" y="140">{m.sporen.project_tekst}</text>
+      <path class="s-project tek" pathLength="1" d="M120 112 H330 M470 112 H690 M820 112 H1010" style="--t: 2s; --d: 1.6s" />
+      {#each [120, 470, 820] as x, i}<circle class="begin pop" cx={x} cy="112" r="9" style="--t: {1.9 + i * 0.5}s" />{/each}
+      {#each [325, 685, 1005] as x, i}<rect class="eind pop" {x} y="104" width="10" height="16" rx="2" style="--t: {2.9 + i * 0.5}s" />{/each}
+      {#each [225, 580, 915] as x, i}<circle class="p-project pop" cx={x} cy="112" r="10" style="--t: {2.4 + i * 0.5}s" />{/each}
+      <text class="t-kop fade" x="0" y="90" style="--t: 2s">{m.sporen.project}</text>
+      <text class="t-sub fade" x="0" y="140" style="--t: 2.2s">{m.sporen.project_tekst}</text>
+      <!-- Het eerste project draagt over aan een vast team -->
+      <path class="overdracht tek" pathLength="1" d="M335 112 C 372 112 394 78 400 52" style="--t: 3.6s; --d: 0.9s" />
+      <circle class="overring pop" cx="400" cy="36" r="17" style="--t: 4.4s" />
+      <circle class="overdot pop" cx="400" cy="36" r="6" style="--t: 4.5s" />
 
-      <path class="s-run" d="M0 176 H1144" />
-      {#each [250, 560, 880] as x}<circle class="p-run" cx={x} cy="176" r="10" />{/each}
-      <text class="t-kop run" x="0" y="164">{m.sporen.run}</text>
-      <text class="t-sub halo" x="68" y="164">{m.sporen.run_tekst}</text>
+      <path class="s-run fade" d="M0 176 H1144" style="--t: 5s" />
+      {#each [250, 560, 880] as x, i}<circle class="p-run pop" cx={x} cy="176" r="10" style="--t: {5.3 + i * 0.15}s" />{/each}
+      <text class="t-kop run fade" x="0" y="164" style="--t: 5s">{m.sporen.run}</text>
+      <text class="t-sub halo fade" x="68" y="164" style="--t: 5.2s">{m.sporen.run_tekst}</text>
+      <!-- Een storing valt op de run en rijdt naar de servicedesk -->
+      <text class="t-sub fade" x="250" y="199" text-anchor="middle" style="--t: 8.6s">Servicedesk</text>
+      <circle class="storing-dot storing" cx="1000" cy="176" r="9" style="--t: 6.2s; --naar: -750px" />
     </svg>
   </figure>
 
@@ -197,6 +205,25 @@
   .t-sub {
     font-size: 14px;
     fill: var(--muted);
+  }
+  .overdracht {
+    fill: none;
+    stroke: var(--value);
+    stroke-width: 3;
+    stroke-linecap: round;
+  }
+  .overring {
+    fill: var(--surface);
+    stroke: var(--value);
+    stroke-width: 3;
+  }
+  .overdot {
+    fill: var(--value);
+  }
+  .storing-dot {
+    fill: var(--value);
+    stroke: var(--surface);
+    stroke-width: 3;
   }
   .halo {
     paint-order: stroke;

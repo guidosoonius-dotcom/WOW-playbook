@@ -9,7 +9,7 @@
   import Icoon from '../components/Icoon.svelte';
   import RolKiezer from '../components/RolKiezer.svelte';
   import BlokBadge from '../components/BlokBadge.svelte';
-  import { BLOKKEN } from '../lib/blokken.js';
+  import { BLOKKEN, VERHAAL } from '../lib/blokken.js';
 
   // Collega's op een kleurvlak, zoals op de welkomstslide van de huisstijl.
   const portretten = Object.values(import.meta.glob('../assets/fotos/portret-*.webp', { eager: true, import: 'default' }));
@@ -191,6 +191,9 @@
               <span class="blokkern">{blok.kern}</span>
             </div>
           </div>
+          {#if VERHAAL.includes(blok.id)}
+            <a class="verhaallink" href={href('blok/' + blok.id)}>Lees als één verhaal →</a>
+          {/if}
           <ul class="paginas">
             {#each blok.items as item}
               <li>
@@ -582,6 +585,20 @@
     font-size: 13px;
     line-height: 1.35;
     color: var(--muted);
+  }
+  .verhaallink {
+    align-self: flex-start;
+    padding: 8px 14px;
+    border-radius: 999px;
+    border: 1.5px solid var(--ink);
+    color: var(--ink);
+    font-size: 13.5px;
+    font-weight: 700;
+    text-decoration: none;
+  }
+  .verhaallink:hover {
+    background: var(--ink);
+    color: var(--bg);
   }
   .paginas {
     list-style: none;

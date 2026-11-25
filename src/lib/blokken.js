@@ -59,12 +59,40 @@ const BLOK_VAN = {
   waarom: 'A', uitgangspunten: 'A', model: 'A', transitie: 'A',
   manieren: 'B', teams: 'B', rollen: 'B', spelregels: 'B',
   portfolio: 'C', beslissen: 'C', ritme: 'C', implementatie: 'C', samenwerking: 'C',
-  sturen: 'D', doen: 'D', uitleg: 'D', woordenlijst: 'D', hulpmiddelen: 'D', templates: 'D', verbeteren: 'D'
+  sturen: 'D', doen: 'D', uitleg: 'D', hulpmiddelen: 'D', templates: 'D', verbeteren: 'D'
 };
 
 export function blokVoorRoute(parts) {
   const [a, b] = parts;
+  if (a === 'blok') return VERHAAL.includes(b) ? b : null;
   if (a === 'uitleg' && b === 'waardestroom') return 'B';
   return BLOK_VAN[a ?? ''] ?? null;
 }
 export const blokById = (id) => BLOKKEN.find((b) => b.id === id);
+
+// Hoort deze pagina (route als tekst) bij dit menu-item? Ook onderliggende pagina's tellen mee, zoals rollen/product-owner.
+export function itemActief(item, pad) {
+  if (pad === item.pad) return true;
+  if (item.pad === 'uitleg') return pad.startsWith('uitleg') && pad !== 'uitleg/waardestroom';
+  if (item.pad === 'doen/gereedschap') return pad.startsWith('doen/gereedschap');
+  return pad.startsWith(item.pad + '/');
+}
+
+// De pagina's van een blok die als één lang verhaal te lezen zijn.
+export const VERHAAL = ['A', 'B'];
+
+// Plek van een pagina in zijn blok, met de vorige en volgende pagina (de volgende kan in het volgende blok staan).
+export function plekInBlok(pad) {
+  const blok = BLOKKEN.find((b) => b.items.some((i) => itemActief(i, pad)));
+  if (!blok) return null;
+  const nr = blok.items.findIndex((i) => itemActief(i, pad));
+  const volgendBlok = BLOKKEN[BLOKKEN.indexOf(blok) + 1] ?? null;
+  return {
+    blok,
+    nr,
+    totaal: blok.items.length,
+    vorige: nr > 0 ? blok.items[nr - 1] : null,
+    volgende: nr < blok.items.length - 1 ? blok.items[nr + 1] : null,
+    volgendBlok: nr === blok.items.length - 1 ? volgendBlok : null
+  };
+}

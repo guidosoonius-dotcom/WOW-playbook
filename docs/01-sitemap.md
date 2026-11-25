@@ -49,6 +49,8 @@ Het menu en de pagina's volgen de blokken van de Way of Working. De indeling sta
 | **C · Besturen** | Portfolio en routes, Wie beslist wat?, Ritme, Implementatie (volgt), Samenwerking en demarcatie (volgt) | `content/data/portfolio.yaml`, `mandaten.yaml`, `beslismatrix.yaml`, `content/events/` |
 | **D · Ondersteunen** | Gereedschapskist, Hulpmiddelen en systemen, Templates, Sturen en financieren, Continu verbeteren, Dilemma's, Teamscan, Uitgelegd | `content/gereedschap/`, `content/data/hulpmiddelen.yaml`, `content/paginas/` (sturen, verbeteren, implementatie, samenwerking), `content/dilemmas/`, `content/uitleg/` |
 
+Blok A en B zijn ook als één lang verhaal te lezen (`#/blok/A` en `#/blok/B`). Elke pagina in een blok heeft tabs bovenaan en vorige en volgende onderaan (`BlokTabs`, `BlokVolgende`). Animaties staan in `src/styles/animaties.css` en beginnen zodra een onderdeel in beeld komt.
+
 Twee vormen voor verandering (vast team en project) en de run (ITSM) eronder. De combinatie van een project met vaste teams staat bewust nog niet in het playbook.
 
 ## Volledige sitemap
