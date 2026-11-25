@@ -1,6 +1,6 @@
 ---
 name: playbook-redacteur
-description: Redacteur voor het Samen Digitaal-playbook van Facilicom Groep. Gebruik deze skill als iemand het playbook wil aanvullen of bijwerken, of bronmateriaal (Word, PowerPoint, Teams, e-mail, notities) wil omzetten naar playbook-inhoud - rollen, events, dilemma's, uitlegpagina's, begrippen, besluiten of werkvormen. Levert kant-en-klare contentbestanden die door de contentcontrole van het playbook komen.
+description: Redacteur voor het Samen Digitaal-playbook van Facilicom Groep. Gebruik deze skill als iemand het playbook wil aanvullen of bijwerken, of bronmateriaal (Word, PowerPoint, Teams, e-mail, notities) wil omzetten naar playbook-inhoud - rollen, events, dilemma's, uitlegpagina's, begrippen, besluiten, werkvormen of de tekst van pagina's als Manieren van werken, Uitgangspunten, Spelregels, Teams, Portfolio en Templates. Levert kant-en-klare contentbestanden die door de contentcontrole van het playbook komen.
 ---
 
 # Playbook-redacteur Samen Digitaal
@@ -29,6 +29,39 @@ De inhoud staat als tekstbestanden (Markdown met een YAML-kopje) in de repositor
 - Leg SAFe-termen uit in eigen woorden; de originele term hoort in het veld `safe.term`.
 - Gebruik herkenbare voorbeelden uit de facilitaire dienstverlening (schoonmaak, beveiliging, catering, vastgoed, zorg), zonder namen van echte klanten of collega's.
 - Verzin geen cijfers, data of feiten. Schrijf `[volgt]` als iets nog onbekend is.
+
+## De opbouw van het playbook
+
+Het playbook volgt de vier blokken van de Way of Working. Elke pagina hoort bij één blok.
+
+**A · Richting** (Waarom we het doen en waar we ons aan houden): Waarom we kantelen (`waarom`), Uitgangspunten (`uitgangspunten`), Het model (`model`), De transitie (`transitie`)
+
+**B · Organiseren** (Hoe we werk en teams inrichten): Manieren van werken (`manieren`), Teams en teaminrichting (`teams`), Waardestromen (`uitleg/waardestroom`), Rollen (`rollen`), Spelregels (`spelregels`)
+
+**C · Besturen** (Hoe we kiezen, beslissen en samenwerken): Portfolio en routes (`portfolio`), Wie beslist wat? (`beslissen`), Ritme (`ritme`), Implementatie (`implementatie`) [volgt], Samenwerking en demarcatie (`samenwerking`) [volgt]
+
+**D · Ondersteunen** (Wat je nodig hebt om het te doen en te verbeteren): Gereedschapskist (`doen/gereedschap`), Hulpmiddelen en systemen (`hulpmiddelen`), Templates (`templates`), Sturen en financieren (`sturen`), Continu verbeteren (`verbeteren`), Dilemma's (`doen/dilemmas`), Teamscan (`doen/teamscan`), Uitgelegd (`uitleg`)
+
+Blok A en B zijn ook als één lang verhaal te lezen. Houd bij nieuwe inhoud de woorden uit het document aan: **Scrum Master** (niet Teamcoach), **Directeur (Business en) Digitale Transformatie** (niet Digital lead), **vast team** en **project** als de twee vormen voor verandering, en **de run** voor ITSM. Het **TOM-team** is een eigen teamsoort van de divisies. "Hybride werken" staat bewust nog niet in het playbook: schrijf daar niet over als over een aparte vorm.
+
+## Pagina's met tekst in een YAML-bestand
+
+Voor deze pagina's pas je de tekst aan in het bestaande bestand, in plaats van een nieuw bestand te maken. Vraag de gebruiker om de huidige tekst van het bestand te plakken en lever het hele bijgewerkte bestand terug.
+
+- `content/data/manieren.yaml`: Manieren van werken: de twee vormen, de vergelijking, de zes fasen, de run (ITSM) en de keuzehulp met haar uitkomsten.
+- `content/data/uitgangspunten.yaml`: Uitgangspunten (10), spelregels (12) en de drie regels bij de uitvoering.
+- `content/data/portfolio.yaml`: Portfolio en routes: de trechter, route 1 (vast team), route 2 (project) en de run.
+- `content/data/teams.yaml`: Teams en teaminrichting: blijvende en tijdelijke teams.
+- `content/data/rollengroepen.yaml`: Rollen in zes groepen. Een regel met `rol:` verwijst naar een bestaande rolpagina; een regel met `titel:` en `tekst:` is een rol zonder eigen pagina.
+- `content/data/mandaten.yaml`: Mandaten: wie waarover wel en niet beslist.
+- `content/data/hulpmiddelen.yaml`: Hulpmiddelen en systemen, en de templates. Een template met `werkvorm:` krijgt een knop naar de invulbare versie.
+- `content/paginas/`: Tekstpagina's in Markdown: sturen, verbeteren, implementatie en samenwerking (met `volgt: true` is het een "Volgt"-pagina).
+
+Let op bij deze bestanden:
+
+- Een komma of dubbele punt in een tekst tussen `{ }` knipt de tekst af. Zet zulke tekst altijd tussen aanhalingstekens.
+- De keuzehulp in `manieren.yaml` heeft precies zes vragen (`q1` tot en met `q6`). Een vraag toevoegen of weghalen vraagt een ontwikkelaar.
+- Teksten die het document nog niet geeft, schrijf je als `[volgt]` en verzin je niet.
 
 ## De sjablonen
 

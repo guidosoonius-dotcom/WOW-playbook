@@ -5,6 +5,7 @@ import { readFileSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { REGELS } from './content-plugin.js';
 import { ICONEN } from '../src/lib/iconen.js';
+import { BLOKKEN } from '../src/lib/blokken.js';
 
 const SJABLONEN = [
   ['rol', 'content/rollen/<id>.md', 'rol.md'],
@@ -59,6 +60,24 @@ function waarden(c) {
   return r.join('\n\n');
 }
 
+
+// De opbouw in vier blokken, uit src/lib/blokken.js.
+function opbouw() {
+  return BLOKKEN.map((b) => `**${b.id} · ${b.titel}** (${b.kern}): ` + b.items.map((i) => `${i.titel} (\`${i.pad}\`)${i.volgt ? ' [volgt]' : ''}`).join(', ')).join('\n\n');
+}
+
+// Pagina's waarvan de tekst in een YAML-bestand staat, en wat erin hoort.
+const YAML_PAGINAS = [
+  ['content/data/manieren.yaml', 'Manieren van werken: de twee vormen, de vergelijking, de zes fasen, de run (ITSM) en de keuzehulp met haar uitkomsten.'],
+  ['content/data/uitgangspunten.yaml', 'Uitgangspunten (10), spelregels (12) en de drie regels bij de uitvoering.'],
+  ['content/data/portfolio.yaml', 'Portfolio en routes: de trechter, route 1 (vast team), route 2 (project) en de run.'],
+  ['content/data/teams.yaml', 'Teams en teaminrichting: blijvende en tijdelijke teams.'],
+  ['content/data/rollengroepen.yaml', 'Rollen in zes groepen. Een regel met `rol:` verwijst naar een bestaande rolpagina; een regel met `titel:` en `tekst:` is een rol zonder eigen pagina.'],
+  ['content/data/mandaten.yaml', 'Mandaten: wie waarover wel en niet beslist.'],
+  ['content/data/hulpmiddelen.yaml', "Hulpmiddelen en systemen, en de templates. Een template met `werkvorm:` krijgt een knop naar de invulbare versie."],
+  ['content/paginas/', 'Tekstpagina\'s in Markdown: sturen, verbeteren, implementatie en samenwerking (met `volgt: true` is het een "Volgt"-pagina).']
+];
+
 const TOON = `- Altijd Nederlands. Spreek de lezer aan met *je* en *jij*.
 - Nuchter en concreet, zonder hype of buzzwords. Korte zinnen. Facilicom is "met beide benen op de grond".
 - Vertel de verandering als "wat we al zijn, nu ook in hoe we digitaal werken": samenwerken, continu verbeteren, de mens centraal.
@@ -85,7 +104,7 @@ export function maakSkill(c, root = process.cwd()) {
 
   const skill = `---
 name: playbook-redacteur
-description: Redacteur voor het Samen Digitaal-playbook van Facilicom Groep. Gebruik deze skill als iemand het playbook wil aanvullen of bijwerken, of bronmateriaal (Word, PowerPoint, Teams, e-mail, notities) wil omzetten naar playbook-inhoud - rollen, events, dilemma's, uitlegpagina's, begrippen, besluiten of werkvormen. Levert kant-en-klare contentbestanden die door de contentcontrole van het playbook komen.
+description: Redacteur voor het Samen Digitaal-playbook van Facilicom Groep. Gebruik deze skill als iemand het playbook wil aanvullen of bijwerken, of bronmateriaal (Word, PowerPoint, Teams, e-mail, notities) wil omzetten naar playbook-inhoud - rollen, events, dilemma's, uitlegpagina's, begrippen, besluiten, werkvormen of de tekst van pagina's als Manieren van werken, Uitgangspunten, Spelregels, Teams, Portfolio en Templates. Levert kant-en-klare contentbestanden die door de contentcontrole van het playbook komen.
 ---
 
 # Playbook-redacteur Samen Digitaal
@@ -109,6 +128,26 @@ De inhoud staat als tekstbestanden (Markdown met een YAML-kopje) in de repositor
 ## Toon en taal
 
 ${TOON}
+
+## De opbouw van het playbook
+
+Het playbook volgt de vier blokken van de Way of Working. Elke pagina hoort bij één blok.
+
+${opbouw()}
+
+Blok A en B zijn ook als één lang verhaal te lezen. Houd bij nieuwe inhoud de woorden uit het document aan: **Scrum Master** (niet Teamcoach), **Directeur (Business en) Digitale Transformatie** (niet Digital lead), **vast team** en **project** als de twee vormen voor verandering, en **de run** voor ITSM. Het **TOM-team** is een eigen teamsoort van de divisies. "Hybride werken" staat bewust nog niet in het playbook: schrijf daar niet over als over een aparte vorm.
+
+## Pagina's met tekst in een YAML-bestand
+
+Voor deze pagina's pas je de tekst aan in het bestaande bestand, in plaats van een nieuw bestand te maken. Vraag de gebruiker om de huidige tekst van het bestand te plakken en lever het hele bijgewerkte bestand terug.
+
+${YAML_PAGINAS.map(([f, w]) => `- \`${f}\`: ${w}`).join('\n')}
+
+Let op bij deze bestanden:
+
+- Een komma of dubbele punt in een tekst tussen \`{ }\` knipt de tekst af. Zet zulke tekst altijd tussen aanhalingstekens.
+- De keuzehulp in \`manieren.yaml\` heeft precies zes vragen (\`q1\` tot en met \`q6\`). Een vraag toevoegen of weghalen vraagt een ontwikkelaar.
+- Teksten die het document nog niet geeft, schrijf je als \`[volgt]\` en verzin je niet.
 
 ## De sjablonen
 
@@ -172,6 +211,11 @@ ${waarden(c)}
 
 Controleer elk bestand:
 ${CONTROLE}
+
+Het playbook heeft vier blokken:
+${opbouw()}
+
+Gebruik de woorden uit het document: Scrum Master, Directeur (Business en) Digitale Transformatie, vast team en project, en de run voor ITSM. Schrijf niet over hybride werken. De tekst van pagina's als Manieren van werken, Uitgangspunten, Spelregels, Teams, Portfolio en Templates staat in \`content/data/*.yaml\`; vraag voor een wijziging daar om de huidige tekst. Tekst met een komma of dubbele punt in een \`{ }\`-regel staat tussen aanhalingstekens.
 
 Past iets nergens, noem het dan apart aan het eind.
 

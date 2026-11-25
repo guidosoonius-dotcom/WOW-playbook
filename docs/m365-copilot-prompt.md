@@ -105,6 +105,17 @@ Controleer elk bestand:
 - Tekst met een dubbele punt in een YAML-veld staat tussen aanhalingstekens, bijvoorbeeld `kern: "Zo werkt het: kort en duidelijk."`
 - `status: concept`, `eigenaar: Programmateam Samen Digitaal` en `bijgewerkt` met de datum van vandaag (JJJJ-MM-DD).
 
+Het playbook heeft vier blokken:
+**A · Richting** (Waarom we het doen en waar we ons aan houden): Waarom we kantelen (`waarom`), Uitgangspunten (`uitgangspunten`), Het model (`model`), De transitie (`transitie`)
+
+**B · Organiseren** (Hoe we werk en teams inrichten): Manieren van werken (`manieren`), Teams en teaminrichting (`teams`), Waardestromen (`uitleg/waardestroom`), Rollen (`rollen`), Spelregels (`spelregels`)
+
+**C · Besturen** (Hoe we kiezen, beslissen en samenwerken): Portfolio en routes (`portfolio`), Wie beslist wat? (`beslissen`), Ritme (`ritme`), Implementatie (`implementatie`) [volgt], Samenwerking en demarcatie (`samenwerking`) [volgt]
+
+**D · Ondersteunen** (Wat je nodig hebt om het te doen en te verbeteren): Gereedschapskist (`doen/gereedschap`), Hulpmiddelen en systemen (`hulpmiddelen`), Templates (`templates`), Sturen en financieren (`sturen`), Continu verbeteren (`verbeteren`), Dilemma's (`doen/dilemmas`), Teamscan (`doen/teamscan`), Uitgelegd (`uitleg`)
+
+Gebruik de woorden uit het document: Scrum Master, Directeur (Business en) Digitale Transformatie, vast team en project, en de run voor ITSM. Schrijf niet over hybride werken. De tekst van pagina's als Manieren van werken, Uitgangspunten, Spelregels, Teams, Portfolio en Templates staat in `content/data/*.yaml`; vraag voor een wijziging daar om de huidige tekst. Tekst met een komma of dubbele punt in een `{ }`-regel staat tussen aanhalingstekens.
+
 Past iets nergens, noem het dan apart aan het eind.
 
 ---
