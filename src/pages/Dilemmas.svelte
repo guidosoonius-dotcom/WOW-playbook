@@ -24,7 +24,7 @@
 
 <div class="container">
   <PaginaKop
-    eyebrow="Aan de slag · Oefenen"
+    blok="D"
     titel="Dilemma's: wat doe jij?"
     kern="Herkenbare situaties uit de praktijk. Kies wat jij zou doen en ontdek waarom."
     status="concept"

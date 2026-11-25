@@ -1,36 +1,119 @@
 <script>
-  import content from '../lib/content.js';
+  import content, { rolById } from '../lib/content.js';
   import { href } from '../lib/router.svelte.js';
   import { prefs } from '../lib/state.svelte.js';
   import PaginaKop from '../components/PaginaKop.svelte';
   import RolIcoon from '../components/RolIcoon.svelte';
+
+  const rg = content.rollengroepen;
+  let groep = $state('alle');
+  const zichtbaar = $derived(rg.groepen.filter((g) => groep === 'alle' || g.id === groep));
+  const totaal = rg.groepen.reduce((n, g) => n + g.rollen.length, 0);
 </script>
 
 <div class="container">
-  <PaginaKop rood eyebrow="3 · Rollen" titel="Wie doet wat?" kern="Zeven rollen, van divisie tot productteam. Per rol zie je wat je doet, wat je niet meer doet en met wie je samenwerkt." />
+  <PaginaKop rood blok="B" titel="Rollen" kern="Rollen in het team en eromheen." samenvatting={rg.intro} status="concept" />
 
-  {#each content.lagen as laag}
-    {@const rollen = content.rollen.filter((r) => r.laag === laag.id)}
-    {#if rollen.length}
-      <section class="sectie" aria-labelledby="laag-{laag.id}">
-        <h2 id="laag-{laag.id}">{laag.titel}</h2>
-        <ul class="raster">
-          {#each rollen as rol}
-            <li>
-              <a class="rolkaart" class:mijn={prefs.rol === rol.id} href={href('rollen/' + rol.id)}>
-                <span class="icoon"><RolIcoon rol={rol.id} size={26} /></span>
-                <strong>{rol.titel}{#if prefs.rol === rol.id}<span class="jij">jouw rol</span>{/if}</strong>
-                <span>{rol.kern}</span>
+  <div class="chips" role="group" aria-label="Filter op groep">
+    <button type="button" class="chip" class:aan={groep === 'alle'} aria-pressed={groep === 'alle'} onclick={() => (groep = 'alle')}>{rg.alle} <span>{totaal}</span></button>
+    {#each rg.groepen as g}
+      <button type="button" class="chip" class:aan={groep === g.id} aria-pressed={groep === g.id} onclick={() => (groep = g.id)}>{g.titel} <span>{g.rollen.length}</span></button>
+    {/each}
+  </div>
+
+  {#each zichtbaar as g}
+    <section class="sectie" aria-labelledby="groep-{g.id}">
+      <h2 id="groep-{g.id}">{g.titel}</h2>
+      <ul class="raster">
+        {#each g.rollen as r}
+          {@const bestaand = r.rol ? rolById(r.rol) : null}
+          <li>
+            {#if bestaand}
+              <a class="rolkaart" class:mijn={prefs.rol === bestaand.id} href={href('rollen/' + bestaand.id)}>
+                <span class="icoon"><RolIcoon rol={bestaand.id} size={26} /></span>
+                <strong>{bestaand.titel}{#if prefs.rol === bestaand.id}<span class="jij">jouw rol</span>{/if}</strong>
+                <span>{bestaand.kern}</span>
               </a>
-            </li>
-          {/each}
-        </ul>
-      </section>
-    {/if}
+            {:else}
+              <div class="rolkaart zonder">
+                <span class="icoon klein" aria-hidden="true">{r.titel.slice(0, 1)}</span>
+                <strong>{r.titel}</strong>
+                <span>{r.tekst}</span>
+                <small>Eigen rolpagina volgt</small>
+              </div>
+            {/if}
+          </li>
+        {/each}
+      </ul>
+    </section>
   {/each}
+
+  <section class="specialismen card">
+    <h2>{rg.specialismen.titel}</h2>
+    <p>{rg.specialismen.tekst}</p>
+  </section>
 </div>
 
 <style>
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 24px 0 8px;
+  }
+  .chip {
+    min-height: 44px;
+    padding: 0 18px;
+    border-radius: 999px;
+    border: 1.5px solid transparent;
+    background: var(--surface);
+    color: var(--ink);
+    font: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .chip span {
+    opacity: 0.65;
+    margin-left: 4px;
+  }
+  .chip:hover {
+    background: var(--panel);
+  }
+  .chip.aan {
+    background: var(--line1);
+    color: var(--on-line1);
+  }
+  .rolkaart.zonder {
+    cursor: default;
+  }
+  .rolkaart.zonder:hover {
+    background: var(--surface);
+  }
+  .icoon.klein {
+    font-weight: 800;
+    font-size: 18px;
+  }
+  small {
+    margin-top: auto;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+  }
+  .specialismen {
+    margin-top: 28px;
+    padding: 22px 26px;
+  }
+  .specialismen h2 {
+    margin: 0 0 8px;
+    font-size: 20px;
+    letter-spacing: -0.02em;
+  }
+  .specialismen p {
+    margin: 0;
+    line-height: 1.6;
+    color: var(--muted);
+  }
   ul {
     list-style: none;
     margin: 0;

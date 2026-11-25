@@ -7,7 +7,7 @@ kern: Het operating model als metrokaart, in vijf stappen.
 duur: 1 min
 stappen:
   - titel: Het portfolio bepaalt de koers
-    tekst: "De Digital Leads kiezen samen waarin we investeren: welke epics, met welk budget en binnen welke kaders."
+    tekst: "De Directeuren Digitale Transformatie kiezen samen waarin we investeren: welke epics, met welk budget en binnen welke kaders."
   - titel: Waardestromen zijn de lijnen
     tekst: Elke lijn laat zien hoe waarde naar klant en collega stroomt, bijvoorbeeld van contract tot factuur.
   - titel: Productteams zijn de stations

@@ -8,7 +8,7 @@ laag: productgroep
 explainer: pi-planning
 kern: Twee dagen waarin alle teams van een productgroep samen het komende kwartaal plannen.
 samenvatting: >
-  De PI-planning is het hart van het ritme. Alle teams van de productgroep, met Digital Lead, Product Manager
+  De PI-planning is het hart van het ritme. Alle teams van de productgroep, met Directeur Digitale Transformatie, Product Manager
   en Architect, plannen in twee dagen het komende planningsinterval en maken afhankelijkheden zichtbaar.
 wanneer: Begin van elk kwartaal
 duur: 2 dagen

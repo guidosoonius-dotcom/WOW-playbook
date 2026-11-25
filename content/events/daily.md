@@ -21,7 +21,7 @@ goed_als:
   - Het gesprek gaat over het doel, niet over ieders takenlijst
   - Blokkades worden direct na de daily opgepakt
 valkuilen:
-  - Een statusrapportage aan de Team Coach of PO
+  - Een statusrapportage aan de Scrum Master of PO
   - Inhoudelijke discussies tijdens de daily
 facilitatietips:
   - Loop het bord van rechts naar links door, het werk dat bijna af is eerst

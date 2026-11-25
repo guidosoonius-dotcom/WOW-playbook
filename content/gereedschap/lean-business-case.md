@@ -18,4 +18,4 @@ bijgewerkt: 2026-11-22
 ---
 Een lean business case past op twee pagina's. Hij beschrijft geen volledig plan, maar een **hypothese** die je met een **MVP** zo snel mogelijk toetst.
 
-Schrijf de hypothese zo dat je achteraf kunt zeggen of hij klopt: wat verwachten we, en waaraan meten we het? Na de MVP besluit de Digital Lead, op advies van de Epic Owner: doorgaan, bijsturen of stoppen.
+Schrijf de hypothese zo dat je achteraf kunt zeggen of hij klopt: wat verwachten we, en waaraan meten we het? Na de MVP besluit de Directeur Digitale Transformatie, op advies van de Epic Owner: doorgaan, bijsturen of stoppen.

@@ -58,7 +58,13 @@ export function titelVoorRoute(path) {
     'doen/teamscan': 'Teamscan',
     'doen/gereedschap': 'Gereedschapskist',
     transitie: 'De transitie',
-    uitleg: 'Uitgelegd'
+    uitleg: 'Uitgelegd',
+    uitgangspunten: 'Uitgangspunten',
+    spelregels: 'Spelregels',
+    manieren: 'Manieren van werken',
+    'manieren/keuzehulp': 'Keuzehulp: welke vorm past?',
+    teams: 'Teams en teaminrichting',
+    portfolio: 'Portfolio en routes'
   };
   return paginaById(a)?.titel ?? vast[path] ?? vast[a] ?? path;
 }

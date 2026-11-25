@@ -19,7 +19,7 @@
 </script>
 
 <div class="container">
-  <PaginaKop rood eyebrow="6 · Aan de slag" titel="Aan de slag" kern="Van lezen naar doen: oefenen, samen reflecteren en weten waar je staat." />
+  <PaginaKop rood blok="D" titel="Aan de slag" kern="Van lezen naar doen: oefenen, samen reflecteren en weten waar je staat." />
 
   <ul class="tegels">
     {#each tegels as t}

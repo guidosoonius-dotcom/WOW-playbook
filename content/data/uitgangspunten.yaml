@@ -1,0 +1,57 @@
+# Pagina's "Uitgangspunten" (blok A) en "Spelregels" (blok B). Alleen tekst.
+uitgangspunten:
+  titel: Uitgangspunten
+  kern: Tien afspraken waar alles in dit playbook op rust.
+  lead: Ze helpen om keuzes te maken als de regels niet precies zeggen wat je moet doen.
+  missie_label: Onze missie
+  missie: Samen werken aan een betere leefomgeving voor iedereen.
+  kompas_label: Ons gedragskompas
+  kompas: [Samenwerken, Eigenaarschap, Elke dag beter]
+  punten:
+    - { titel: Waarde vóór activiteit, tekst: "We starten bij het probleem, de gewenste uitkomst en de doelgroep. Opleveren is niet hetzelfde als waarde realiseren." }
+    - { titel: "Eén portfolio, meerdere uitvoeringsvormen", tekst: "Projecten, epics, O&I-initiatieven en relevante changes worden in samenhang afgewogen." }
+    - { titel: Kies de lichtste passende werkwijze, tekst: Niet ieder idee wordt een project en niet ieder initiatief hoort op een backlog. }
+    - { titel: Eigenaarschap blijft bij de business, tekst: "Specialisten ondersteunen en toetsen; zij nemen het inhoudelijk eigenaarschap niet over." }
+    - { titel: Vaste teams waar waarde blijvend is, tekst: "Product- en platformteams combineren bouwen, beheren en verbeteren." }
+    - { titel: Tijdelijke projecten waar afbakening dominant is, tekst: "Projectmatig werken blijft passend bij tijdelijke, voorspelbare en governance-intensieve opgaven." }
+    - { titel: Samenhang vóór lokale optimalisatie, tekst: "Waardestromen, architectuur, data en afhankelijkheden worden vroeg meegenomen." }
+    - { titel: Beslissen op bewijs, tekst: "Portfolio- en projectbesluiten gebruiken actuele waarde-, risico- en capaciteitsinformatie." }
+    - { titel: "Groepsstandaard, lokale invulling", tekst: "Proces, taal en minimuminformatie zijn uniform; mandaat en overlegvorm kunnen waar afgesproken per divisie verschillen." }
+    - { titel: Leren en verbeteren is onderdeel van het werk, tekst: "Teams, processen en dit playbook worden periodiek geëvalueerd en aangepast." }
+
+spelregels:
+  titel: Spelregels
+  kern: De minimumstandaard voor de hele Groep.
+  lead: >
+    Een aantal spelregels waar we ons aan houden om deze manier van werken goed toe te passen. Ze vormen de
+    minimumstandaard voor de hele Groep. De precieze werkwijze kan per route, team en context verschillen, zolang
+    deze spelregels worden gevolgd.
+  regels:
+    - Elk initiatief heeft een eigenaar, een duidelijk probleem of kans, een doel, een doelgroep en een verwacht resultaat.
+    - Werk boven de afgesproken drempel wordt via de gezamenlijke intake zichtbaar gemaakt. Werk gaat niet rechtstreeks van aanvraag naar realisatie, maar wordt eerst beoordeeld en geprioriteerd.
+    - "Per informatietype werken we in de afgesproken bron: het portfoliomanagementsysteem, het backlogmanagementsysteem of het IT-servicemanagementsysteem. Blue Dolphin ondersteunt waardestromen, architectuur, processen en systemen."
+    - Prioriteit wordt niet lokaal omzeild door werk rechtstreeks bij een team neer te leggen. Ieder product- en platformteam werkt vanuit één geprioriteerde backlog.
+    - "Architectuur, data, security, privacy, juridische eisen en compliance worden vroeg betrokken, op basis van impact."
+    - Capaciteit is een expliciet besliscriterium, geen veronderstelling.
+    - "Bij ieder substantieel initiatief worden implementatie, adoptie, beheer en waardemeting meegenomen, passend bij omvang en impact."
+    - Teams maken gerealiseerde resultaten regelmatig zichtbaar aan gebruikers en stakeholders. Feedback uit gebruik gaat mee in prioritering en verbetering.
+    - Standaarden, bestaande oplossingen en bouwblokken worden hergebruikt waar dat past. Voor maatwerk kies je bewust, wanneer het aantoonbaar meer waarde oplevert.
+    - Afwijkingen van groepsstandaarden zijn expliciet, gemotiveerd, tijdelijk waar mogelijk en traceerbaar. Ze worden in overleg met de Scrum Master besloten.
+    - Stoppen of bijstellen is een valide uitkomst als bewijs of waarde ontbreekt.
+    - Besluiten, aannames en afhankelijkheden worden vastgelegd in het systeem dat bij het niveau hoort.
+  uitvoering:
+    label: Bij de uitvoering
+    titel: Drie regels tussen project en productteam
+    punten:
+      - { titel: Eén backlog per productteam., tekst: "Portfolio-initiatieven, projectwerk, beheer, bugs en verbeteringen komen daarin samen." }
+      - { titel: Geen werk buiten de afgesproken prioriteiten om., tekst: Een projectmanager legt niet rechtstreeks werk bij een team neer. Niemand duwt zelfstandig extra werk een sprint in. }
+      - { titel: Bij verdringing beslist het oorspronkelijke besluitniveau., tekst: Bij een conflict tussen een projectdeadline en bestaand geprioriteerd teamwerk beslist portfolio wat voorgaat. }
+    verdringing_label: Zo werkt verdringing
+    verdringing_links: Projectdeadline
+    verdringing_tegen: tegen
+    verdringing_rechts: Bestaand teamwerk
+    verdringing_uitkomst: Portfolio beslist welke prioriteit voorgaat
+  principes:
+    label: Volgt
+    titel: Zeven cultuur- en werkprincipes
+    tekst: In het document staat hier een visual die in deze versie ontbreekt. Zodra de principes er zijn, komen ze hier.

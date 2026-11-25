@@ -18,6 +18,6 @@ bijgewerkt: 2026-11-22
 ---
 **Voor de PI-planning** berekent elk team zijn capaciteit: hoeveel dagen zijn er echt beschikbaar, na vakanties en beheerwerk? Plan niet meer dan ongeveer 80% daarvan vol.
 
-**In de PI-planning** schrijft elk team zijn PI-doelen. De Digital Lead geeft elk doel een businesswaarde van 1 tot 10.
+**In de PI-planning** schrijft elk team zijn PI-doelen. De Directeur Digitale Transformatie geeft elk doel een businesswaarde van 1 tot 10.
 
 **Bij Inspect & Adapt** vul je in hoeveel waarde er echt is geleverd. De verhouding tussen gepland en gehaald is de voorspelbaarheid; rond de 80% is gezond.

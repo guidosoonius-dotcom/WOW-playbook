@@ -9,7 +9,7 @@
 
 <div class="container">
   <PaginaKop
-    eyebrow="Aan de slag · Transitie"
+    blok="A"
     titel="De transitie"
     kern="We kantelen in fasen. Zo zie je waar we staan, wat er komt en wanneer het jou raakt."
     status="concept"

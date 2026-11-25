@@ -9,14 +9,14 @@ kern: Jij neemt een groot idee mee van de trechter tot een werkende MVP, en bewa
 samenvatting: >
   De Epic Owner is geen functie maar een rol die je voor één epic op je neemt, naast je eigen werk. Je werkt de
   lean business case uit, verdedigt de epic in het portfolio-overleg en helpt de productgroep bij de uitvoering.
-  Na de MVP beslis je samen met de Digital Lead: doorgaan, bijsturen of stoppen.
+  Na de MVP beslis je samen met de Directeur Digitale Transformatie: doorgaan, bijsturen of stoppen.
 in_een_zin: Jij zorgt dat een groot idee een toetsbare hypothese wordt, en dat we op tijd weten of het werkt.
 verantwoordelijkheden:
   - Werkt de lean business case uit, met hypothese, MVP en kosten
   - Presenteert de epic in het portfolio-overleg
   - Vertaalt de epic samen met de Product Manager naar features voor de PI-planning
   - Volgt na de livegang van de MVP of de hypothese klopt
-  - Adviseert de Digital Lead over doorgaan, bijsturen of stoppen
+  - Adviseert de Directeur Digitale Transformatie over doorgaan, bijsturen of stoppen
 niet_meer:
   - Je schrijft geen dik projectplan of volledig programma van eisen vooraf
   - Je bent geen projectleider die het werk van teams aanstuurt

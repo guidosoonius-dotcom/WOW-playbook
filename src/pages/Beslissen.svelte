@@ -23,7 +23,7 @@
 
 <div class="container">
   <PaginaKop
-    eyebrow="3 · Rollen"
+    blok="C"
     titel="Wie beslist wat?"
     kern="Per besluit één rol die beslist. Zo weet iedereen bij wie hij moet zijn, en hoeft niemand op toestemming te wachten."
     status="concept"
@@ -108,6 +108,32 @@
   </ul>
 
   {#if !rijen.length}<p>Geen besluiten voor deze selectie.</p>{/if}
+
+  <!-- Mandaten: per rol waarover wel en niet wordt beslist. -->
+  <section class="mandaten" aria-labelledby="mandaten-kop">
+    <h2 id="mandaten-kop">{content.mandaten.titel}</h2>
+    <p class="mlead">{content.mandaten.lead}</p>
+    <div class="mtabel">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">{content.mandaten.kolommen.wie}</th>
+            <th scope="col">{content.mandaten.kolommen.over}</th>
+            <th scope="col">{content.mandaten.kolommen.niet}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {#each content.mandaten.rijen as r}
+            <tr>
+              <th scope="row">{r.wie}</th>
+              <td>{r.over}</td>
+              <td>{r.niet}</td>
+            </tr>
+          {/each}
+        </tbody>
+      </table>
+    </div>
+  </section>
 </div>
 
 <style>
@@ -253,5 +279,57 @@
     .kaarten {
       display: flex;
     }
+  }
+  .mandaten {
+    margin-top: 48px;
+  }
+  .mandaten h2 {
+    margin: 0 0 8px;
+    font-size: 28px;
+    letter-spacing: -0.025em;
+  }
+  .mlead {
+    margin: 0 0 16px;
+    max-width: 72ch;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+  .mtabel {
+    overflow-x: auto;
+    border-radius: 22px;
+    background: var(--surface);
+  }
+  .mtabel table {
+    width: 100%;
+    min-width: 720px;
+    border-collapse: collapse;
+  }
+  .mtabel thead th {
+    padding: 14px 22px;
+    text-align: left;
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #fff;
+    background: var(--vlak-blauw);
+  }
+  .mtabel tbody th,
+  .mtabel tbody td {
+    padding: 16px 22px;
+    border-bottom: 1px solid var(--border);
+    text-align: left;
+    vertical-align: top;
+    font-size: 14.5px;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+  .mtabel tbody th {
+    width: 24%;
+    color: var(--ink);
+    background: var(--chip);
+  }
+  .mtabel tbody tr:last-child th,
+  .mtabel tbody tr:last-child td {
+    border-bottom: 0;
   }
 </style>

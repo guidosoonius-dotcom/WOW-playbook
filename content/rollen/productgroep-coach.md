@@ -7,7 +7,7 @@ niveau_label: Productgroep
 laag: productgroep
 kern: Jij houdt de productgroep in het ritme en zorgt dat alle teams samen kunnen plannen, opleveren en verbeteren.
 samenvatting: >
-  De Productgroepcoach is voor de productgroep wat de Team Coach is voor een team. Je organiseert de PI-planning,
+  De Productgroepcoach is voor de productgroep wat de Scrum Master is voor een team. Je organiseert de PI-planning,
   de productgroep-sync en Inspect & Adapt, maakt afhankelijkheden en risico's zichtbaar en haalt blokkades weg
   die teams niet zelf kunnen oplossen.
 in_een_zin: Jij zorgt dat alle teams in de productgroep in hetzelfde ritme werken en elkaar niet ophouden.
@@ -16,7 +16,7 @@ verantwoordelijkheden:
   - Leidt de wekelijkse productgroep-sync en houdt het programmabord actueel
   - Maakt afhankelijkheden en risico's zichtbaar en zorgt dat iemand ze oppakt
   - Begeleidt Inspect & Adapt en volgt de verbeteracties op
-  - Coacht Team Coaches, Product Owners en de Product Manager in de werkwijze
+  - Coacht Scrum Masters, Product Owners en de Product Manager in de werkwijze
 niet_meer:
   - Je bent geen projectmanager die taken verdeelt of uren bijhoudt
   - Je beslist niet over wat er gebouwd wordt; dat doen de Product Manager en Product Owners

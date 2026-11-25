@@ -3,9 +3,9 @@
 // - pad: de plek in de content, bijv. ['rollen', { id: 'product-owner' }, 'kern'] of ['begrippen', { id: 'wsjf' }, 'uitleg'];
 // - soort: 'tekst' (een veld) of 'html' (lopende tekst; blokken = [{ oud, nieuw }] per alinea, voor het bronbestand).
 
-const ONDERDELEN = ['rollen', 'events', 'lagen', 'paginas', 'explainers', 'dilemmas', 'uitleg', 'werkvormen', 'begrippen', 'verschuivingen', 'routes', 'changelog', 'beslismatrix', 'teamscan', 'transitie', 'start'];
+const ONDERDELEN = ['rollen', 'events', 'lagen', 'paginas', 'explainers', 'dilemmas', 'uitleg', 'werkvormen', 'begrippen', 'verschuivingen', 'routes', 'changelog', 'beslismatrix', 'teamscan', 'transitie', 'start', 'manieren', 'uitgangspunten', 'portfolio', 'teams', 'rollengroepen', 'mandaten'];
 // Velden die geen lopende tekst zijn (id's, codes, verwijzingen).
-const OVERSLAAN = new Set(['id', 'type', 'status', 'eigenaar', 'bijgewerkt', 'icoon', 'scene', 'laag', 'cadans', 'categorie', 'niveau', 'rol', 'event', 'route', 'rol_id', 'explainer', 'soort', 'kwaliteit', 'groep', 'bron', 'volgorde', 'datum', 'versie', 'tijd', 'verwijst_naar', 'rollen', 'wie', 'bij', 'voor_wie', 'fase', 'beschikbaar', 'synoniemen', 'safe_term']);
+const OVERSLAAN = new Set(['id', 'type', 'status', 'eigenaar', 'bijgewerkt', 'icoon', 'scene', 'laag', 'cadans', 'categorie', 'niveau', 'rol', 'event', 'route', 'rol_id', 'explainer', 'soort', 'kwaliteit', 'groep', 'bron', 'volgorde', 'datum', 'versie', 'tijd', 'verwijst_naar', 'rollen', 'wie', 'bij', 'voor_wie', 'fase', 'beschikbaar', 'synoniemen', 'safe_term', 'nr', 'accent', 'streep', 'plek_id']);
 
 export const norm = (s) => String(s ?? '').replace(/\s+/g, ' ').trim();
 

@@ -15,7 +15,7 @@ const shots = shotsIdx > -1 ? process.argv[shotsIdx + 1] : null;
 if (shots) mkdirSync(shots, { recursive: true });
 
 const ROUTES = [
-  '', 'waarom', 'model', 'rollen', 'rollen/digital-lead', 'rollen/product-owner', 'ritme',
+  '', 'waarom', 'uitgangspunten', 'spelregels', 'manieren', 'manieren/keuzehulp', 'teams', 'portfolio', 'model', 'rollen', 'rollen/digital-lead', 'rollen/product-owner', 'ritme',
   'ritme/pi-planning', 'ritme/daily', 'sturen', 'woordenlijst', 'woordenlijst/wsjf', 'over', 'beslissen', 'doen',
   'doen/dilemmas', 'doen/teamscan', 'transitie', 'uitleg', 'uitleg/waardestroom', 'uitleg/productteam',
   'uitleg/epics-features-stories', 'doen/gereedschap', 'doen/gereedschap/wsjf', 'doen/gereedschap/teamcharter',
@@ -167,10 +167,68 @@ for (const [naam, viewport] of [['desktop', { width: 1440, height: 900 }], ['mob
   await page.close();
 }
 
+// Menu met vier blokken en de nieuwe pagina's, op een laptop en op een telefoon.
+for (const [naam, viewport] of [['laptop', { width: 1280, height: 720 }], ['telefoon', { width: 390, height: 800 }]]) {
+  const page = await browser.newPage({ viewport });
+  page.on('pageerror', (e) => fouten.push(`[${naam}] pageerror: ${e.message}`));
+  await page.goto(file);
+  await page.waitForTimeout(300);
+  const knoppen = await page.locator('header nav button.blok').count();
+  if (knoppen !== 4) fouten.push(`[${naam}] menu: ${knoppen} blokken in plaats van 4`);
+  if (naam === 'laptop') {
+    const afgekapt = await page.evaluate(() => {
+      const ul = document.querySelector('header nav > ul');
+      return ul.scrollWidth > ul.clientWidth + 1;
+    });
+    if (afgekapt) fouten.push('[laptop] menu: de blokken passen niet naast het logo');
+  }
+  await page.locator('header nav button.blok[data-blok="B"]').click();
+  const items = await page.locator('#blok-B .items a').count();
+  if (items !== 5) fouten.push(`[${naam}] menu: blok B heeft ${items} pagina's in plaats van 5`);
+  const buiten = await page.evaluate(() => {
+    const r = document.querySelector('#blok-B').getBoundingClientRect();
+    return r.left < -1 || r.right > innerWidth + 1;
+  });
+  if (buiten) fouten.push(`[${naam}] menu: het paneel valt buiten het scherm`);
+  await page.keyboard.press('Escape');
+  if (await page.locator('#blok-B').count()) fouten.push(`[${naam}] menu: Esc sluit het paneel niet`);
+  await page.locator('header nav button.blok[data-blok="B"]').click();
+  await page.locator('#blok-B .items a', { hasText: 'Manieren van werken' }).click();
+  await page.waitForTimeout(250);
+  if (!(await page.evaluate(() => location.hash)).endsWith('/manieren')) fouten.push(`[${naam}] menu: klik op Manieren van werken navigeert niet`);
+  if (await page.locator('#blok-B').count()) fouten.push(`[${naam}] menu: paneel blijft open na navigeren`);
+
+  // Keuzehulp: vast team, project, servicedesk en "Weet ik niet".
+  const kies = async (id, w) => page.locator('#keuzehulp fieldset', { hasText: id }).locator('.opties button').nth(w).click();
+  const uitkomst = async () => (await page.locator('#keuzehulp .uitkomst h3').textContent())?.trim();
+  if ((await uitkomst()) !== 'Nog niet bekend') fouten.push(`[${naam}] keuzehulp: begint niet leeg`);
+  for (const [q, w] of [['Blijft de waarde bestaan', 0], ['Is er al een team', 0], ['Weet je vooraf', 0], ['harde einddatum', 0], ['bestaand team dat er capaciteit', 0], ['formele besluitmomenten', 0]]) await kies(q, w);
+  if ((await uitkomst()) !== 'Vast team') fouten.push(`[${naam}] keuzehulp: allemaal blijvend geeft "${await uitkomst()}" in plaats van Vast team`);
+  for (const [q, w] of [['Blijft de waarde bestaan', 1], ['Is er al een team', 1], ['Weet je vooraf', 1], ['harde einddatum', 1], ['bestaand team dat er capaciteit', 1], ['formele besluitmomenten', 1]]) await kies(q, w);
+  if ((await uitkomst()) !== 'Project') fouten.push(`[${naam}] keuzehulp: allemaal tijdelijk geeft "${await uitkomst()}" in plaats van Project`);
+  for (const [q, w] of [['Blijft de waarde bestaan', 2], ['Is er al een team', 2], ['Weet je vooraf', 2]]) await kies(q, w);
+  if ((await uitkomst()) !== 'Gemengd beeld' && (await uitkomst()) !== 'Eerst verduidelijken') fouten.push(`[${naam}] keuzehulp: drie keer "weet ik niet" geeft "${await uitkomst()}"`);
+  await page.locator('#keuzehulp fieldset', { hasText: 'storing of een serviceverzoek' }).locator('.opties button').first().click();
+  if ((await uitkomst()) !== 'Servicedesk') fouten.push(`[${naam}] keuzehulp: storing geeft "${await uitkomst()}" in plaats van Servicedesk`);
+  await page.getByRole('button', { name: 'Opnieuw beginnen' }).click();
+  if ((await uitkomst()) !== 'Nog niet bekend') fouten.push(`[${naam}] keuzehulp: opnieuw beginnen wist niet`);
+
+  // Rollen filteren op groep.
+  await page.evaluate(() => (location.hash = '#/rollen'));
+  await page.waitForTimeout(250);
+  const alle = await page.locator('main .rolkaart').count();
+  await page.getByRole('button', { name: /^Project en programma/ }).click();
+  const twee = await page.locator('main .rolkaart').count();
+  if (alle < 20 || twee !== 2) fouten.push(`[${naam}] rollen: ${alle} kaarten in totaal en ${twee} bij Project en programma (verwacht 2)`);
+  const overloop = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+  if (overloop > 1) fouten.push(`[${naam}] rollen: ${overloop}px horizontaal scrollen`);
+  await page.close();
+}
+
 await browser.close();
 
 if (fouten.length) {
   console.error(`✗ ${fouten.length} probleem/problemen:\n  ${fouten.join('\n  ')}`);
   process.exit(1);
 }
-console.log(`✓ Rooktest geslaagd (${ROUTES.length} routes × 2 schermformaten, explainer, rolkeuze, zoeken, dilemma, teamscan, beslismatrix, uitleg, gereedschap)`);
+console.log(`✓ Rooktest geslaagd (${ROUTES.length} routes × 2 schermformaten, explainer, rolkeuze, zoeken, dilemma, teamscan, beslismatrix, uitleg, gereedschap, menu met vier blokken, keuzehulp, rollen)`);

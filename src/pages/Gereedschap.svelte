@@ -23,7 +23,7 @@
 </script>
 
 <div class="container">
-  <PaginaKop rood eyebrow="Aan de slag" titel="Gereedschapskist" kern="Werkvormen om samen in te vullen, in een sessie of zelfstandig. Je werk blijft bewaard in deze browser; deel het als PDF, Word of tekst." />
+  <PaginaKop rood blok="D" titel="Gereedschapskist" kern="Werkvormen om samen in te vullen, in een sessie of zelfstandig. Je werk blijft bewaard in deze browser; deel het als PDF, Word of tekst." />
 
   {#if verder.length}
     <section class="verder" aria-labelledby="verder-kop">

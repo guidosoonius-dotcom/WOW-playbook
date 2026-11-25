@@ -26,6 +26,11 @@
   import Transitie from './pages/Transitie.svelte';
   import Gereedschap from './pages/Gereedschap.svelte';
   import Werkvorm from './pages/Werkvorm.svelte';
+  import Uitgangspunten from './pages/Uitgangspunten.svelte';
+  import Spelregels from './pages/Spelregels.svelte';
+  import Manieren from './pages/Manieren.svelte';
+  import Teams from './pages/Teams.svelte';
+  import Portfolio from './pages/Portfolio.svelte';
   import { href } from './lib/router.svelte.js';
   import Redactie from './components/Redactie.svelte';
   import { redactie } from './lib/redactie.svelte.js';
@@ -38,6 +43,11 @@
     const [a = '', b, c] = route.parts;
     if (a === '' && !b) return { comp: Start, titel: null };
     if (a === 'waarom' && !b) return { comp: Waarom, titel: 'Waarom we kantelen' };
+    if (a === 'uitgangspunten' && !b) return { comp: Uitgangspunten, titel: 'Uitgangspunten' };
+    if (a === 'spelregels' && !b) return { comp: Spelregels, titel: 'Spelregels' };
+    if (a === 'manieren' && (!b || (b === 'keuzehulp' && !c))) return { comp: Manieren, titel: 'Manieren van werken' };
+    if (a === 'teams' && !b) return { comp: Teams, titel: 'Teams en teaminrichting' };
+    if (a === 'portfolio' && !b) return { comp: Portfolio, titel: 'Portfolio en routes' };
     if (a === 'model' && !b) return { comp: Model, titel: 'Het model' };
     if (a === 'rollen' && !b) return { comp: Rollen, titel: 'Rollen' };
     if (a === 'rollen' && rolById(b)) return { comp: Rol, props: { id: b }, titel: rolById(b).titel };
@@ -77,7 +87,7 @@
 <Header onzoek={() => (zoekOpen = true)} />
 
 <main id="inhoud" tabindex="-1">
-  {#key route.parts.join('/') + '|' + versie}
+  {#key (route.parts[0] === 'manieren' ? 'manieren' : route.parts.join('/')) + '|' + versie}
     <pagina.comp {...pagina.props ?? {}} />
   {/key}
 </main>

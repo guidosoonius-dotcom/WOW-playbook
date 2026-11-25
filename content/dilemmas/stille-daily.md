@@ -6,7 +6,7 @@ kern: Iedereen vertelt aan jou wat hij gisteren deed. Grijp je in?
 situatie: >
   De daily duurt al weken 30 minuten. Teamleden kijken tijdens hun beurt naar jou en somt op wat ze
   gisteren hebben gedaan. Blokkades komen nauwelijks ter sprake.
-vraag: Wat doe jij als Team Coach?
+vraag: Wat doe jij als Scrum Master?
 opties:
   - tekst: Je laat het zo; zolang iedereen bijgepraat is, is het goed.
     kwaliteit: valkuil

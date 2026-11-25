@@ -7,7 +7,7 @@ kern: Van businesscontext tot vertrouwensstem.
 duur: 1 min
 stappen:
   - titel: "Dag 1, ochtend: waarom en wat"
-    tekst: De Digital Lead schetst de businesscontext, de Product Manager de visie en de belangrijkste features. Iedereen hoort hetzelfde verhaal.
+    tekst: De Directeur Digitale Transformatie schetst de businesscontext, de Product Manager de visie en de belangrijkste features. Iedereen hoort hetzelfde verhaal.
   - titel: "Dag 1, middag: teams plannen"
     tekst: Teams plannen hun iteraties. Op het programmabord worden afhankelijkheden zichtbaar, en ook waar het te vol zit.
   - titel: "Dag 1, einde: managementreview"

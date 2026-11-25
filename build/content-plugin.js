@@ -43,7 +43,7 @@ const KWALITEIT = ['beste', 'kan', 'valkuil'];
 const MIJLPAAL_STATUS = ['afgerond', 'bezig', 'gepland'];
 
 // Routes die buiten de content om bestaan (pagina's in src/pages).
-const STATIC_ROUTES = ['', 'waarom', 'model', 'rollen', 'ritme', 'sturen', 'woordenlijst', 'over', 'beslissen', 'doen', 'doen/dilemmas', 'doen/teamscan', 'doen/gereedschap', 'transitie', 'uitleg'];
+const STATIC_ROUTES = ['', 'waarom', 'uitgangspunten', 'model', 'manieren', 'manieren/keuzehulp', 'teams', 'spelregels', 'portfolio', 'rollen', 'ritme', 'sturen', 'woordenlijst', 'over', 'beslissen', 'doen', 'doen/dilemmas', 'doen/teamscan', 'doen/gereedschap', 'transitie', 'uitleg'];
 
 function walk(dir) {
   // Mappen die met _ beginnen (zoals _sjablonen) zijn hulpmateriaal en geen content.
@@ -254,6 +254,42 @@ export function loadContent(root = process.cwd()) {
     for (const r of m.voor_wie ?? []) check(rolIds.has(r), `content/data/transitie.yaml: onbekende rol "${r}" bij "${m.titel}"`);
   });
 
+  // Een komma in een niet-aangehaalde waarde binnen { … } knipt de tekst in stukken en laat lege sleutels achter. Dat vangen we af.
+  for (const key of ['manieren', 'uitgangspunten', 'portfolio', 'teams', 'rollengroepen', 'mandaten']) {
+    const zoek = (o, pad) => {
+      if (Array.isArray(o)) o.forEach((x, i) => zoek(x, `${pad}[${i}]`));
+      else if (o && typeof o === 'object')
+        for (const [k, v] of Object.entries(o)) {
+          if (v === null) errors.push(`content/data/${key}.yaml${pad}: "${k.slice(0, 40)}" heeft geen waarde. Staat er een komma of dubbele punt in een tekst? Zet de tekst tussen aanhalingstekens.`);
+          else zoek(v, `${pad}.${k}`);
+        }
+    };
+    zoek(data[key], '');
+  }
+
+  // Nieuwe pagina's: manieren van werken, uitgangspunten, portfolio, teams, rollen in groepen, mandaten.
+  const m = data.manieren;
+  if (m) {
+    const kh = m.keuzehulp ?? {};
+    for (const q of [...(kh.voor ?? []), ...(kh.vragen ?? [])]) check(q.id && q.tekst && q.la && q.lb, `content/data/manieren.yaml: keuzevraag "${q.id ?? '?'}" mist id, tekst, la of lb`);
+    for (const k of ['leeg', 'servicedesk', 'drempel', 'verduidelijken', 'vast', 'project', 'gemengd']) check(kh.uitkomsten?.[k]?.titel && kh.uitkomsten?.[k]?.tekst, `content/data/manieren.yaml: uitkomst "${k}" mist titel of tekst`);
+    check((kh.vragen ?? []).length === 6, 'content/data/manieren.yaml: de keuzehulp heeft precies zes vragen (de logica rekent hiermee)');
+    for (const r of m.vergelijking?.rijen ?? []) check(r.vraag && r.vast && r.project, `content/data/manieren.yaml: elke vergelijkingsrij heeft vraag, vast en project nodig`);
+  }
+  check((data.uitgangspunten?.uitgangspunten?.punten ?? []).length > 0 && (data.uitgangspunten?.spelregels?.regels ?? []).length > 0, 'content/data/uitgangspunten.yaml: uitgangspunten en spelregels zijn verplicht');
+  for (const g of data.rollengroepen?.groepen ?? []) {
+    check(g.id && g.titel && Array.isArray(g.rollen), `content/data/rollengroepen.yaml: groep "${g.id ?? '?'}" mist id, titel of rollen`);
+    for (const r of g.rollen ?? []) {
+      if (r.rol) check(rolIds.has(r.rol), `content/data/rollengroepen.yaml: onbekende rol "${r.rol}"`);
+      else check(r.titel && r.tekst, `content/data/rollengroepen.yaml: rol zonder pagina heeft titel en tekst nodig (groep ${g.id})`);
+    }
+  }
+  if (data.rollengroepen) {
+    const inGroep = new Set((data.rollengroepen.groepen ?? []).flatMap((g) => (g.rollen ?? []).map((r) => r.rol).filter(Boolean)));
+    for (const id of rolIds) check(inGroep.has(id), `content/data/rollengroepen.yaml: rol "${id}" staat in geen enkele groep`);
+  }
+  for (const r of data.mandaten?.rijen ?? []) check(r.wie && r.over && r.niet, `content/data/mandaten.yaml: elke rij heeft wie, over en niet nodig`);
+
   const routes = new Set([
     ...STATIC_ROUTES,
     ...[...rolIds].map((id) => `rollen/${id}`),
@@ -311,6 +347,12 @@ export function loadContent(root = process.cwd()) {
     teamscan: scan ?? null,
     transitie: data.transitie ?? [],
     start: data.start ?? null,
+    manieren: data.manieren ?? null,
+    uitgangspunten: data.uitgangspunten ?? null,
+    portfolio: data.portfolio ?? null,
+    teams: data.teams ?? null,
+    rollengroepen: data.rollengroepen ?? null,
+    mandaten: data.mandaten ?? null,
     categorieen: CATEGORIEEN
   };
 }

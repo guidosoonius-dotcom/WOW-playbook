@@ -16,7 +16,7 @@ verantwoordelijkheden:
   - Bewaakt dat teams stabiel blijven en zorgt voor goede instroom en doorstroom
   - Stimuleert vakmanschap, bijvoorbeeld via communities over vakgebieden heen
   - Haalt blokkades in de organisatie weg die teams zelf niet kunnen oplossen
-  - Haalt input over iemands werk op bij de Product Owner en Team Coach
+  - Haalt input over iemands werk op bij de Product Owner en Scrum Master
 niet_meer:
   - Je verdeelt geen taken en zet mensen niet tussendoor op ander werk
   - Je bepaalt niet wat het team bouwt of in welke volgorde

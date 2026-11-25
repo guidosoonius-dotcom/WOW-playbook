@@ -96,6 +96,13 @@ waarvan de oorspronkelijke tekst niet meer klopt overgeslagen en gemeld onder *W
 
 ---
 
+## Pagina's waarvan de tekst in een YAML-bestand staat
+
+Manieren van werken, de keuzehulp, uitgangspunten, spelregels, teams, portfolio en routes, rollen in groepen en mandaten staan in `content/data/*.yaml`. Je past de tekst aan zonder code. Twee dingen om op te letten:
+
+- Staat er een komma of dubbele punt in een tekst tussen `{ }`? Zet de tekst dan tussen aanhalingstekens. De contentcontrole meldt het als een tekst daardoor is afgekapt.
+- De keuzehulp rekent met precies zes vragen (`q1` tot en met `q6`). Wil je een vraag toevoegen of weghalen, vraag dan een ontwikkelaar om de rekenregel in `src/components/Keuzehulp.svelte` aan te passen.
+
 ## Van concept naar vastgesteld
 
 Nieuwe content staat altijd op `status: concept` en krijgt in het playbook een label "Concept".

@@ -37,7 +37,6 @@ teamrollen:
     kort: Bepaalt wat het team bouwt en in welke volgorde, en is de stem van de gebruiker.
     doet: [Beheert en ordent de teambacklog, Verfijnt stories samen met het team, Accepteert opgeleverd werk]
   - naam: Scrum Master
-    bij_ons: Team Coach
     rol_id: team-coach
     soort: rol
     kort: Helpt het team om steeds beter samen te werken en haalt blokkades weg.
@@ -110,7 +109,7 @@ bijgewerkt: 2026-11-07
 ## Rollen en vakmanschap
 
 In een productteam zijn er twee rollen met een eigen verantwoordelijkheid: de **Product Owner** (wat bouwen we?)
-en de **Team Coach** (hoe werken we samen?). In Scrum heet de Team Coach de Scrum Master.
+en de **Scrum Master** (hoe werken we samen?). 
 
 Ontwikkelaar, tester en business analist zijn geen aparte rollen met een eigen overdracht, maar
 **vakmanschap binnen het team**. Iedereen is teamlid, met een eigen specialisme en een gedeelde
@@ -127,7 +126,7 @@ is normaal en gewenst.
 
 Naast de vaste rollen hebben sommige teams een specialist vast in het team. Dat hangt af van het product:
 een team met een klantportaal heeft eerder een UX/UI-designer nodig, een team met een gekocht planningspakket
-een functioneel beheerder. Bij de samenstelling van het team besluit de Digital Lead welke specialismen er vast
+een functioneel beheerder. Bij de samenstelling van het team besluit de Directeur Digitale Transformatie welke specialismen er vast
 in komen, op advies van de Product Owner, de Product Manager en de leidinggevende.
 
 Mist een team tijdelijk een specialisme, dan wordt dat zichtbaar in de PI-planning. In de managementreview

@@ -22,7 +22,7 @@
     if (t.mensen < 5) s.push('Klein team: minder dan 5 mensen');
     if (t.mensen > 9) s.push('Groot team: meer dan 9 mensen; overweeg te splitsen');
     if (!t.po.trim()) s.push('Nog geen Product Owner');
-    if (!t.coach.trim()) s.push('Nog geen Team Coach');
+    if (!t.coach.trim()) s.push('Nog geen Scrum Master');
     if (!lijst(t).length) s.push('Nog geen product');
     for (const p of lijst(t)) if (dubbel.includes(p.toLowerCase())) s.push(`"${p}" staat ook bij een ander team`);
     return s;
@@ -49,7 +49,7 @@
       doc.veld('Waardestroom', d.waardestroom) +
       doc.p(`${d.teams.length} teams, ${mensenTotaal} mensen.`) +
       doc.tabel(
-        ['Team', 'Producten', 'Product Owner', 'Team Coach', 'Mensen', 'Vaste specialismen'],
+        ['Team', 'Producten', 'Product Owner', 'Scrum Master', 'Mensen', 'Vaste specialismen'],
         d.teams.map((t) => [t.naam, lijst(t).join(', ') || '–', t.po || '–', t.coach || '–', t.mensen, t.specialismen.join(', ') || '–'])
       ) +
       (d.teams.some((t) => signalen(t).length) ? doc.kop('Aandachtspunten') + doc.lijst(d.teams.flatMap((t) => signalen(t).map((s) => `${t.naam}: ${s}`))) : '')
@@ -82,7 +82,7 @@
         <label class="wv-veld">Producten<small>Gescheiden door komma's</small><input class="wv-invoer" bind:value={t.producten} placeholder="Planningsapp, Roosterkoppeling" /></label>
         <div class="twee">
           <label class="wv-veld">Product Owner<input class="wv-invoer" bind:value={t.po} placeholder="Naam" /></label>
-          <label class="wv-veld">Team Coach<input class="wv-invoer" bind:value={t.coach} placeholder="Naam" /></label>
+          <label class="wv-veld">Scrum Master<input class="wv-invoer" bind:value={t.coach} placeholder="Naam" /></label>
         </div>
         <label class="wv-veld mensen">Aantal mensen<input class="wv-invoer" type="number" min="1" max="20" bind:value={t.mensen} /></label>
         {#if SPECIALISMEN.length}

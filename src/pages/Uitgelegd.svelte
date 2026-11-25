@@ -11,7 +11,7 @@
 </script>
 
 <div class="container">
-  <PaginaKop rood eyebrow="Uitgelegd" titel="Uitgelegd" kern="De bouwstenen van het model, en wat ze betekenen in de praktijk." />
+  <PaginaKop rood blok="D" titel="Uitgelegd" kern="De bouwstenen van het model, en wat ze betekenen in de praktijk." />
   {#each GROEPEN as g}
   <section class="groep" aria-labelledby="groep-{g.id}">
   <h2 id="groep-{g.id}">{g.titel}</h2>

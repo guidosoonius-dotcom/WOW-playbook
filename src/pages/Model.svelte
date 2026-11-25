@@ -13,7 +13,7 @@
 </script>
 
 <div class="container">
-  <PaginaKop rood eyebrow="2 · Het model" titel={p.titel} kern={p.kern} samenvatting={p.samenvatting} safe={p.safe} status={p.status} />
+  <PaginaKop rood blok="A" titel={p.titel} kern={p.kern} samenvatting={p.samenvatting} safe={p.safe} status={p.status} />
 
   <section class="sectie"><Explainer explainer={explainerById(p.explainer)} /></section>
 

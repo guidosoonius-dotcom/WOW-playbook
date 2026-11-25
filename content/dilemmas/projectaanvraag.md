@@ -6,7 +6,7 @@ kern: Een collega vraagt goedkeuring voor een nieuw project. Hoe ga je ermee om?
 situatie: >
   Een regiomanager stuurt je een uitgewerkte business case voor een nieuwe planningsapp, met een budget
   en een projectteam dat voor negen maanden wordt samengesteld. Hij vraagt om jouw handtekening.
-vraag: Wat doe jij als Digital Lead?
+vraag: Wat doe jij als Directeur Digitale Transformatie?
 opties:
   - tekst: Je tekent; het plan is goed onderbouwd.
     kwaliteit: valkuil

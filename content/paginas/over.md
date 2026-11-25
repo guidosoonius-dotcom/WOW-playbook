@@ -5,7 +5,7 @@ sectie: over
 titel: Over dit playbook
 kern: Een levend document over hoe we digitaal werken. Het groeit mee met de organisatie.
 samenvatting: >
-  Dit playbook is gemaakt voor de Digital Leads en hun productteams. Het is een eerste versie: alles met
+  Dit playbook is gemaakt voor de Directeuren Digitale Transformatie en hun productteams. Het is een eerste versie: alles met
   de status "concept" kan nog veranderen.
 status: concept
 eigenaar: Programmateam Samen Digitaal

@@ -1,3 +1,11 @@
+- versie: "0.7"
+  datum: 2026-11-25
+  wijzigingen:
+    - Het playbook volgt nu de vier blokken van de Way of Working - Richting, Organiseren, Besturen en Ondersteunen - met een nieuw menu
+    - Nieuw - Uitgangspunten, Spelregels, Manieren van werken met een keuzehulp, Teams en teaminrichting, en Portfolio en routes
+    - Rollen staan in zes groepen met een filter, en bij Wie beslist wat? staan nu de mandaten
+    - De rollen heten nu Scrum Master en Directeur (Business en) Digitale Transformatie
+    - De metrokaart op de startpagina laat vaste teams, projecten en de run als drie sporen zien
 - versie: "0.6"
   datum: 2026-11-22
   wijzigingen:

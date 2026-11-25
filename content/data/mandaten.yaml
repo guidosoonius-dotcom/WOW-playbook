@@ -1,0 +1,26 @@
+# Mandaten bij "Wie beslist wat?" (blok C): per rol of orgaan waarover het wel en niet beslist.
+titel: Mandaten
+lead: De gekozen uitvoeringsroute bepaalt het dagelijkse mandaat. Deze rolverdeling maakt duidelijk wie waarover beslist en waar de grenzen liggen.
+kolommen: { wie: Wie, over: Beslist over, niet: Beslist niet over }
+rijen:
+  - wie: Portfolio, of de Directeur (Business en) Digitale Transformatie
+    over: Beoordeelt de strategische aansluiting, waarde en benodigde inzet. Beslist welke grote initiatieven en epics starten, stoppen of voorrang krijgen, en welk budget en welke globale capaciteit beschikbaar zijn.
+    niet: De volgorde van stories, taken of sprintwerk.
+  - wie: Product Manager, of bij afwezigheid de Directeur Digitale Transformatie
+    over: Vertaalt portfolioprioriteiten naar productdoelen en features voor de komende periode en bewaakt samenhang, capaciteit en afhankelijkheden over teams heen.
+    niet: De dagelijkse volgorde van de teambacklog.
+  - wie: Product Owner
+    over: Bepaalt de volgorde van het teamwerk binnen de afgesproken doelen, capaciteit en kaders.
+    niet: Welke grote initiatieven organisatiebreed voorrang krijgen.
+  - wie: Productteam
+    over: Hoeveel werk haalbaar is, hoe het wordt gemaakt en wanneer het technisch klaar is.
+    niet: Budget, portfolio-prioriteit of projectmijlpalen.
+  - wie: Projectgovernance
+    over: "De opdrachtgever is verantwoordelijk voor resultaat en waarde. Opdrachtgever en stuurgroep sturen op resultaat, tijd, budget en risico's en besluiten over faseovergangen. De projectmanager organiseert en stuurt de dagelijkse uitvoering."
+    niet: Rechtstreeks de backlog van een productteam bepalen.
+  - wie: Architect
+    over: Technologiekeuzes die meerdere teams raken. Technische oplossingen worden door het productteam en de architect bepaald.
+    niet: Niet beschreven in het document.
+  - wie: ITSM en serviceorganisatie
+    over: De afhandeling en prioriteit van reguliere dienstverlening. Stuurt op servicekwaliteit en herstel.
+    niet: Grote veranderinitiatieven of de backlogvolgorde van productteams.

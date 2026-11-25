@@ -2,12 +2,12 @@
 id: digital-lead
 type: rol
 volgorde: 1
-titel: Digital Lead
+titel: Directeur (Business en) Digitale Transformatie
 niveau_label: Divisie
 laag: portfolio
 kern: Jij vertaalt de ambitie van je divisie naar richting, ruimte en budget voor je productteams.
 samenvatting: >
-  Als Digital Lead ben je de digitale directeur van je divisie. Je bepaalt samen met de business welke
+  Als Directeur Digitale Transformatie ben je de digitale directeur van je divisie. Je bepaalt samen met de business welke
   uitkomsten voorrang krijgen, beheert het digitale budget en neemt als business owner deel aan de PI-planning.
 in_een_zin: Jij zorgt dat de digitale investeringen van je divisie bijdragen aan de juiste uitkomsten.
 verantwoordelijkheden:
@@ -27,11 +27,11 @@ werkt_samen_met:
 events:
   - { event: pi-planning, rol_in_event: schetst de businesscontext en keurt de PI-doelen goed }
   - { event: inspect-adapt, rol_in_event: bespreekt de behaalde waarde met de productgroep }
-  - { event: portfolio-sync, rol_in_event: weegt epics en budgetten af met de andere Digital Leads }
+  - { event: portfolio-sync, rol_in_event: weegt epics en budgetten af met de andere Directeuren Digitale Transformatie }
   - { event: systeemdemo, rol_in_event: ziet het resultaat en geeft richting }
 safe:
   term: Business Owner
-  afwijking: De Digital Lead combineert de rol van business owner met budgetverantwoordelijkheid op divisieniveau.
+  afwijking: De Directeur Digitale Transformatie combineert de rol van business owner met budgetverantwoordelijkheid op divisieniveau.
 tijdsbesteding:
   - { activiteit: Portfolio en strategie, procent: 35 }
   - { activiteit: Business en stakeholders, procent: 30 }

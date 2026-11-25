@@ -13,14 +13,14 @@ kern: De agenda voor twee dagen, een ROAM-bord voor de risico's en de vertrouwen
 beschikbaar: true
 bij: [ritme/pi-planning]
 agenda:
-  - { dag: Dag 1, tijd: "09:00", onderdeel: Businesscontext, wie: Digital Lead }
+  - { dag: Dag 1, tijd: "09:00", onderdeel: Businesscontext, wie: Directeur Digitale Transformatie }
   - { dag: Dag 1, tijd: "09:45", onderdeel: Visie en belangrijkste features, wie: Product Manager }
   - { dag: Dag 1, tijd: "10:45", onderdeel: Architectuurvisie, wie: Architect }
   - { dag: Dag 1, tijd: "11:15", onderdeel: Werkwijze van de twee dagen, wie: Productgroepcoach }
   - { dag: Dag 1, tijd: "11:30", onderdeel: "Teams plannen (ronde 1): iteraties en afhankelijkheden", wie: Teams }
   - { dag: Dag 1, tijd: "15:30", onderdeel: Conceptplannen per team, wie: Teams }
-  - { dag: Dag 1, tijd: "16:30", onderdeel: Managementreview en knelpunten, wie: "Digital Lead, PM, coach" }
-  - { dag: Dag 2, tijd: "09:00", onderdeel: Besluiten uit de managementreview, wie: Digital Lead }
+  - { dag: Dag 1, tijd: "16:30", onderdeel: Managementreview en knelpunten, wie: "Directeur Digitale Transformatie, PM, coach" }
+  - { dag: Dag 2, tijd: "09:00", onderdeel: Besluiten uit de managementreview, wie: Directeur Digitale Transformatie }
   - { dag: Dag 2, tijd: "09:30", onderdeel: "Teams plannen (ronde 2): bijstellen en PI-doelen", wie: Teams }
   - { dag: Dag 2, tijd: "13:00", onderdeel: Presentatie van de plannen en PI-doelen, wie: Teams }
   - { dag: Dag 2, tijd: "14:30", onderdeel: Risico's bespreken met ROAM, wie: Iedereen }

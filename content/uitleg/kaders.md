@@ -27,7 +27,7 @@ bijgewerkt: 2026-11-07
 | **Privacy** | de privacy officer (FG) | persoonsgegevens verwerkt, zeker gevoelige zoals gezondheid of locatie |
 | **Security** | de security officer | iets aan het internet koppelt, inlogt of toegang regelt |
 | **Architectuur** | de Architect | een nieuw pakket of platform kiest, of iets bouwt dat meerdere teams raakt |
-| **Budget** | de Digital Lead | meer uitgeeft dan het budget van de waardestroom toelaat |
+| **Budget** | de Directeur Digitale Transformatie | meer uitgeeft dan het budget van de waardestroom toelaat |
 | **Leveranciers** | inkoop | een nieuw contract of een nieuwe leverancier nodig hebt |
 
 ## Kaders in de Definition of Done
@@ -40,6 +40,6 @@ De makkelijkste manier om kaders na te leven, is ze in de Definition of Done op 
 
 ## Wie stelt de kaders vast?
 
-De Digital Leads stellen de kaders vast in het portfolio-overleg, op advies van de Architect en de security- en
+De Directeuren Digitale Transformatie stellen de kaders vast in het portfolio-overleg, op advies van de Architect en de security- en
 privacyspecialisten. Kaders zijn kort en worden elk jaar herzien. Een kader dat teams vooral ophoudt zonder
 risico te verlagen, mag worden aangepast.

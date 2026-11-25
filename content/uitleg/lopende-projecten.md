@@ -23,7 +23,7 @@ bijgewerkt: 2026-11-07
 
 ## Wat er gebeurt met …
 
-- **De stuurgroep:** besluiten over koers en budget verschuiven naar het portfolio-overleg van de Digital Leads.
+- **De stuurgroep:** besluiten over koers en budget verschuiven naar het portfolio-overleg van de Directeuren Digitale Transformatie.
   De stuurgroep kan stoppen zodra het project is omgezet of afgerond.
 - **Het projectbudget:** wat overblijft gaat naar de waardestroom waar het werk bij hoort.
 - **De projectmanager:** veel projectmanagers worden Productgroepcoach, Product Owner of Epic Owner. Bespreek met je

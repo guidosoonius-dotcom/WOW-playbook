@@ -1,14 +1,15 @@
 <script>
   import SafeLabel from './SafeLabel.svelte';
   import IsoTekening from './IsoTekening.svelte';
+  import BlokBadge from './BlokBadge.svelte';
   // rood: alleen voor de hoofdstukpagina's; titels elders blijven blauw (Blauw 08).
-  let { eyebrow, titel, kern, samenvatting = '', safe = null, status = null, rood = false, beeld = null } = $props();
+  let { eyebrow, blok = null, titel, kern, samenvatting = '', safe = null, status = null, rood = false, beeld = null } = $props();
 </script>
 
 <header class="kop" class:met-beeld={beeld}>
   <div class="tekst">
   <div class="meta">
-    {#if eyebrow}<span class="eyebrow">{eyebrow}</span>{/if}
+    {#if blok}<BlokBadge {blok} />{:else if eyebrow}<span class="eyebrow">{eyebrow}</span>{/if}
     {#if status === 'concept'}<span class="status" title="Deze inhoud is nog niet vastgesteld">Concept</span>{/if}
   </div>
   <h1 class:rood>{titel}</h1>

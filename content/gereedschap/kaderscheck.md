@@ -32,7 +32,7 @@ onderwerpen:
       - Raakt het systemen of gegevens van andere teams?
       - Komen er nieuwe koppelingen met klanten of leveranciers?
   - naam: Budget
-    wie: de Digital Lead
+    wie: de Directeur Digitale Transformatie
     vragen:
       - Gaan de kosten boven het budget van de waardestroom uit?
       - Zijn er jaarlijkse licentiekosten die nog niet zijn begroot?

@@ -72,7 +72,7 @@
 
 <div class="container">
   <PaginaKop
-    eyebrow="Aan de slag · Teamscan"
+    blok="D"
     titel="Hoe staat jullie team ervoor?"
     kern="Vul de scan samen in, bijvoorbeeld in een retro. Het resultaat blijft in deze browser en is niet zichtbaar voor anderen."
     status="concept"

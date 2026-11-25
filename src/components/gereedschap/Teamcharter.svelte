@@ -98,7 +98,7 @@
       <p class="hulp">Meer over de events staat bij <a href={href('ritme')}>Ons ritme</a>.</p>
     {:else if d.stap === 4}
       <label class="wv-veld">Hoe nemen we besluiten in het team?<small>Bijvoorbeeld: wie beslist over wat we bouwen, en hoe we kiezen hoe we het bouwen.</small><textarea class="wv-invoer" bind:value={d.beslissen} placeholder="De Product Owner bepaalt de volgorde. Over het hoe beslist het team samen; lukt dat niet, dan kiest de meerderheid."></textarea></label>
-      <label class="wv-veld">Als we er niet uitkomen<input class="wv-invoer" bind:value={d.escalatie} placeholder="Bijvoorbeeld: de Team Coach helpt; daarna de Product Manager" /></label>
+      <label class="wv-veld">Als we er niet uitkomen<input class="wv-invoer" bind:value={d.escalatie} placeholder="Bijvoorbeeld: de Scrum Master helpt; daarna de Product Manager" /></label>
       <p class="hulp">Zie ook <a href={href('beslissen')}>Wie beslist wat?</a> voor de besluiten op productgroep- en portfolioniveau.</p>
     {:else}
       <p class="hulp">Zo ziet jullie charter eruit. Print hem als poster of deel hem via Word.</p>

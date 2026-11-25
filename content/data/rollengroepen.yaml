@@ -1,0 +1,50 @@
+# Rollen in groepen, voor de pagina "Rollen". Een regel met `rol` verwijst naar een bestaande rolpagina (titel en kern komen daaruit).
+# Een regel met `titel` en `tekst` is een rol die nog geen eigen pagina heeft.
+intro: >
+  In de organisatie zijn verschillende nieuwe en bestaande functies en rollen. Eén medewerker kan meerdere rollen
+  vervullen, zolang mandaat, beschikbare tijd en mogelijke belangenconflicten duidelijk zijn.
+alle: Alle rollen
+specialismen:
+  titel: Aanvullende specialismen
+  tekst: "Deze hoeven niet allemaal een eigen rolpagina. Afhankelijk van het product is een specialist vast onderdeel van het team of wordt die tijdelijk betrokken: business- en procesanalyse, ontwikkeling, testen, UX/UI, data, BI en AI, functioneel beheer, integratie, security en privacy, finance en control, inkoop, juridisch en compliance, communicatie, leren en adoptie."
+groepen:
+  - id: strategie
+    titel: Strategie en portfolio
+    rollen:
+      - { rol: digital-lead }
+      - { titel: Business Owner / opdrachtgever, tekst: "Eigenaar van het organisatievraagstuk, de beoogde uitkomsten en de businesscase. Geeft richting en mandaat en bewaakt de waarderealisatie." }
+      - { titel: Portfolio-eigenaar / Portfolio Board, tekst: "Stuurt op de samenhang van het portfolio en besluit over prioriteiten, starten, voortzetten of stoppen en de verdeling van budget en capaciteit." }
+      - { titel: Portfolio Manager, tekst: "Zorgt voor integraal inzicht in samenstelling, waarde, voortgang, risico's en capaciteitsbehoefte van het portfolio en bereidt portfoliobesluiten voor." }
+      - { rol: epic-owner }
+  - id: proces
+    titel: Proces, data en business
+    rollen:
+      - { titel: Proceseigenaar, tekst: "Eindverantwoordelijk voor de prestaties en beheersing van een end-to-endproces. Stelt doelen, KPI's en kaders vast." }
+      - { titel: Procesmanager, tekst: "Beheert, monitort en verbetert het proces binnen de kaders van de Proceseigenaar en coördineert verbeteringen." }
+      - { titel: Data Owner, tekst: "Vanuit de business verantwoordelijk voor betekenis, kwaliteit, beschikbaarheid, beheersing en toegestaan gebruik van toegewezen data." }
+      - { rol: business-stakeholder }
+      - { titel: Key-user, tekst: "Vertegenwoordigt de gebruikers bij het uitwerken van behoeften, testen en ingebruikname en ondersteunt collega's in de dagelijkse praktijk." }
+  - id: product
+    titel: Productgericht werken
+    rollen:
+      - { rol: product-manager }
+      - { rol: product-owner }
+      - { rol: team-coach }
+      - { rol: teamlid }
+      - { rol: architect }
+      - { rol: productgroep-coach }
+      - { rol: leidinggevende }
+  - id: project
+    titel: Project en programma
+    rollen:
+      - { titel: Projectmanager, tekst: "Verantwoordelijk voor de integrale realisatie van een tijdelijk, afgebakend resultaat binnen scope, tijd, budget, kwaliteit en randvoorwaarden." }
+      - { titel: Programmamanager, tekst: Stuurt op de samenhang en gezamenlijke baten van meerdere projecten en veranderinitiatieven binnen een programma. }
+  - id: innovatie
+    titel: Innovatie en optimalisatie
+    rollen:
+      - { titel: Innovatie Lead, tekst: "Begeleidt vernieuwingsvraagstukken van probleemverkenning en validatie naar experiment, onderbouwing en mogelijke opschaling." }
+      - { titel: Optimalisatie Specialist, tekst: Analyseert processen en prestaties en begeleidt aantoonbare verbeteringen met passende methoden. }
+  - id: change
+    titel: Verandering en adoptie
+    rollen:
+      - { titel: Change- en adoptielead, tekst: "Begeleidt de mens- en organisatiekant van verandering: impact, communicatie, betrokkenheid, leren en ondersteuning." }

@@ -38,6 +38,19 @@ Mobiel: onderbalk met `Start · Model · Mijn route · Zoeken`.
 
 ---
 
+## Opbouw in vier blokken (vanaf versie 0.7)
+
+Het menu en de pagina's volgen de blokken van de Way of Working. De indeling staat in `src/lib/blokken.js`.
+
+| Blok | Pagina's | Waar de tekst staat |
+|---|---|---|
+| **A · Richting** | Waarom we kantelen, Uitgangspunten, Het model, De transitie | `content/paginas/`, `content/data/uitgangspunten.yaml`, `content/data/transitie.yaml` |
+| **B · Organiseren** | Manieren van werken (met keuzehulp), Teams en teaminrichting, Waardestromen, Rollen, Spelregels | `content/data/manieren.yaml`, `teams.yaml`, `rollengroepen.yaml`, `uitgangspunten.yaml`, `content/rollen/` |
+| **C · Besturen** | Portfolio en routes, Wie beslist wat?, Ritme | `content/data/portfolio.yaml`, `mandaten.yaml`, `beslismatrix.yaml`, `content/events/` |
+| **D · Ondersteunen** | Gereedschapskist, Sturen en financieren, Dilemma's, Teamscan, Uitgelegd | `content/gereedschap/`, `content/paginas/sturen.md`, `content/dilemmas/`, `content/uitleg/` |
+
+Twee vormen voor verandering (vast team en project) en de run (ITSM) eronder. De combinatie van een project met vaste teams staat bewust nog niet in het playbook.
+
 ## Volledige sitemap
 
 ### 0. Start `#/`

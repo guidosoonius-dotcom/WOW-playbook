@@ -8,7 +8,7 @@ situatie: >
   "Zo werken wij helemaal niet. Dit gaan we niet gebruiken."
 vraag: Wat doe jij als business stakeholder?
 opties:
-  - tekst: Je zegt niets in de review, maar meldt het later bij de Digital Lead.
+  - tekst: Je zegt niets in de review, maar meldt het later bij de Directeur Digitale Transformatie.
     kwaliteit: valkuil
     feedback: Het team mist precies de feedback die het nodig heeft, en verliest tijd.
   - tekst: Je legt in de review uit hoe planners werken en biedt aan om een middag mee te kijken met het team.

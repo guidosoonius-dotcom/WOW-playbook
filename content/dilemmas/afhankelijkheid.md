@@ -14,7 +14,7 @@ opties:
   - tekst: Je zoekt het andere team direct op, maakt de afhankelijkheid zichtbaar op het programmabord en zoekt samen naar een volgorde.
     kwaliteit: beste
     feedback: Precies waarvoor de PI-planning bedoeld is. Lukt het niet, dan gaat het naar de managementreview.
-  - tekst: Je vraagt de Digital Lead om het andere team te overrulen.
+  - tekst: Je vraagt de Directeur Digitale Transformatie om het andere team te overrulen.
     kwaliteit: valkuil
     feedback: Daarmee haal je het eigenaarschap weg bij de teams, en verschuif je het probleem naar een ander.
 leerpunt: Afhankelijkheden los je samen op, op het moment dat iedereen in de ruimte is.

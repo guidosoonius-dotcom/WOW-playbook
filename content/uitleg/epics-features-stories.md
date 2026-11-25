@@ -14,7 +14,7 @@ niveaus:
   - naam: Epic
     laag: portfolio
     horizon: Meerdere kwartalen
-    eigenaar: Digital Leads (portfolio), uitgewerkt door een epic owner
+    eigenaar: Directeuren Digitale Transformatie (portfolio), uitgewerkt door een epic owner
     wat: Een groot initiatief met een eigen lean business case en een MVP als eerste stap.
     backlog: Portfoliobacklog
   - naam: Feature

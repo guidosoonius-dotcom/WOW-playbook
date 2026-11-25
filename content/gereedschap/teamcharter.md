@@ -24,6 +24,6 @@ status: concept
 eigenaar: Programmateam Samen Digitaal
 bijgewerkt: 2026-11-22
 ---
-Vul het charter samen in, met het hele team en de Product Owner. De Team Coach begeleidt. Het gaat niet om mooie zinnen, maar om afspraken waar iedereen achter staat.
+Vul het charter samen in, met het hele team en de Product Owner. De Scrum Master begeleidt. Het gaat niet om mooie zinnen, maar om afspraken waar iedereen achter staat.
 
 Hang de poster op of zet hem in jullie Teams-kanaal. Kijk er elk kwartaal even naar in de retro: klopt het nog?

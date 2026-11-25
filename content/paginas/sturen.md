@@ -17,7 +17,7 @@ bijgewerkt: 2026-10-25
 ## Van projectbudget naar productbudget
 
 Een projectbudget wordt vooraf vastgelegd voor een vaste scope. Een productbudget financiert een vast team
-binnen een waardestroom. De Digital Leads bepalen samen hoe het budget over de waardestromen wordt verdeeld,
+binnen een waardestroom. De Directeuren Digitale Transformatie bepalen samen hoe het budget over de waardestromen wordt verdeeld,
 en sturen bij op basis van de resultaten.
 
 ## Prioriteren met WSJF

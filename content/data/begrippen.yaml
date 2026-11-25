@@ -46,7 +46,7 @@
 - id: portfolio
   term: portfolio
   safe_term: Portfolio
-  uitleg: Het geheel van investeringen in waardestromen en epics, waarover de Digital Leads samen beslissen.
+  uitleg: Het geheel van investeringen in waardestromen en epics, waarover de Directeuren Digitale Transformatie samen beslissen.
 - id: wsjf
   term: WSJF
   safe_term: Weighted Shortest Job First
@@ -102,8 +102,7 @@
   uitleg: De voorwaarden waaraan een story moet voldoen om af te zijn. Ze worden samen met het team opgesteld, vóór het werk begint.
 - id: scrum-master
   term: Scrum Master
-  safe_term: Scrum Master / Team Coach
-  uitleg: In Scrum de naam voor wie het team helpt beter samen te werken. Bij ons heet deze rol Team Coach.
+  uitleg: Wie het team helpt beter samen te werken en blokkades weg te halen. Een coach voor het team, geen projectleider.
 - id: productgroep-coach
   term: Productgroepcoach
   synoniemen: [Productgroepcoaches, RTE]

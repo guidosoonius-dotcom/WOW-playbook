@@ -6,7 +6,7 @@ titel: Portfolio-sync
 cadans: portfolio
 laag: portfolio
 kern: Maandelijks de voortgang van epics en budgetten bespreken en bijsturen.
-samenvatting: De Digital Leads bespreken samen de voortgang van epics, de portfoliokanban en de besteding van budgetten.
+samenvatting: De Directeuren Digitale Transformatie bespreken samen de voortgang van epics, de portfoliokanban en de besteding van budgetten.
 wanneer: Maandelijks
 duur: 1,5 uur
 doel: Voortgang van epics en budgetten bespreken en bijsturen.
