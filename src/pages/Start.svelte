@@ -8,6 +8,8 @@
   import IsoTekening from '../components/IsoTekening.svelte';
   import Icoon from '../components/Icoon.svelte';
   import RolKiezer from '../components/RolKiezer.svelte';
+  import BlokBadge from '../components/BlokBadge.svelte';
+  import { BLOKKEN } from '../lib/blokken.js';
 
   // Collega's op een kleurvlak, zoals op de welkomstslide van de huisstijl.
   const portretten = Object.values(import.meta.glob('../assets/fotos/portret-*.webp', { eager: true, import: 'default' }));
@@ -24,13 +26,6 @@
     { id: 'epic', route: 'sturen' },
     { id: 'pi-planning', route: 'ritme/pi-planning' }
   ].map((e) => ({ ...e, ...explainerById(e.id) }));
-
-  const DOEN = [
-    { route: 'beslissen', titel: 'Wie beslist wat?', tekst: 'Per besluit één rol die beslist. Filter op jouw rol.' },
-    { route: 'doen/dilemmas', titel: "Dilemma's", tekst: 'Wat doe jij als het spoedverzoek binnenkomt?' },
-    { route: 'doen/teamscan', titel: 'Teamscan', tekst: 'Hoe staat jullie team ervoor? Tien minuten, samen in de retro.' },
-    { route: 'transitie', titel: 'De transitie', tekst: 'In welke fase zitten we, en wanneer raakt het jou?' }
-  ];
 
   // Geen ankerlinks: de hash is voor de router.
   function naar(id) {
@@ -170,7 +165,7 @@
   </div>
 </section>
 
-<!-- AAN DE SLAG -->
+<!-- DE VIER BLOKKEN: de ingang naar de rest van het playbook. -->
 <section class="vlak" aria-labelledby="doen-kop">
   <div class="container doen">
     <img class="werkfoto" src={werkfoto} alt="Twee collega's overleggen bij een scherm" />
@@ -179,12 +174,33 @@
         <h2 id="doen-kop">{s.doen.titel}</h2>
         <p class="lead">{s.doen.lead}</p>
       </div>
-      <ul class="raster2">
-        {#each DOEN as d}
-          <li><a class="kaart" href={href(d.route)}><strong>{d.titel} →</strong><span>{d.tekst}</span></a></li>
-        {/each}
-      </ul>
+      <a class="kaart keuzehulp" href={href('manieren/keuzehulp')}>
+        <strong>{s.doen.keuzehulp_titel} →</strong>
+        <span>{s.doen.keuzehulp_tekst}</span>
+      </a>
     </div>
+  </div>
+  <div class="container">
+    <ul class="blokken">
+      {#each BLOKKEN as blok}
+        <li class="kaart blok">
+          <div class="blokkop">
+            <BlokBadge blok={blok.id} groot naam={false} />
+            <div>
+              <h3>{blok.titel}</h3>
+              <span class="blokkern">{blok.kern}</span>
+            </div>
+          </div>
+          <ul class="paginas">
+            {#each blok.items as item}
+              <li>
+                <a href={href(item.pad)}>{item.titel}{#if item.nieuw}<i class="nieuw">Nieuw</i>{:else if item.volgt}<i class="nieuw volgt">Volgt</i>{/if}</a>
+              </li>
+            {/each}
+          </ul>
+        </li>
+      {/each}
+    </ul>
   </div>
 </section>
 
@@ -433,8 +449,7 @@
     font-size: 15px;
     color: var(--muted);
   }
-  .explainers a:hover strong,
-  .raster2 a:hover strong {
+  .explainers a:hover strong {
     text-decoration: underline;
   }
 
@@ -521,29 +536,102 @@
   .doen .kop {
     margin-bottom: 24px;
   }
-  .raster2 {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px;
-  }
-  .raster2 a {
-    height: 100%;
+  .keuzehulp {
     display: flex;
     flex-direction: column;
     gap: 6px;
-    padding: 20px;
+    padding: 22px 24px;
   }
-  .raster2 strong {
+  .keuzehulp strong {
     font-size: 18px;
   }
-  .raster2 span {
+  .keuzehulp span {
     font-size: 15px;
     color: var(--muted);
   }
+  .keuzehulp:hover strong {
+    text-decoration: underline;
+  }
+  .blokken {
+    list-style: none;
+    margin: 32px 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+  }
+  .blok {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 22px;
+  }
+  .blokkop {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+  .blok h3 {
+    margin: 0;
+    font-size: 20px;
+    letter-spacing: -0.02em;
+  }
+  .blokkern {
+    display: block;
+    margin-top: 2px;
+    font-size: 13px;
+    line-height: 1.35;
+    color: var(--muted);
+  }
+  .paginas {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .paginas a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 40px;
+    padding: 6px 4px;
+    border-top: 1px solid var(--border);
+    color: var(--ink);
+    font-weight: 600;
+    font-size: 15px;
+    text-decoration: none;
+  }
+  .paginas a:hover {
+    text-decoration: underline;
+  }
+  .nieuw {
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: var(--value);
+    color: #fff;
+    font-size: 11px;
+    font-style: normal;
+    font-weight: 700;
+  }
+  .nieuw.volgt {
+    background: transparent;
+    border: 1.5px dashed var(--muted);
+    color: var(--muted);
+    padding: 0 7px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :global(:root:not([data-theme='light'])) .nieuw:not(.volgt) { color: #00305f; }
+  }
+  :global([data-theme='dark']) .nieuw:not(.volgt) {
+    color: #00305f;
+  }
 
+  @media (max-width: 1180px) {
+    .blokken {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
   @media (max-width: 1020px) {
     .principes {
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -577,8 +665,10 @@
   @media (max-width: 860px) {
     .raster3,
     .twee,
-    .doen,
-    .raster2 {
+    .doen {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .blokken {
       grid-template-columns: minmax(0, 1fr);
     }
     .portretten {

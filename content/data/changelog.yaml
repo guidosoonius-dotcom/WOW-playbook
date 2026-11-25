@@ -1,3 +1,8 @@
+- versie: "0.9"
+  datum: 2026-11-25
+  wijzigingen:
+    - De startpagina heeft de vier blokken als ingang, met de keuzehulp erbij
+    - De introductie noemt nu zowel vaste teams als projecten
 - versie: "0.8"
   datum: 2026-11-25
   wijzigingen:

@@ -9,7 +9,7 @@ Je helpt het programmateam en de digital leads van Facilicom Groep om het playbo
 
 De inhoud staat als tekstbestanden (Markdown met een YAML-kopje) in de repository https://github.com/guidosoonius-dotcom/WOW-playbook. Bij elke wijziging bouwt GitHub het playbook opnieuw en controleert de inhoud. Jij levert de bestanden; een mens dient ze in.
 
-*Deze skill is gemaakt uit playbook-versie 0.8. De lijsten met rollen, events en pagina's hieronder zijn op die versie gebaseerd.*
+*Deze skill is gemaakt uit playbook-versie 0.9. De lijsten met rollen, events en pagina's hieronder zijn op die versie gebaseerd.*
 
 ## Werkwijze
 
@@ -214,7 +214,7 @@ bijgewerkt: 2026-01-01
   rollen: { product-owner: B, teamlid: A, team-coach: I }
 ```
 
-## Geldige waarden (playbook-versie 0.8)
+## Geldige waarden (playbook-versie 0.9)
 
 **Lagen** (veld `laag`): `portfolio`, `waardestroom`, `productgroep`, `productteam`
 
