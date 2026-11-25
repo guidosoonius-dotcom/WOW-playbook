@@ -9,7 +9,7 @@ Je helpt het programmateam en de digital leads van Facilicom Groep om het playbo
 
 De inhoud staat als tekstbestanden (Markdown met een YAML-kopje) in de repository https://github.com/guidosoonius-dotcom/WOW-playbook. Bij elke wijziging bouwt GitHub het playbook opnieuw en controleert de inhoud. Jij levert de bestanden; een mens dient ze in.
 
-*Deze skill is gemaakt uit playbook-versie 0.9. De lijsten met rollen, events en pagina's hieronder zijn op die versie gebaseerd.*
+*Deze skill is gemaakt uit playbook-versie 0.10. De lijsten met rollen, events en pagina's hieronder zijn op die versie gebaseerd.*
 
 ## Werkwijze
 
@@ -214,7 +214,7 @@ bijgewerkt: 2026-01-01
   rollen: { product-owner: B, teamlid: A, team-coach: I }
 ```
 
-## Geldige waarden (playbook-versie 0.9)
+## Geldige waarden (playbook-versie 0.10)
 
 **Lagen** (veld `laag`): `portfolio`, `waardestroom`, `productgroep`, `productteam`
 
@@ -264,6 +264,8 @@ bijgewerkt: 2026-01-01
 - `definition-of-done` · Definition of Done (categorie starten, niveau team)
 - `productcanvas` · Productcanvas (categorie starten, niveau team)
 - `idee-project-kaart` · Idee Project Kaart (categorie plannen, niveau portfolio)
+- `plan-van-aanpak` · Plan van Aanpak (categorie plannen, niveau portfolio)
+- `project-opdracht-kaart` · Project Opdracht Kaart (categorie plannen, niveau portfolio)
 - `goede-story` · Een goede story (categorie plannen, niveau team)
 - `feature-beschrijven` · Feature beschrijven (categorie plannen, niveau productgroep)
 - `wsjf` · WSJF-rekenhulp (categorie plannen, niveau productgroep)
@@ -283,7 +285,7 @@ bijgewerkt: 2026-01-01
 
 **Iconen** (veld `icoon`): `bel`, `doel`, `over-afdelingen`, `meter`, `lagen`, `anker`, `schakel`, `klein`, `vormen`, `sleutel`, `ritme`, `kompas`, `team`, `route`, `vlag`, `wissel`, `ontwerp`, `data`, `ai`, `instellingen`, `stekker`, `schild`, `megafoon`, `kaart`, `lijstje`, `story`, `weegschaal`, `kalender`, `visgraat`, `kanban`, `munten`, `zandloper`
 
-**Pagina's** (voor `verwijst_naar`, `bij` en `routes.yaml`): `waarom`, `uitgangspunten`, `model`, `manieren`, `manieren/keuzehulp`, `teams`, `hulpmiddelen`, `templates`, `implementatie`, `samenwerking`, `verbeteren`, `spelregels`, `portfolio`, `rollen`, `ritme`, `sturen`, `woordenlijst`, `over`, `beslissen`, `doen`, `doen/dilemmas`, `doen/teamscan`, `doen/gereedschap`, `transitie`, `uitleg`, `rollen/digital-lead`, `rollen/product-manager`, `rollen/product-owner`, `rollen/team-coach`, `rollen/architect`, `rollen/teamlid`, `rollen/business-stakeholder`, `rollen/productgroep-coach`, `rollen/epic-owner`, `rollen/leidinggevende`, `ritme/daily`, `ritme/iteratieplanning`, `ritme/refinement`, `ritme/iteratie-review`, `ritme/retrospective`, `ritme/systeemdemo`, `ritme/productgroep-sync`, `ritme/pi-planning`, `ritme/inspect-adapt`, `ritme/ip-iteratie`, `ritme/portfolio-sync`, `uitleg/waardestroom`, `uitleg/productteam`, `uitleg/epics-features-stories`, `uitleg/wat-is-een-product`, `uitleg/bouwen-en-draaien`, `uitleg/lopende-projecten`, `uitleg/meten`, `uitleg/kaders`, `uitleg/veelgestelde-vragen`, `doen/gereedschap/lopende-projecten-trieren`, `doen/gereedschap/waardestroom-in-kaart`, `doen/gereedschap/teamindeling`, `doen/gereedschap/teamcharter`, `doen/gereedschap/definition-of-done`, `doen/gereedschap/productcanvas`, `doen/gereedschap/idee-project-kaart`, `doen/gereedschap/goede-story`, `doen/gereedschap/feature-beschrijven`, `doen/gereedschap/wsjf`, `doen/gereedschap/capaciteit-pi-doelen`, `doen/gereedschap/pi-planningskit`, `doen/gereedschap/lean-business-case`, `doen/gereedschap/portfoliokanban`, `doen/gereedschap/okr-opsteller`, `doen/gereedschap/budget-verdelen`, `doen/gereedschap/kaderscheck`, `doen/gereedschap/retrospectives`, `doen/gereedschap/probleemoplossing`
+**Pagina's** (voor `verwijst_naar`, `bij` en `routes.yaml`): `waarom`, `uitgangspunten`, `model`, `manieren`, `manieren/keuzehulp`, `teams`, `hulpmiddelen`, `templates`, `implementatie`, `samenwerking`, `verbeteren`, `spelregels`, `portfolio`, `rollen`, `ritme`, `sturen`, `woordenlijst`, `over`, `beslissen`, `doen`, `doen/dilemmas`, `doen/teamscan`, `doen/gereedschap`, `transitie`, `uitleg`, `rollen/digital-lead`, `rollen/product-manager`, `rollen/product-owner`, `rollen/team-coach`, `rollen/architect`, `rollen/teamlid`, `rollen/business-stakeholder`, `rollen/productgroep-coach`, `rollen/epic-owner`, `rollen/leidinggevende`, `ritme/daily`, `ritme/iteratieplanning`, `ritme/refinement`, `ritme/iteratie-review`, `ritme/retrospective`, `ritme/systeemdemo`, `ritme/productgroep-sync`, `ritme/pi-planning`, `ritme/inspect-adapt`, `ritme/ip-iteratie`, `ritme/portfolio-sync`, `uitleg/waardestroom`, `uitleg/productteam`, `uitleg/epics-features-stories`, `uitleg/wat-is-een-product`, `uitleg/bouwen-en-draaien`, `uitleg/lopende-projecten`, `uitleg/meten`, `uitleg/kaders`, `uitleg/veelgestelde-vragen`, `doen/gereedschap/lopende-projecten-trieren`, `doen/gereedschap/waardestroom-in-kaart`, `doen/gereedschap/teamindeling`, `doen/gereedschap/teamcharter`, `doen/gereedschap/definition-of-done`, `doen/gereedschap/productcanvas`, `doen/gereedschap/idee-project-kaart`, `doen/gereedschap/plan-van-aanpak`, `doen/gereedschap/project-opdracht-kaart`, `doen/gereedschap/goede-story`, `doen/gereedschap/feature-beschrijven`, `doen/gereedschap/wsjf`, `doen/gereedschap/capaciteit-pi-doelen`, `doen/gereedschap/pi-planningskit`, `doen/gereedschap/lean-business-case`, `doen/gereedschap/portfoliokanban`, `doen/gereedschap/okr-opsteller`, `doen/gereedschap/budget-verdelen`, `doen/gereedschap/kaderscheck`, `doen/gereedschap/retrospectives`, `doen/gereedschap/probleemoplossing`
 
 **Bestaande begrippen** (niet dubbel toevoegen): `acceptatiecriteria`, `backlog`, `definition-of-done`, `enabler`, `epic`, `feature`, `flow-metrics`, `guardrails`, `ip-iteratie`, `inspect-adapt`, `iteratie`, `lean-business-case`, `mvp`, `okr`, `pi-planning`, `pi`, `portfolio`, `productgroep`, `productgroep-coach`, `productteam`, `productvisie`, `roadmap`, `roam`, `scrum-master`, `user-story`, `waardestroom`, `wsjf`
 

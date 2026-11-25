@@ -37,8 +37,8 @@ templates:
   volgt: Invulbare versie volgt
   lijst:
     - { naam: Idee Project Kaart, wanneer: "Bij een nieuw idee en bij de eerste fase van een project (T0).", tekst: "Legt het initiatief vast en toetst strategische fit, waarde, synergie en mogelijke IT- of data-impact.", werkvorm: idee-project-kaart }
-    - { naam: Project Opdracht Kaart, wanneer: Analyse van een project (T1)., tekst: "Werkt het goedgekeurde idee uit, met haalbaarheid, oplossing, impact, prioriteit en een eerste investeringsinschatting." }
-    - { naam: Plan van Aanpak, wanneer: Definitie van een project (T2)., tekst: "Maakt het project concreet: scope, planning, governance, capaciteit, risico's en verantwoordelijkheden." }
+    - { naam: Project Opdracht Kaart, wanneer: Analyse van een project (T1)., tekst: "Werkt het goedgekeurde idee uit, met haalbaarheid, oplossing, impact, prioriteit en een eerste investeringsinschatting.", werkvorm: project-opdracht-kaart }
+    - { naam: Plan van Aanpak, wanneer: Definitie van een project (T2)., tekst: "Maakt het project concreet: scope, planning, governance, capaciteit, risico's en verantwoordelijkheden.", werkvorm: plan-van-aanpak }
     - { naam: Business Case, wanneer: "Definitie van een project (T2), samen met het Plan van Aanpak.", tekst: Onderbouwt de investering in het project. }
     - { naam: Project Start Architectuur, wanneer: Bij de start van een project., tekst: "Beschrijving volgt." }
     - { naam: Lean Business Case, wanneer: "Bij een epic voor een vast team, waar nodig.", tekst: "Onderbouwt een epic met een toetsbare hypothese. Na de MVP besluit het portfolio over het vervolg.", werkvorm: lean-business-case }

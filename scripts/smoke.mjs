@@ -15,7 +15,7 @@ const shots = shotsIdx > -1 ? process.argv[shotsIdx + 1] : null;
 if (shots) mkdirSync(shots, { recursive: true });
 
 const ROUTES = [
-  '', 'waarom', 'uitgangspunten', 'spelregels', 'manieren', 'manieren/keuzehulp', 'teams', 'portfolio', 'hulpmiddelen', 'templates', 'implementatie', 'samenwerking', 'verbeteren', 'doen/gereedschap/idee-project-kaart', 'model', 'rollen', 'rollen/digital-lead', 'rollen/product-owner', 'ritme',
+  '', 'waarom', 'uitgangspunten', 'spelregels', 'manieren', 'manieren/keuzehulp', 'teams', 'portfolio', 'hulpmiddelen', 'templates', 'implementatie', 'samenwerking', 'verbeteren', 'doen/gereedschap/idee-project-kaart', 'doen/gereedschap/project-opdracht-kaart', 'doen/gereedschap/plan-van-aanpak', 'model', 'rollen', 'rollen/digital-lead', 'rollen/product-owner', 'ritme',
   'ritme/pi-planning', 'ritme/daily', 'sturen', 'woordenlijst', 'woordenlijst/wsjf', 'over', 'beslissen', 'doen',
   'doen/dilemmas', 'doen/teamscan', 'transitie', 'uitleg', 'uitleg/waardestroom', 'uitleg/productteam',
   'uitleg/epics-features-stories', 'doen/gereedschap', 'doen/gereedschap/wsjf', 'doen/gereedschap/teamcharter',
@@ -220,6 +220,19 @@ for (const [naam, viewport] of [['laptop', { width: 1280, height: 720 }], ['tele
   const velden = [['Eigenaar', 'Teamleider Planning'], ['Wat is het probleem', 'Ruilen kost veel telefoontjes'], ['Voor wie', 'Planners'], ['Wat is het doel', 'Ruilen zonder planner'], ['Verwacht resultaat', 'Minder uren planning'], ['Past het bij de strategie', 'Thema digitale dienstverlening']];
   for (const [label, tekst] of velden) await page.getByLabel(label, { exact: false }).first().fill(tekst);
   if (!(await page.getByText('Klaar voor de intake').count())) fouten.push(`[${naam}] IPK: wordt niet "Klaar voor de intake" na invullen`);
+
+  // Project Opdracht Kaart en Plan van Aanpak: beginnen als "Nog niet klaar", en het Plan van Aanpak laat regels toevoegen.
+  for (const route of ['project-opdracht-kaart', 'plan-van-aanpak']) {
+    await page.evaluate((r) => (location.hash = `#/doen/gereedschap/${r}`), route);
+    await page.waitForTimeout(250);
+    if (!(await page.getByText('Nog niet klaar').count())) fouten.push(`[${naam}] ${route}: begint niet als "Nog niet klaar"`);
+  }
+  await page.getByRole('button', { name: '+ Mijlpaal toevoegen' }).click();
+  if ((await page.getByLabel('Mijlpaal 2', { exact: true }).count()) !== 1) fouten.push(`[${naam}] plan van aanpak: een mijlpaal toevoegen werkt niet`);
+  await page.getByLabel('Doel', { exact: false }).first().fill('Roosterruil in een app');
+  await page.waitForTimeout(150);
+  const bewaard = await page.evaluate(() => Object.keys(localStorage).some((k) => k.includes('plan-van-aanpak')));
+  if (!bewaard) fouten.push(`[${naam}] plan van aanpak: wordt niet bewaard`);
 
   // Rollen filteren op groep.
   await page.evaluate(() => (location.hash = '#/rollen'));

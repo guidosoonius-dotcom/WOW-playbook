@@ -23,6 +23,8 @@
   import Kaderscheck from '../components/gereedschap/Kaderscheck.svelte';
   import Probleemoplossing from '../components/gereedschap/Probleemoplossing.svelte';
   import Ipk from '../components/gereedschap/Ipk.svelte';
+  import Pok from '../components/gereedschap/Pok.svelte';
+  import Pva from '../components/gereedschap/Pva.svelte';
 
   let { id } = $props();
 
@@ -45,7 +47,9 @@
     'budget-verdelen': Budget,
     kaderscheck: Kaderscheck,
     probleemoplossing: Probleemoplossing,
-    'idee-project-kaart': Ipk
+    'idee-project-kaart': Ipk,
+    'project-opdracht-kaart': Pok,
+    'plan-van-aanpak': Pva
   };
   const NIVEAU = { team: 'Team', productgroep: 'Productgroep', portfolio: 'Portfolio' };
 
