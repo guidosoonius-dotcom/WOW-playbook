@@ -1,0 +1,57 @@
+# Pagina "Teams en teaminrichting" (blok B). Alleen tekst.
+titel: Teams en teaminrichting
+kern: Welke soorten teams er zijn, en waar ze voor staan.
+lead: >
+  We hebben te maken met verschillende soorten teams, bij de digitale organisatie, de Groep en de divisies. Twee dingen
+  zeggen je het meeste: blijft het team bestaan of is het tijdelijk, en wat is zijn functie.
+heeft:
+  titel: Een team heeft
+  punten:
+    - een helder doel en waardeopgave;
+    - duidelijk eigenaarschap;
+    - de benodigde multidisciplinaire competenties;
+    - voldoende mandaat;
+    - inzicht in afhankelijkheden;
+    - een vaste werk- en verbetercadans;
+    - meetbare resultaten.
+lezen:
+  titel: Zo lees je de soorten
+  blijvend_label: Blijvend of tijdelijk.
+  blijvend: Dit bepaalt de vorm, vast team of project. De plek in de organisatie, bij de divisie of bij de Groep, staat als label bij elk team.
+  functie_label: Functie.
+  functie: Een productteam levert waarde langs een stroom van werk. Een platformteam biedt een intern product aan die teams. Een team hoeft dus niet gelijk te zijn aan een waardestroom, want meerdere teams kunnen dezelfde waardestroom ondersteunen.
+blijvend:
+  titel: Blijvende teams
+  kern: Ze blijven zolang hun product of dienst waarde heeft
+  teams:
+    - titel: Digitaal productteam
+      plek: Bij divisie of Groep
+      tekst: Realiseert end-to-end businesswaarde binnen een bepaald product, een business capability of een klantreis. Beheert de productbacklog en roadmap, vertaalt doelen naar concrete deliverables en levert die iteratief op. Eigenaar van kwaliteit en operationele prestaties van de eigen oplossingen.
+    - titel: Platformteam
+      plek: Bij de digitale organisatie
+      tekst: Ondersteunt de productteams als enabling team, met een intern product waar andere teams op bouwen.
+      volgt: de toelichting op platformteams ontbreekt nog in het document.
+    - titel: Data en analytics team
+      plek: Bij divisie of Groep
+      tekst: Realiseert datagedreven waardecreatie door data-oplossingen te ontwikkelen en te beheren. Levert stuurinformatie (data-analyse) en dashboards (Business Intelligence) en ontwikkelt geavanceerde analyses en modellen (Data Science).
+      label: Functie per team vast te stellen
+    - titel: TOM-team
+      plek: Bij de divisie
+      tekst: Een specifiek digitaal TOM-team per divisie, gericht op de versnelling en doorontwikkeling van het digitale toekomstige organisatiemodel (TOM) en op procesontwerp, samen met de business process owners.
+      label: Eigen teamsoort van de divisies
+      accent: true
+    - titel: Operationele teams
+      plek: De run
+      tekst: Zorgen dat de dienst dagelijks draait. Ze staan onder de teams hierboven, naast ITSM, en zijn zelf geen digitaal team.
+      volgt: de uitleg ontbreekt nog in het document.
+      streep: true
+tijdelijk:
+  titel: Tijdelijke teams
+  kern: Ze bestaan voor de duur van een opgave
+  teams:
+    - titel: Tijdelijk projectteam
+      plek: Bij de digitale organisatie en bij divisies
+      tekst: Werkt aan een project met een kop en een staart, dat niet binnen de vaste product- en platformteams past. Voor de start staat vast wie het resultaat erna draait en wie de baten bewaakt.
+rollen:
+  titel: Rollen in het team en specialismen
+  tekst: "Een vast productteam bestaat uit 5 tot 9 mensen: Product Owner, Scrum Master, ontwikkelaar, tester en business analist. Welke specialismen erbij komen, hangt af van het product: UX/UI, data en BI, AI, functioneel beheer, integratie, security en privacy, adoptie en verandering."

@@ -1,0 +1,90 @@
+# Pagina "Manieren van werken": twee vormen voor verandering, de run eronder en de keuzehulp.
+# Alleen tekst. De opbouw en de logica van de keuzehulp staan in src/pages/Manieren.svelte en src/components/Keuzehulp.svelte.
+intro: >
+  Voor verandering kennen we twee vormen: een vast team dat blijft, of een project dat eindigt. Onder allebei ligt de
+  run: storingen en serviceverzoeken lopen via ITSM. Niet ons hele werk gaat op dezelfde manier. Het portfolio kiest
+  per initiatief de lichtste vorm die past.
+
+sporen:
+  vast: Vast team
+  vast_tekst: Blijft bij elkaar zolang het product waarde heeft
+  project: Project
+  project_tekst: Begint, eindigt en draagt over
+  run: De run
+  run_tekst: ITSM en operationele teams, onder alles
+
+vormen:
+  - id: vast-team
+    label: Blijvend
+    titel: Vast team
+    tekst: >
+      Past wanneer een duidelijke groep gebruikers blijvend waarde ontvangt, de oplossing regelmatig moet worden
+      verbeterd en ontwikkeling en beheer bij elkaar horen. Een vast digitaal productteam of platformteam blijft
+      verantwoordelijk voor de hele levenscyclus: niet alleen voor de change, maar ook voor de run.
+  - id: project
+    label: Tijdelijk
+    titel: Project
+    tekst: >
+      Past bij een tijdelijke, afgebakende opgave met een herkenbaar begin en einde, een vooraf redelijk voorspelbaar
+      resultaat en behoefte aan expliciete afspraken over scope, planning, budget, kwaliteit, risico en besluitvorming.
+
+fasen:
+  titel: De zes fasen van een project
+  tekst: Na elke fase volgt een besluitmoment of tolpoort. Klassieke projecten staan op epic-niveau in de gezamenlijke backlog, zodat capaciteit, afhankelijkheden en prioriteiten zichtbaar blijven.
+  stappen:
+    - { naam: Idee, wat: "Leg het initiatief vast in een Idee Project Kaart en toets strategische fit, waarde, synergie en mogelijke IT- of data-impact." }
+    - { naam: Analyse, wat: "Werk het goedgekeurde idee uit in een Project Opdracht Kaart, met haalbaarheid, oplossing, impact, prioriteit en een eerste investeringsinschatting." }
+    - { naam: Definitie, wat: "Bereid het project concreet voor met een Plan van Aanpak, businesscase, scope, planning, governance, capaciteit, risico's en verantwoordelijkheden." }
+    - { naam: Realisatie, wat: "Voer het project uit en stuur op resultaat, planning, budget, kwaliteit, risico's, afhankelijkheden en voortgang." }
+    - { naam: Implementatie en afsluiting, wat: "Implementeer en accepteer het resultaat, borg nazorg en beheer, evalueer en sluit formeel af." }
+    - { naam: Waarderealisatie, wat: Volg na afsluiting of de beoogde baten daadwerkelijk worden gerealiseerd en stuur zo nodig bij. }
+
+vergelijking:
+  titel: Waarin ze verschillen
+  rijen:
+    - { vraag: Wat wordt gefinancierd?, vast: Stabiele capaciteit. Waar het kan onderzoeken we de overgang van projectfinanciering naar financiering van het team., project: "De opgave, met een eigen budget en scope." }
+    - { vraag: Hoe lang bestaat het?, vast: Zolang het product waarde heeft., project: Tot het resultaat is opgeleverd en overgedragen. De baten volg je daarna nog. }
+    - { vraag: Hoe werkt het?, vast: "Iteraties van twee weken met planning, dagstart, review en retrospective.", project: "Zes fasen, met na elke fase een besluitmoment of tolpoort." }
+    - { vraag: Wie bepaalt wat eerst komt?, vast: "De Product Owner op de teambacklog, binnen de prioriteiten van het portfolio.", project: Opdrachtgever en stuurgroep. De projectmanager stuurt de dagelijkse uitvoering. }
+    - { vraag: Wie draait het erna?, vast: "Het team zelf: bouwen, beheren en verbeteren in één team.", project: Een vast team of de serviceorganisatie. Die overdracht spreek je vooraf af. }
+    - { vraag: Wat is het team?, vast: "Vast en multidisciplinair, 5 tot 9 mensen.", project: "Tijdelijk, voor de duur van het project." }
+
+run:
+  label: Onder beide vormen
+  titel: "De run: ITSM"
+  tekst: >
+    ITSM is geen derde manier om verandering te organiseren. Het zijn alle beleidsregels, systemen en processen om
+    IT-diensten te leveren, beheren en verbeteren. Het draait door, wat voor vorm een initiatief ook heeft. De digitale
+    organisatie verzorgt het; divisies gebruiken de diensten maar zijn er geen eigenaar van.
+  onderdelen: [Incidenten, Serviceverzoeken, Problemen, Changes, Kennis, Assets, Releases]
+  storing_titel: Storing of serviceverzoek?
+  storing_tekst: Dat is geen initiatief. Meld het bij de servicedesk. Het gaat niet door de portfolio-intake en staat in het IT-servicemanagementsysteem, niet in het portfoliosysteem.
+  bouwt_titel: Wie bouwt, draait ook
+  bouwt_tekst: Een vast team neemt de problemen van zijn eigen product mee in zijn eigen backlog. Vraagt een terugkerend probleem om een verbetering, dan zet de Product Owner die op de teambacklog. Is er een structurele verandering nodig, dan gaat het terug naar de portfolio-trechter.
+
+keuzehulp:
+  titel: Welke vorm past bij jouw initiatief?
+  intro: >
+    Dit is een eerste richting voor je Idee Project Kaart. Het portfolio bepaalt na de intake de route. Weet je een
+    antwoord niet? Kies "Weet ik niet": dat is ook informatie.
+  voor_kop: Eerst twee vragen vooraf
+  kern_kop: Dan zes vragen over het initiatief
+  weet_niet: Weet ik niet
+  voor:
+    - { id: v1, nr: A, tekst: Is het een storing of een serviceverzoek?, why: Dat is geen initiatief. Het volgt de serviceprocessen van ITSM., la: "Ja", lb: "Nee" }
+    - { id: v2, nr: B, tekst: "Is het een kleine verbetering binnen een bestaand product, onder de drempel voor de intake?", why: "Niet ieder idee wordt een project en niet ieder initiatief hoort in de portfolio-trechter. [De drempel volgt.]", la: "Ja", lb: "Nee" }
+  vragen:
+    - { id: q1, nr: "1", tekst: "Blijft de waarde bestaan, of is het een eenmalig resultaat?", why: Een vast team past bij een probleem dat langer leeft dan een project., la: Blijvend, lb: Eenmalig }
+    - { id: q2, nr: "2", tekst: Is er al een team dat dit na oplevering gaat beheren?, why: Een vast team bouwt en draait zelf. Bij een project is de overdracht een eigen stap., la: "Ja, een bestaand team", lb: "Nee, het wordt overgedragen" }
+    - { id: q3, nr: "3", tekst: Weet je vooraf wat er precies gebouwd moet worden?, why: "Hoe onzekerder de oplossing, hoe meer korte iteraties met feedback helpen. Hoe zekerder, hoe beter een vast plan past.", la: "Nee, we moeten leren en bijsturen", lb: "Ja, de oplossing en scope zijn bekend" }
+    - { id: q4, nr: "4", tekst: Is er een harde einddatum of externe verplichting?, why: "Denk aan een wet, een contract of een verhuizing. Dat vraagt om strakke sturing op scope, planning en budget.", la: "Nee", lb: "Ja" }
+    - { id: q5, nr: "5", tekst: Past het bij een bestaand team dat er capaciteit voor heeft?, why: "Initiatieven krijgen in productmodus meestal geen eigen team maar worden verdeeld over bestaande teams. Capaciteit is een besliscriterium.", la: "Ja", lb: "Nee" }
+    - { id: q6, nr: "6", tekst: Vraagt het formele besluitmomenten en een eigen budget?, why: "Grote, risicovolle of governance-intensieve opgaven vragen om fasen en tolpoorten. Kleine stapsgewijze niet.", la: "Nee, een epic volstaat", lb: "Ja, fasen en tolpoorten" }
+  uitkomsten:
+    leeg: { titel: Nog niet bekend, tekst: 'Beantwoord de vragen hiernaast. Met minstens vier antwoorden anders dan "Weet ik niet" geeft de keuzehulp een richting.', vervolg: "" }
+    servicedesk: { titel: Servicedesk, tekst: Een storing of serviceverzoek volgt de serviceprocessen in het IT-servicemanagementsysteem. Het gaat niet door de portfolio-intake., vervolg: "Meld het bij de servicedesk. Vraagt een terugkerend probleem om een verbetering, dan neemt de Product Owner het later op in de teambacklog." }
+    drempel: { titel: Gewoon op de backlog, tekst: Een kleine verbetering binnen een bestaand product hoeft niet door de intake. De Product Owner zet het op de teambacklog., vervolg: "Bespreek het met de Product Owner van het betrokken team. [De drempel voor de intake volgt.]" }
+    verduidelijken: { titel: Eerst verduidelijken, tekst: "Je weet nog te weinig om te kiezen. Werk eerst het probleem, de doelgroep en de beoogde waarde uit.", vervolg: "Leg het vast in een Idee Project Kaart en bespreek het in de intake. Waar je het niet weet, is dat de eerste vraag." }
+    vast: { titel: Vast team, tekst: "De antwoorden wijzen op blijvende waarde, een bestaand team dat het kan dragen en ruimte om te leren en bij te sturen.", vervolg: "Maak er een epic van, waar nodig met een lean business case. Het team neemt het op in zijn ene backlog." }
+    project: { titel: Project, tekst: "De antwoorden wijzen op een afgebakende opgave met een einddatum of vaste kaders, en een overdracht aan het eind.", vervolg: Leg het vast in een Idee Project Kaart (T0). Wijs vooraf een eigenaar voor de run en een eigenaar voor de baten aan. }
+    gemengd: { titel: Gemengd beeld, tekst: "De antwoorden wijzen allebei kanten op. Dat is normaal en vaak de moeite waard om te bespreken: soms is een deel een vast team en een deel een project.", vervolg: Neem het mee in de intake en leg de tegenstrijdige antwoorden voor. Het combineren van vaste teams en een project werken we nog uit. }

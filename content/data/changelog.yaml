@@ -1,0 +1,67 @@
+- versie: "0.11"
+  datum: 2026-11-27
+  wijzigingen:
+    - Blok A en B zijn ook als één lang verhaal te lezen, met een zijbalk die meeloopt en een metrolijn langs de kant
+    - Elke pagina in een blok heeft tabs bovenaan en vorige en volgende onderaan
+    - Animaties bij de drie sporen, de routes, de teams, de rollen en de keuzehulp. Wie minder beweging wil, ziet direct de eindstand
+- versie: "0.10"
+  datum: 2026-11-26
+  wijzigingen:
+    - Invulbare Project Opdracht Kaart en Plan van Aanpak in de gereedschapskist, met een controle of ze klaar zijn voor tolpoort T1 en T2
+    - Beide zijn te delen als Word, print of tekst, en staan bij Templates
+- versie: "0.9"
+  datum: 2026-11-25
+  wijzigingen:
+    - De startpagina heeft de vier blokken als ingang, met de keuzehulp erbij
+    - De introductie noemt nu zowel vaste teams als projecten
+- versie: "0.8"
+  datum: 2026-11-25
+  wijzigingen:
+    - Nieuw - Hulpmiddelen en systemen en Templates, met een invulbare Idee Project Kaart in de gereedschapskist
+    - Sturen en financieren heeft nu de lijn van strategie naar waarde, de financiering en de principes
+    - Nieuw - Continu verbeteren, en de pagina's Implementatie en Samenwerking en demarcatie (nog te vullen)
+    - De waardestroompagina heeft een stuk over procesmanagement
+- versie: "0.7"
+  datum: 2026-11-25
+  wijzigingen:
+    - Het playbook volgt nu de vier blokken van de Way of Working - Richting, Organiseren, Besturen en Ondersteunen - met een nieuw menu
+    - Nieuw - Uitgangspunten, Spelregels, Manieren van werken met een keuzehulp, Teams en teaminrichting, en Portfolio en routes
+    - Rollen staan in zes groepen met een filter, en bij Wie beslist wat? staan nu de mandaten
+    - De rollen heten nu Scrum Master en Directeur (Business en) Digitale Transformatie
+    - De metrokaart op de startpagina laat vaste teams, projecten en de run als drie sporen zien
+- versie: "0.6"
+  datum: 2026-11-22
+  wijzigingen:
+    - Redactiemodus - wijzig teksten direct in het playbook en sla het op als nieuw HTML-bestand
+    - Wijzigingen zijn te exporteren voor de bronbestanden, of als tekst voor Copilot
+- versie: "0.5"
+  datum: 2026-11-22
+  wijzigingen:
+    - Meeschrijven met Copilot - een Copilot Cowork-skill "Playbook-redacteur" en een prompt voor Copilot Chat, te downloaden op deze pagina
+    - De skill en de prompt worden bij elke versie automatisch bijgewerkt uit de inhoud
+- versie: "0.4"
+  datum: 2026-11-22
+  wijzigingen:
+    - Alle 18 werkvormen in de gereedschapskist zijn nu in te vullen
+    - Nieuw - teamindeling, productcanvas, feature beschrijven, portfoliokanban, OKR-opsteller, budget verdelen, kaderscheck en probleemoplossing
+    - De teamindeling neemt kandidaat-producten over uit "Waardestroom in kaart"
+- versie: "0.3"
+  datum: 2026-11-22
+  wijzigingen:
+    - Gereedschapskist met 18 werkvormen in vijf categorieën, waarvan 10 om direct in te vullen
+    - Werk wordt bewaard in de eigen browser en is te delen via Print of PDF, Word of tekst
+    - Presentatiestand voor sessies, met een timer bij de retrospectives
+    - Werkvormen staan ook bij de events, uitlegpagina's, Sturen en de rolkaarten waar ze bij horen
+- versie: "0.2"
+  datum: 2026-11-07
+  wijzigingen:
+    - Nieuwe rollen Productgroepcoach, Epic Owner en Leidinggevende
+    - Nieuwe events productgroep-sync en innovatie- en planningsiteratie
+    - Uitleg in de praktijk - wat is een product, bouwen en draaien, lopende projecten, meten, kaders en veelgestelde vragen
+    - Twee nieuwe dilemma's en drie nieuwe besluiten in de beslismatrix
+- versie: "0.1"
+  datum: 2026-10-25
+  wijzigingen:
+    - Eerste versie met het model, de rollen, het ritme en vijf explainers
+    - Wie beslist wat?, dilemmakaarten, teamscan en transitie-roadmap toegevoegd
+    - Uitlegpagina's over waardestromen, productteams en epics, features en stories

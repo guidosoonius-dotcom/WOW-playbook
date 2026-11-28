@@ -1,0 +1,72 @@
+# Pagina "Portfolio en routes" (blok C): de trechter, twee routes en de run. Alleen tekst.
+titel: Van idee naar uitvoering
+kern: Eén portfolio, twee routes, en de run eronder.
+lead: >
+  We werken met één gezamenlijk portfolio voor verandering. Daarin maken we samenhangende keuzes over investeringen,
+  prioriteiten, geld, expertise en capaciteit. Niet elk idee vraagt om dezelfde aanpak, dus de uitvoering loopt via
+  een vast team of via een project. Storingen en serviceverzoeken lopen buiten de trechter om.
+
+trechter:
+  - titel: Elk idee begint in de trechter
+    tekst: >
+      Iedereen kan een idee, behoefte of verbeterkans inbrengen: vanuit de operatie, van klanten, vanuit optimalisatie
+      en innovatie, vanuit projecten of vanuit digitale teams. Het probleem of de kans en de beoogde waarde moeten
+      duidelijk zijn. Waar nodig stel je een Idee Project Kaart op.
+  - titel: Afwegen en prioriteren
+    tekst: >
+      Drie vragen staan centraal: past het bij de strategie, biedt het voldoende waarde, en rechtvaardigt het de inzet
+      van capaciteit en middelen? Projecten en productontwikkeling gebruiken dezelfde schaarse veranderkracht, dus ze
+      worden samen afgewogen.
+    uitkomsten: [Verder uitwerken, Combineren, Regulier werk, Doorgaan, Stoppen]
+  - titel: De passende route kiezen
+    tekst: >
+      De route bepaalt hoe het werk wordt georganiseerd en uitgevoerd. Grote veranderingen blijven zichtbaar in het
+      portfolio; reguliere dienstverlening volgt de serviceprocessen.
+    knop: Doe de keuzehulp
+
+routes:
+  - id: vast-team
+    titel: Route 1 · Vast team
+    past: Past bij initiatieven binnen een bestaand product, platform of team
+    tekst: >
+      Het initiatief wordt vertaald naar een epic in het backlogmanagementsysteem, waar nodig onderbouwd met een lean
+      business case, en daarna uitgewerkt in features en werk voor een of meer teams.
+    stations: [Idee, Intake en IPK, Portfolio, Epic, Capaciteit, Features, Backlog, Iteratieve realisatie, Waarde meten, "Doorgaan, bijsturen of stoppen"]
+  - id: project
+    titel: Route 2 · Projectmatig werken
+    past: Past bij een tijdelijke opgave met een duidelijk resultaat en strakke sturing
+    tekst: >
+      Het initiatief krijgt een aparte projectstructuur en volgt de projectmethodiek en het PPM-proces in het
+      portfoliomanagementsysteem. De onderbouwing groeit per fase mee met de omvang van de investering en het te nemen
+      besluit. Niet alle antwoorden hoeven bij de intake al klaar te zijn.
+    stations:
+      - { poort: "", naam: Idee en intake }
+      - { poort: T0, naam: IPK }
+      - { poort: T1, naam: POK }
+      - { poort: T2, naam: Plan van Aanpak en Business Case }
+      - { poort: T3, naam: Realisatie }
+      - { poort: T4, naam: "Implementatie, afsluiting en decharge" }
+      - { poort: "", naam: Waarderealisatie }
+    noot_label: Voor de start
+    noot: "wijs een eigenaar voor de run erna en een eigenaar voor de baten aan. De overdracht hoort bij tolpoort T4."
+
+run:
+  titel: Buiten de trechter · De run (ITSM)
+  past: "Storingen, serviceverzoeken, problemen en standaard changes"
+  tekst: >
+    Dit is geen route voor verandering en geen initiatief. De servicedesk en IT Delivery registreren en behandelen het
+    in het IT-servicemanagementsysteem, volgens de afgesproken serviceprocessen. Het volledige projectproces met
+    tolpoorten is hiervoor niet nodig.
+  stations: [Melding of verzoek, Registratie, Prioritering volgens serviceproces, Uitvoering, Monitoring en afsluiting]
+  terug_label: En als het terugkomt?
+  terug: >
+    Vraagt een terugkerend probleem om een productverbetering binnen de bestaande kaders, dan neemt de Product Owner
+    het op in de teambacklog. Vraagt het een structurele verandering of substantiële investering, dan gaat het terug
+    naar de trechter. Ook grote of risicovolle wijzigingen worden opnieuw beoordeeld.
+
+slot:
+  titel: Eén portfolio. Twee routes. De run eronder.
+  tekst: Alles wat verandert komt in één portfolio, zodat projecten en vaste teams samen worden afgewogen op dezelfde schaarse capaciteit.
+  volgt_label: Volgt
+  volgt_titel: Project en vaste teams samen
+  volgt_tekst: Hoe een project en vaste teams elkaar raken, bijvoorbeeld via een epic in de teambacklog en afspraken over capaciteit, werken we later uit. Deze pagina laat dat nu bewust weg.

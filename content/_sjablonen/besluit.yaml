@@ -1,0 +1,6 @@
+# Voeg toe aan content/data/beslismatrix.yaml. Precies één rol met B.
+# B = beslist · A = adviseert · U = voert uit · I = wordt geïnformeerd
+- besluit: Omschrijving van het besluit
+  thema: Planning en prioriteit
+  laag: productteam
+  rollen: { product-owner: B, teamlid: A, team-coach: I }

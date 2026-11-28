@@ -1,0 +1,1319 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Eén portfolio voor verandering · Agile portfoliomanagement · Samen Digitaal</title>
+<style>
+/*FONT*/
+:root {
+  --bg: #e3dcd9;
+  --wit: #ffffff;
+  --chip: #f1ece9;
+  --rand: #d7ccc8;
+  --inkt: #004077;
+  --grijs: #3e5878;
+  --blauw: #1473c3;
+  --licht: #8cc2f2;
+  --rood: #c8261b;
+  --titel: #ab2016;
+  --nacht: #002b52;
+  --font: Aptos, 'Inter Variable', 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: #000; overflow: hidden; }
+body { font-family: var(--font); color: var(--inkt); -webkit-font-smoothing: antialiased; }
+button { font: inherit; }
+
+/* Het podium: dia's van 1280 × 720, geschaald naar het scherm. */
+#podium { position: fixed; inset: 0; display: grid; place-items: center; }
+#doek { position: relative; width: 1280px; height: 720px; transform-origin: center center; }
+.dia {
+  position: absolute; inset: 0; width: 1280px; height: 720px; overflow: hidden;
+  padding: 52px 72px; background: var(--bg); color: var(--inkt);
+  display: flex; flex-direction: column; gap: 20px;
+  visibility: hidden; opacity: 0; transition: opacity .45s ease, visibility 0s linear .45s;
+}
+.dia.actief { visibility: visible; opacity: 1; transition: opacity .45s ease; z-index: 2; }
+.dia.rood { background: var(--rood); color: #fff; }
+.dia.blauw { background: var(--inkt); color: #fff; }
+.notities { display: none; }
+
+.diakop { display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: var(--grijs); min-height: 18px; }
+.dia.rood .diakop, .dia.blauw .diakop { color: rgb(255 255 255 / .8); }
+.hoofdstuk { display: inline-flex; align-items: center; gap: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.hoofdstuk::before { content: ''; width: 34px; height: 6px; border-radius: 3px; background: var(--kleur, var(--rood)); }
+.dia[data-hoofdstuk="2"], .dia[data-hoofdstuk="4"], .dia[data-hoofdstuk="6"] { --kleur: var(--blauw); }
+.dia.blauw .hoofdstuk::before { background: var(--licht); }
+.dia.rood .hoofdstuk::before { background: #fff; }
+h1, h2, h3, p { margin: 0; }
+h2 { font-size: 48px; line-height: 1.03; font-weight: 800; letter-spacing: -.035em; color: var(--titel); max-width: 1000px; }
+.dia.rood h2, .dia.blauw h2 { color: #fff; }
+.lead { font-size: 21px; line-height: 1.5; max-width: 900px; }
+.klein { font-size: 13.5px; color: var(--grijs); }
+.kaart { background: var(--wit); border-radius: 22px; padding: 22px 24px; }
+.kaart h3 { font-size: 22px; font-weight: 800; letter-spacing: -.02em; margin-bottom: 6px; }
+.kaart p { font-size: 16.5px; line-height: 1.5; color: var(--grijs); }
+.streep { background: transparent; border: 2.5px dashed #8aa0b8; }
+.donker { background: var(--inkt); color: #fff; }
+.donker p { color: #c9d8ea; }
+.label { font-size: 12.5px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--blauw); }
+.donker .label { color: var(--licht); }
+.raster2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.raster3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+.raster4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+.pil { display: inline-flex; align-items: center; padding: 7px 14px; border-radius: 999px; background: var(--wit); font-size: 14.5px; font-weight: 600; }
+.vul { flex: 1; min-height: 0; }
+.ic { width: 1em; height: 1em; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex: none; vertical-align: -0.14em; }
+.ikoon { width: 46px; height: 46px; border-radius: 14px; background: #e6f0fa; color: var(--blauw); display: grid; place-items: center; font-size: 25px; flex: none; margin-bottom: 12px; }
+.donker .ikoon, .dia.blauw .ikoon { background: rgb(255 255 255 / .12); color: var(--licht); }
+.streep .ikoon { background: transparent; border: 2px dashed #8aa0b8; color: var(--grijs); }
+.kaart-kop { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+.kaart-kop .ikoon { margin: 0; width: 40px; height: 40px; font-size: 22px; border-radius: 12px; }
+.kaart-kop h3 { margin: 0; }
+.stappenrij { display: flex; align-items: flex-start; gap: 8px; margin-top: auto; }
+.stappenrij > div { display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: 14px; font-weight: 700; min-width: 76px; }
+.stappenrij .ikoon { margin: 0; }
+.stappenrij > .ic { font-size: 22px; color: #8aa0b8; margin-top: 12px; }
+.illu { width: 100%; height: 118px; display: block; margin-bottom: 10px; }
+table.groot th, table.groot td { padding: 14px 20px; font-size: 16.5px; }
+table.groot thead th { font-size: 13px; }
+tbody th .ic { color: var(--blauw); margin-right: 6px; font-size: 18px; }
+thead th .ic { margin-right: 4px; font-size: 15px; }
+
+/* Stappen binnen een dia: verschijnen bij volgende. */
+[data-stap] { opacity: 0; transform: translateY(14px); transition: opacity .55s ease, transform .55s cubic-bezier(.2,.8,.3,1); transition-delay: var(--t, 0s); }
+[data-stap].aan { opacity: 1; transform: none; }
+[data-stap] .teken { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1.3s cubic-bezier(.5,.1,.3,1); transition-delay: var(--t, 0s); }
+[data-stap].aan .teken { stroke-dashoffset: 0; }
+/* Animaties die vanzelf spelen zodra de dia in beeld komt. */
+.auto-teken { stroke-dasharray: 1; stroke-dashoffset: 1; fill: none; }
+.dia.actief .auto-teken { animation: an-teken var(--d, 1.4s) cubic-bezier(.5,.1,.3,1) forwards; animation-delay: var(--t, 0s); }
+.auto-pop { opacity: 0; transform-box: fill-box; transform-origin: center; }
+.dia.actief .auto-pop { animation: an-pop .45s cubic-bezier(.2,1.6,.4,1) forwards; animation-delay: var(--t, 0s); }
+.auto-in { opacity: 0; }
+.dia.actief .auto-in { animation: an-in .6s cubic-bezier(.2,.8,.3,1) forwards; animation-delay: var(--t, 0s); }
+@keyframes an-teken { to { stroke-dashoffset: 0; } }
+@keyframes an-pop { from { opacity: 0; transform: scale(.2); } to { opacity: 1; transform: scale(1); } }
+@keyframes an-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes rijd { from { offset-distance: 0%; } to { offset-distance: 100%; } }
+
+/* Knoppen in een dia */
+.knop { min-height: 44px; padding: 0 18px; border-radius: 999px; border: 1.5px solid var(--inkt); background: var(--wit); color: var(--inkt); font-weight: 700; font-size: 14px; cursor: pointer; }
+.knop.aan, .knop:hover { background: var(--inkt); color: #fff; }
+.donker .knop { border-color: #fff; background: transparent; color: #fff; }
+.donker .knop.aan, .donker .knop:hover { background: #fff; color: var(--inkt); }
+
+/* Bediening, voortgang, overzicht */
+#voortgang { position: fixed; left: 0; bottom: 0; height: 4px; background: var(--licht); width: 0; transition: width .4s ease; z-index: 10; }
+#bediening { position: fixed; right: 18px; bottom: 16px; display: flex; gap: 8px; align-items: center; z-index: 10; opacity: 0; transition: opacity .3s; }
+body.muis #bediening { opacity: 1; }
+#bediening button { width: 44px; height: 44px; border-radius: 50%; border: 0; background: rgb(0 43 82 / .85); color: #fff; font-size: 18px; cursor: pointer; }
+#bediening span { color: #fff; font-size: 13px; background: rgb(0 43 82 / .85); padding: 6px 10px; border-radius: 999px; }
+#hulp { position: fixed; left: 18px; bottom: 16px; z-index: 10; color: #fff; font-size: 13px; background: rgb(0 43 82 / .85); padding: 8px 14px; border-radius: 999px; opacity: 0; transition: opacity .3s; }
+body.muis #hulp { opacity: 1; }
+#zwart { position: fixed; inset: 0; background: #000; z-index: 20; display: none; }
+body.zwart #zwart { display: block; }
+#overzicht { position: fixed; inset: 0; z-index: 30; background: rgb(0 30 58 / .97); display: none; overflow: auto; padding: 32px; }
+body.overzicht #overzicht { display: block; }
+#overzicht h2 { color: #fff; font-size: 26px; margin-bottom: 18px; }
+#overzicht ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
+#overzicht button { width: 100%; text-align: left; min-height: 84px; padding: 14px 16px; border-radius: 14px; border: 0; background: #0a4c88; color: #fff; cursor: pointer; display: flex; flex-direction: column; gap: 6px; }
+#overzicht button:hover, #overzicht button.nu { background: #fff; color: var(--inkt); }
+#overzicht button small { font-size: 12px; font-weight: 700; opacity: .75; }
+#overzicht button b { font-size: 15px; line-height: 1.3; }
+
+/* ---------- Per dia ---------- */
+/* 1 titel */
+.titel-logo { display: flex; align-items: center; gap: 14px; }
+.logo-samen { display: inline-flex; gap: 3px; }
+.logo-samen span { font-weight: 800; font-size: 15px; padding: 5px 10px; border-radius: 6px; }
+
+/* 5 waardestroom */
+.stroom-stap text { font-size: 15px; font-weight: 700; fill: var(--inkt); }
+
+/* 10 trechter */
+.bord { position: relative; height: 196px; background: var(--wit); border-radius: 24px; padding: 20px 20px 0; }
+.bord .rail, .bord .gevuld { position: absolute; left: 50px; top: 35px; border-top: 5px solid var(--rand); border-radius: 3px; }
+.bord .rail { right: 50px; }
+.bord .gevuld { border-top-color: var(--blauw); width: 0; transition: width .7s cubic-bezier(.5,.1,.2,1); }
+.kolommen { position: relative; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); }
+.kolom { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 0 4px; border: 0; background: transparent; cursor: pointer; color: var(--inkt); }
+.kolom .kn { width: 34px; height: 34px; font-size: 17px; color: var(--blauw); border-radius: 50%; display: grid; place-items: center; font-size: 13px; font-weight: 800; border: 3px solid var(--blauw); background: var(--bg); transition: background .3s, color .3s; }
+.kolom.gedaan .kn { background: var(--blauw); color: #fff; }
+.kolom .kt { font-size: 14px; font-weight: 700; text-align: center; line-height: 1.25; }
+.epic { position: absolute; top: 112px; width: 170px; transition: left .7s cubic-bezier(.5,.1,.2,1); background: var(--inkt); color: #fff; border-radius: 14px; padding: 12px 14px; box-shadow: 0 10px 24px rgb(0 43 82 / .25); }
+.epic small { font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--licht); }
+.epic b { display: block; font-size: 15px; margin-top: 2px; }
+.trechter-paneel { display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: 16px; }
+.trechter-paneel p { font-size: 17px; line-height: 1.5; color: var(--inkt); margin-top: 6px; }
+.trechter-paneel .streep p { color: var(--grijs); font-size: 16px; }
+.besluit { display: none; grid-template-columns: 1fr 1.1fr; gap: 28px; align-items: center; }
+.toon-besluit .besluit { display: grid; }
+.toon-besluit .trechter-paneel { display: none; }
+
+/* 12 wsjf */
+.wsjf-balk { position: absolute; left: 0; right: 0; height: 64px; display: grid; grid-template-columns: 170px minmax(0, 1fr) 140px; gap: 16px; align-items: center; transition: transform .8s cubic-bezier(.5,.1,.2,1); }
+.wsjf-balk .b { height: 40px; border-radius: 8px; background: var(--blauw); transition: width .8s cubic-bezier(.5,.1,.2,1), background .5s; }
+.wsjf-balk b { font-size: 18px; }
+.wsjf-balk span { font-size: 16px; font-weight: 700; text-align: right; }
+
+/* 13 kaders */
+.zwerf { animation: zwerf 6s ease-in-out infinite alternate; }
+@keyframes zwerf { 0% { transform: translate(0, 0); } 33% { transform: translate(60px, 24px); } 66% { transform: translate(-40px, -18px); } 100% { transform: translate(30px, -26px); } }
+
+/* 15 budget */
+.rij { display: grid; grid-template-columns: 230px 200px minmax(0, 1fr) 70px; gap: 18px; align-items: center; padding: 12px 0; border-bottom: 1px solid #efe8e5; }
+.rij:last-child { border-bottom: 0; }
+.rij label { font-size: 15px; font-weight: 700; line-height: 1.3; }
+.rij input { width: 100%; accent-color: var(--blauw); }
+.blokjes { display: flex; flex-wrap: wrap; gap: 6px; }
+.blokjes i { width: 26px; height: 26px; border-radius: 7px; background: var(--blauw); animation: an-pop .35s cubic-bezier(.2,1.6,.4,1); }
+.blokjes.vrij i { background: transparent; border: 2px dashed var(--inkt); }
+.getal { font-size: 22px; font-weight: 800; text-align: right; }
+.tijdbalk { position: relative; height: 30px; border-radius: 6px; background: var(--chip); }
+.tijdbalk span { position: absolute; top: 0; bottom: 0; border-radius: 6px; background: var(--inkt); color: #fff; font-size: 12px; font-weight: 700; display: flex; align-items: center; padding: 0 10px; white-space: nowrap; transform-origin: left; }
+.modus-proj .alleen-cap, .modus-cap .alleen-proj { display: none !important; }
+.modus-proj .tijdbalk span { animation: groei .7s cubic-bezier(.5,.1,.3,1) both; animation-delay: var(--t, 0s); }
+@keyframes groei { from { transform: scaleX(0); } to { transform: none; } }
+
+/* 19 vergelijking */
+.seg { display: inline-flex; background: var(--wit); border-radius: 999px; padding: 4px; }
+.seg button { min-height: 40px; padding: 0 16px; border: 0; border-radius: 999px; background: transparent; color: var(--inkt); font-weight: 700; font-size: 14px; cursor: pointer; }
+.seg button.aan { background: var(--blauw); color: #fff; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chips button { min-height: 44px; padding: 0 16px; border-radius: 999px; border: 0; background: var(--wit); color: var(--inkt); font-weight: 600; font-size: 14px; cursor: pointer; }
+.chips button.aan { background: var(--inkt); color: #fff; font-weight: 800; }
+.vergelijk .kaart { display: flex; flex-direction: column; gap: 12px; transition: opacity .45s, transform .45s; }
+.v-vis { height: 180px; border-radius: 14px; padding: 8px 12px; background: rgb(0 64 119 / .05); }
+.donker .v-vis { background: rgb(255 255 255 / .07); }
+.v-vis svg { width: 100%; height: 100%; display: block; }
+.chips button .ic { margin-right: 6px; }
+.vergelijk .kaart p { font-size: 24px; line-height: 1.38; font-weight: 600; letter-spacing: -.01em; }
+.vergelijk.toon-trad .agile, .vergelijk.toon-agile .trad { opacity: .16; transform: scale(.97); }
+.wissel { animation: an-in .45s ease; }
+
+/* 21 twee routes */
+.rit { position: absolute; left: 0; top: 0; width: 22px; height: 22px; border-radius: 50%; border: 3px solid #fff; offset-anchor: 50% 50%; offset-rotate: 0deg; opacity: 0; }
+[data-stap].aan .rit { opacity: 1; animation: rijd var(--d, 3s) cubic-bezier(.45,.05,.3,1) forwards; animation-delay: var(--t, 0s); }
+
+/* 22 misverstanden */
+.mis { position: relative; height: 92px; perspective: 900px; }
+.mis .voor, .mis .achter { position: absolute; inset: 0; border-radius: 16px; padding: 14px 20px; display: flex; align-items: center; gap: 14px; backface-visibility: hidden; transition: transform .7s cubic-bezier(.5,.1,.2,1); font-size: 18px; line-height: 1.35; }
+.mis .voor { background: var(--wit); border: 2.5px dashed #8aa0b8; color: var(--grijs); }
+.mis .achter { background: var(--inkt); color: #fff; transform: rotateX(180deg); font-weight: 600; }
+.mis.om .voor { transform: rotateX(-180deg); }
+.mis.om .achter { transform: rotateX(0); }
+.mis b { flex: none; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
+
+/* tabellen */
+table { width: 100%; border-collapse: collapse; background: var(--wit); border-radius: 20px; overflow: hidden; }
+th, td { text-align: left; vertical-align: top; padding: 13px 18px; border-bottom: 1px solid var(--rand); font-size: 15.5px; line-height: 1.45; }
+thead th { background: var(--inkt); color: #fff; font-size: 12.5px; letter-spacing: .06em; text-transform: uppercase; }
+tbody th { background: var(--chip); width: 26%; }
+tbody td { color: var(--grijs); }
+tr:last-child th, tr:last-child td { border-bottom: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; animation-delay: 0s !important; }
+  .zwerf { animation: none !important; }
+}
+</style>
+</head>
+<body>
+<svg id="iconen" width="0" height="0" style="position: absolute" aria-hidden="true"><symbol id="i-team" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c0-3.6 2.9-6.5 6.5-6.5s6.5 2.9 6.5 6.5"/><circle cx="17" cy="9" r="2.5"/><path d="M16.5 14c2.8.2 5 2.6 5 5.5"/></symbol><symbol id="i-persoon" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></symbol><symbol id="i-doel" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></symbol><symbol id="i-euro" viewBox="0 0 24 24"><path d="M17.5 6.5a7 7 0 1 0 0 11"/><path d="M4 10h9M4 14h9"/></symbol><symbol id="i-kompas" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/></symbol><symbol id="i-trechter" viewBox="0 0 24 24"><path d="M3 4h18l-7 8.5V19l-4 2v-8.5z"/></symbol><symbol id="i-kalender" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></symbol><symbol id="i-klok" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol><symbol id="i-lamp" viewBox="0 0 24 24"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.8 10.6c.6.6.8 1.4.8 2.4h6c0-1 .2-1.8.8-2.4A6 6 0 0 0 12 3z"/></symbol><symbol id="i-schild" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 4.6-3.3 7.9-8 9-4.7-1.1-8-4.4-8-9V6z"/></symbol><symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7"/></symbol><symbol id="i-kruis" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol><symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol><symbol id="i-min" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol><symbol id="i-grafiek" viewBox="0 0 24 24"><path d="M4 4v16h16"/><path d="M8 15l4-4 3 3 5-6"/></symbol><symbol id="i-lijst" viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M4.5 6h.01M4.5 12h.01M4.5 18h.01" stroke-width="3"/></symbol><symbol id="i-document" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4M9 12h6M9 16h6"/></symbol><symbol id="i-weegschaal" viewBox="0 0 24 24"><path d="M12 4v16M8 20h8M5 7h14"/><path d="M5 7l-3 6a3 3 0 0 0 6 0zM19 7l-3 6a3 3 0 0 0 6 0z"/></symbol><symbol id="i-blok" viewBox="0 0 24 24"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5l8 4.5 8-4.5M12 12v9"/></symbol><symbol id="i-oog" viewBox="0 0 24 24"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol><symbol id="i-sync" viewBox="0 0 24 24"><path d="M20 12a8 8 0 0 1-14 5.3M4 12a8 8 0 0 1 14-5.3"/><path d="M18 3v4h-4M6 21v-4h4"/></symbol><symbol id="i-gesprek" viewBox="0 0 24 24"><path d="M4 5h16v11H10l-6 4z"/><path d="M8 9.5h8M8 12.5h5"/></symbol><symbol id="i-waarschuwing" viewBox="0 0 24 24"><path d="M12 3.5l9.5 16.5h-19z"/><path d="M12 10v4M12 17h.01"/></symbol><symbol id="i-gebouw" viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="1"/><path d="M9 7h1M14 7h1M9 11h1M14 11h1M10 21v-4h4v4"/></symbol><symbol id="i-instellen" viewBox="0 0 24 24"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></symbol><symbol id="i-vlag" viewBox="0 0 24 24"><path d="M5 21V4"/><path d="M5 4h12l-2.5 4L17 12H5"/></symbol><symbol id="i-pijl" viewBox="0 0 24 24"><path d="M4 12h16M14 6l6 6-6 6"/></symbol><symbol id="i-server" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="7" rx="2"/><rect x="3" y="13" width="18" height="7" rx="2"/><path d="M7 7.5h.01M7 16.5h.01" stroke-width="3"/></symbol><symbol id="i-lagen" viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/></symbol><symbol id="i-veer" viewBox="0 0 24 24"><path d="M20 4C11 4 6 9 6 17v3"/><path d="M6 17c7 0 12-5 14-13M10 13h5"/></symbol></svg>
+<div id="podium"><div id="doek">
+
+<!-- 1 · TITEL -->
+<section class="dia rood" data-hoofdstuk="1" data-titel="Eén portfolio voor verandering">
+  <div class="titel-logo">
+    <span style="font-size: 15px; font-weight: 800">Facilicom Groep</span>
+    <span style="width: 2px; height: 26px; background: rgb(255 255 255 / .5)"></span>
+    <span class="logo-samen"><span style="background: #fff; color: var(--rood)">Samen</span><span style="background: var(--inkt); color: #fff">Digitaal</span></span>
+  </div>
+  <div style="margin-top: 70px; width: 720px; display: flex; flex-direction: column; gap: 22px">
+    <div class="auto-in" style="--t: .1s; font-size: 15px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #ffd9d4">Agile portfoliomanagement</div>
+    <h1 class="auto-in" style="--t: .25s; font-size: 84px; line-height: .98; font-weight: 800; letter-spacing: -.04em">Eén portfolio voor verandering</h1>
+    <p class="auto-in" style="--t: .45s; font-size: 22px; line-height: 1.45; color: #ffe9e6">Wat er verandert in hoe we kiezen, financieren en sturen, en wat dat betekent voor projectmanagers en het PMO.</p>
+  </div>
+  <svg width="1280" height="720" viewBox="0 0 1280 720" aria-hidden="true" style="position: absolute; left: 0; top: 0; pointer-events: none">
+    <path class="auto-teken" pathLength="1" d="M560 520 H1280" stroke="#fff" stroke-width="6" stroke-linecap="round" style="--t: .6s; --d: 1.6s"/>
+    <g fill="#fff" stroke="#c8261b" stroke-width="3"><circle class="auto-pop" cx="760" cy="520" r="12" style="--t: 1.6s"/><circle class="auto-pop" cx="900" cy="520" r="12" style="--t: 1.75s"/><circle class="auto-pop" cx="1040" cy="520" r="12" style="--t: 1.9s"/><circle class="auto-pop" cx="1180" cy="520" r="12" style="--t: 2.05s"/></g>
+    <path class="auto-teken" pathLength="1" d="M700 590 H900 M980 590 H1180" stroke="#004077" stroke-width="6" style="--t: 1.2s"/>
+    <g fill="#c8261b" stroke="#004077" stroke-width="3.5"><circle class="auto-pop" cx="700" cy="590" r="10" style="--t: 1.1s"/><circle class="auto-pop" cx="980" cy="590" r="10" style="--t: 1.5s"/></g>
+    <g fill="#004077"><rect class="auto-pop" x="895" y="580" width="11" height="20" rx="2" style="--t: 2.2s"/><rect class="auto-pop" x="1175" y="580" width="11" height="20" rx="2" style="--t: 2.5s"/></g>
+    <path class="auto-in" d="M620 650 H1280" stroke="#ffb3a9" stroke-width="7" stroke-linecap="round" stroke-dasharray="0 13" fill="none" style="--t: 1.8s"/>
+  </svg>
+  <p style="position: absolute; left: 72px; bottom: 44px; font-size: 14px; color: #ffd9d4">Samen Digitaal · Playbook</p>
+  <aside class="notities">
+    <p>Welkom. Het doel van deze sessie: na afloop weet je hoe we in Samen Digitaal kiezen waarin we investeren, hoe we dat financieren en hoe we erop sturen, en wat dat betekent voor jouw werk.</p>
+    <p>De sporen rechtsonder komen steeds terug: het doorlopende spoor van de vaste teams, de korte stukken van projecten en de stippellijn van de run.</p>
+  </aside>
+</section>
+
+<!-- 2 · WAAROM -->
+<section class="dia" data-hoofdstuk="1" data-stappen="1" data-titel="Je rol verandert, hij verdwijnt niet">
+  <header class="diakop"><span class="hoofdstuk">1 · Opening</span><span class="nr"></span></header>
+  <h2>Je rol verandert. Hij verdwijnt niet.</h2>
+  <p class="lead">Projecten blijven bestaan. Wat verandert, is hoe we kiezen, hoe we financieren en hoe we sturen. Daar heb je als projectmanager en PMO veel mee te maken.</p>
+  <div class="kaart vul" style="margin-top: 12px; display: flex; flex-direction: column; justify-content: center; gap: 14px">
+    <span class="label">Waar we het over hebben</span>
+    <svg width="100%" viewBox="0 -54 1100 204" aria-label="De zes hoofdstukken van de presentatie" role="img">
+      <path class="auto-teken" pathLength="1" d="M20 50 H1080" stroke="#1473c3" stroke-width="6" stroke-linecap="round" style="--t: .2s; --d: 1.4s"/>
+      <g fill="#fff" stroke="#004077" stroke-width="3.5">
+        <circle class="auto-pop" cx="40" cy="50" r="13" style="--t: .5s"/><circle class="auto-pop" cx="240" cy="50" r="13" style="--t: .7s"/><circle class="auto-pop" cx="450" cy="50" r="13" style="--t: .9s"/><circle class="auto-pop" cx="660" cy="50" r="13" style="--t: 1.1s"/><circle class="auto-pop" cx="860" cy="50" r="13" style="--t: 1.3s"/><circle class="auto-pop" cx="1060" cy="50" r="13" style="--t: 1.5s"/>
+      </g>
+      <use href="#i-gesprek" x="25" y="-50" width="30" height="30" stroke="#1473c3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" class="auto-in" style="--t: 0.5s"/><use href="#i-team" x="225" y="-50" width="30" height="30" stroke="#1473c3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" class="auto-in" style="--t: 0.7s"/><use href="#i-lagen" x="435" y="-50" width="30" height="30" stroke="#1473c3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" class="auto-in" style="--t: 0.9s"/><use href="#i-weegschaal" x="645" y="-50" width="30" height="30" stroke="#1473c3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" class="auto-in" style="--t: 1.1s"/><use href="#i-persoon" x="845" y="-50" width="30" height="30" stroke="#1473c3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" class="auto-in" style="--t: 1.3s"/><use href="#i-check" x="1045" y="-50" width="30" height="30" stroke="#1473c3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" class="auto-in" style="--t: 1.5s"/>
+      <g style="font: 700 15px var(--font); fill: #004077" text-anchor="middle">
+        <text class="auto-in" x="40" y="96" text-anchor="start" style="--t: .6s">Opening</text>
+        <text class="auto-in" x="240" y="96" style="--t: .8s">Samen Digitaal</text><text class="auto-in" x="240" y="116" style="--t: .8s">in vijf minuten</text>
+        <text class="auto-in" x="450" y="96" style="--t: 1s">Agile portfolio-</text><text class="auto-in" x="450" y="116" style="--t: 1s">management</text>
+        <text class="auto-in" x="660" y="96" style="--t: 1.2s">Traditioneel</text><text class="auto-in" x="660" y="116" style="--t: 1.2s">en agile</text>
+        <text class="auto-in" x="860" y="96" style="--t: 1.4s">Wat betekent</text><text class="auto-in" x="860" y="116" style="--t: 1.4s">het voor jou</text>
+        <text class="auto-in" x="1060" y="96" text-anchor="end" style="--t: 1.6s">Afsluiting</text>
+      </g>
+    </svg>
+  </div>
+  <p class="klein" data-stap="1">Ongeveer veertig minuten, met drie momenten om zelf te klikken en te schuiven.</p>
+  <aside class="notities">
+    <p>Zet de toon: dit gaat niet over het afschaffen van projecten of van het PMO. Het gaat over één manier van kiezen voor al het veranderwerk.</p>
+    <p>Loop de zes haltes kort langs. Zeg dat er tijd is voor vragen bij de interactieve dia's.</p>
+  </aside>
+</section>
+
+<!-- 3 · WAT ER KNELT -->
+<section class="dia" data-hoofdstuk="1" data-stappen="3" data-titel="Wat er nu knelt">
+  <header class="diakop"><span class="hoofdstuk">1 · Opening</span><span class="nr"></span></header>
+  <h2>Wat er nu knelt</h2>
+  <p class="lead">Wat we digitaal bouwen, moet net zo betrouwbaar zijn als ons vakwerk op locatie. De manier waarop we het nu organiseren, maakt dat lastig.</p>
+  <div class="raster3 vul" style="margin-top: 10px; align-content: center; align-items: stretch">
+    <div class="kaart" data-stap="1"><svg class="illu" viewBox="0 0 300 96" aria-hidden="true"><path d="M10 46 H170" stroke="#004077" stroke-width="6" stroke-linecap="round"/><rect x="168" y="30" width="10" height="32" rx="2" fill="#004077"/><g fill="#1473c3"><circle cx="45" cy="46" r="9"/><circle cx="80" cy="46" r="9"/><circle cx="115" cy="46" r="9"/><circle cx="150" cy="46" r="9"/></g><g fill="#1473c3" opacity=".3"><circle cx="212" cy="22" r="9"/><circle cx="236" cy="70" r="9"/><circle cx="266" cy="34" r="9"/><circle cx="288" cy="78" r="7"/></g><text x="10" y="86" style="font: 600 12px var(--font); fill: #3e5878">project</text><text x="200" y="88" style="font: 600 12px var(--font); fill: #3e5878">kennis weg</text></svg><h3>Projecten stoppen bij de oplevering</h3><p>Daarna valt het team uiteen en verdwijnt de kennis. Verbeteren begint telkens opnieuw.</p></div>
+    <div class="kaart" data-stap="2"><svg class="illu" viewBox="0 0 300 96" aria-hidden="true"><path d="M10 78 L290 14" stroke="#8aa0b8" stroke-width="3" stroke-dasharray="7 6" fill="none"/><path d="M10 78 C 70 70 90 82 140 66 S 220 76 290 58" stroke="#1473c3" stroke-width="5" stroke-linecap="round" fill="none"/><path d="M282 18 V54" stroke="#c8261b" stroke-width="3" stroke-linecap="round"/><text x="226" y="12" style="font: 600 12px var(--font); fill: #3e5878">plan</text><text x="200" y="90" style="font: 600 12px var(--font); fill: #1473c3">praktijk</text></svg><h3>De vraag verandert sneller dan het plan</h3><p>Wat we vooraf vastleggen, is bij de oplevering vaak al ingehaald door de praktijk.</p></div>
+    <div class="kaart" data-stap="3"><svg class="illu" viewBox="0 0 300 96" aria-hidden="true"><path d="M10 10 V80 H290" stroke="#d7ccc8" stroke-width="2" fill="none"/><path d="M12 78 H50 V64 H100 V50 H150 V38 H200 V28 H288" stroke="#1473c3" stroke-width="3" stroke-dasharray="6 5" fill="none"/><path d="M12 78 H230 C 260 78 270 26 288 16" stroke="#c8261b" stroke-width="5" stroke-linecap="round" fill="none"/><text x="96" y="30" style="font: 600 12px var(--font); fill: #1473c3">vroeg waarde</text><text x="120" y="92" style="font: 600 12px var(--font); fill: #c8261b">pas aan het eind</text></svg><h3>Waarde zie je pas laat</h3><p>Gebruikers zien pas na maanden iets. Feedback komt als het budget al op is.</p></div>
+  </div>
+  <aside class="notities">
+    <p>Dit zijn geen verwijten aan projectmanagement. Het zit in het model: een tijdelijk team, een vaste scope en een budget dat stopt bij de oplevering.</p>
+    <p>Vraag: herken je deze drie? Welke kost ons nu het meest?</p>
+  </aside>
+</section>
+
+<!-- 4 · VASTE PRODUCTTEAMS -->
+<section class="dia" data-hoofdstuk="2" data-stappen="2" data-titel="Vaste productteams">
+  <header class="diakop"><span class="hoofdstuk">2 · Samen Digitaal in vijf minuten</span><span class="nr"></span></header>
+  <h2>Vaste productteams</h2>
+  <div style="display: grid; grid-template-columns: 480px minmax(0, 1fr); gap: 48px; align-items: center" class="vul">
+    <svg viewBox="0 0 480 430" role="img" aria-label="Een vast team van zeven mensen rond één product." style="width: 100%; max-height: 480px">
+      <circle class="auto-in" cx="240" cy="215" r="160" fill="none" stroke="#8cc2f2" stroke-width="3" stroke-dasharray="2 9" stroke-linecap="round" style="--t: .2s"/>
+      <path class="auto-in" d="M240.0 167.0 L240.0 85.0" stroke="#8cc2f2" stroke-width="2" style="--t: 0.5s"/>
+      <circle class="auto-pop" cx="240.0" cy="55.0" r="27" fill="#1473c3" stroke="#e3dcd9" stroke-width="4" style="--t: 0.5s"/>
+      <use href="#i-persoon" x="228.0" y="43.0" width="24" height="24" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" class="auto-pop" style="--t: 0.5s"/>
+      <text class="auto-in" x="240.0" y="19.0" text-anchor="middle" style="font: 700 13px var(--font); fill: #004077; --t: 0.5s">Product Owner</text>
+      <path class="auto-in" d="M294.7 185.1 L341.6 133.9" stroke="#8cc2f2" stroke-width="2" style="--t: 0.6s"/>
+      <circle class="auto-pop" cx="365.1" cy="115.2" r="27" fill="#1473c3" stroke="#e3dcd9" stroke-width="4" style="--t: 0.6s"/>
+      <use href="#i-persoon" x="353.1" y="103.2" width="24" height="24" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" class="auto-pop" style="--t: 0.6s"/>
+      <text class="auto-in" x="365.1" y="159.2" text-anchor="middle" style="font: 700 13px var(--font); fill: #004077; --t: 0.6s">Scrum Master</text>
+      <path class="auto-in" d="M308.2 225.7 L366.7 243.9" stroke="#8cc2f2" stroke-width="2" style="--t: 0.7s"/>
+      <circle class="auto-pop" cx="396.0" cy="250.6" r="27" fill="#1473c3" stroke="#e3dcd9" stroke-width="4" style="--t: 0.7s"/>
+      <use href="#i-persoon" x="384.0" y="238.6" width="24" height="24" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" class="auto-pop" style="--t: 0.7s"/>
+      <text class="auto-in" x="396.0" y="294.6" text-anchor="middle" style="font: 700 13px var(--font); fill: #004077; --t: 0.7s">Ontwikkelaar</text>
+      <path class="auto-in" d="M270.4 258.2 L296.4 332.1" stroke="#8cc2f2" stroke-width="2" style="--t: 0.8s"/>
+      <circle class="auto-pop" cx="309.4" cy="359.2" r="27" fill="#1473c3" stroke="#e3dcd9" stroke-width="4" style="--t: 0.8s"/>
+      <use href="#i-persoon" x="297.4" y="347.2" width="24" height="24" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" class="auto-pop" style="--t: 0.8s"/>
+      <text class="auto-in" x="309.4" y="403.2" text-anchor="middle" style="font: 700 13px var(--font); fill: #004077; --t: 0.8s">Tester</text>
+      <path class="auto-in" d="M209.6 258.2 L183.6 332.1" stroke="#8cc2f2" stroke-width="2" style="--t: 0.9s"/>
+      <circle class="auto-pop" cx="170.6" cy="359.2" r="27" fill="#1473c3" stroke="#e3dcd9" stroke-width="4" style="--t: 0.9s"/>
+      <use href="#i-persoon" x="158.6" y="347.2" width="24" height="24" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" class="auto-pop" style="--t: 0.9s"/>
+      <text class="auto-in" x="170.6" y="403.2" text-anchor="middle" style="font: 700 13px var(--font); fill: #004077; --t: 0.9s">Ontwikkelaar</text>
+      <path class="auto-in" d="M171.8 225.7 L113.3 243.9" stroke="#8cc2f2" stroke-width="2" style="--t: 1.0s"/>
+      <circle class="auto-pop" cx="84.0" cy="250.6" r="27" fill="#1473c3" stroke="#e3dcd9" stroke-width="4" style="--t: 1.0s"/>
+      <use href="#i-persoon" x="72.0" y="238.6" width="24" height="24" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" class="auto-pop" style="--t: 1.0s"/>
+      <text class="auto-in" x="84.0" y="294.6" text-anchor="middle" style="font: 700 13px var(--font); fill: #004077; --t: 1.0s">Business analist</text>
+      <path class="auto-in" d="M185.3 185.1 L138.4 133.9" stroke="#8cc2f2" stroke-width="2" style="--t: 1.1s"/>
+      <circle class="auto-pop" cx="114.9" cy="115.2" r="27" fill="#1473c3" stroke="#e3dcd9" stroke-width="4" style="--t: 1.1s"/>
+      <use href="#i-persoon" x="102.9" y="103.2" width="24" height="24" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" class="auto-pop" style="--t: 1.1s"/>
+      <text class="auto-in" x="114.9" y="159.2" text-anchor="middle" style="font: 700 13px var(--font); fill: #004077; --t: 1.1s">Ontwikkelaar</text>
+      <rect class="auto-pop" x="170" y="167" width="140" height="96" rx="20" fill="#004077" style="--t: .2s"/>
+      <use href="#i-blok" x="225.0" y="181.0" width="30" height="30" stroke="#8cc2f2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" class="auto-pop" style="--t: .3s"/>
+      <text x="240" y="243" text-anchor="middle" style="font: 800 20px var(--font); fill: #fff">Product</text></svg>
+    <div style="display: flex; flex-direction: column; gap: 16px">
+      <p class="lead" style="font-size: 22px">5 tot 9 mensen, één product. Ze blijven bij elkaar zolang het product waarde heeft.</p>
+      <div class="raster3" style="gap: 10px"><div class="kaart" style="padding: 14px 16px; display: flex; align-items: center; gap: 10px"><span class="ikoon" style="margin: 0; width: 38px; height: 38px; font-size: 20px; border-radius: 11px"><svg class="ic"><use href="#i-blok"/></svg></span><b style="font-size: 16px">Bouwen</b></div><div class="kaart" style="padding: 14px 16px; display: flex; align-items: center; gap: 10px"><span class="ikoon" style="margin: 0; width: 38px; height: 38px; font-size: 20px; border-radius: 11px"><svg class="ic"><use href="#i-server"/></svg></span><b style="font-size: 16px">Beheren</b></div><div class="kaart" style="padding: 14px 16px; display: flex; align-items: center; gap: 10px"><span class="ikoon" style="margin: 0; width: 38px; height: 38px; font-size: 20px; border-radius: 11px"><svg class="ic"><use href="#i-sync"/></svg></span><b style="font-size: 16px">Verbeteren</b></div></div>
+      <div data-stap="1" class="kaart" style="padding: 16px 20px"><span class="label"><svg class="ic"><use href="#i-team"/></svg> Vaste rollen in elk team</span><p style="margin-top: 4px">Product Owner, Scrum Master, ontwikkelaars, tester en business analist.</p></div>
+      <div data-stap="2" class="kaart streep" style="padding: 16px 20px"><span class="label"><svg class="ic"><use href="#i-plus"/></svg> Vast in sommige teams</span><p style="margin-top: 4px">UX/UI, data en BI, AI, functioneel beheer, integratie, security en privacy, adoptie en verandering.</p></div>
+    </div>
+  </div>
+  <aside class="notities">
+    <p>Het verschil met een projectteam: het team blijft, het werk komt naar het team. Kennis van product en gebruikers bouwt zich op.</p>
+    <p>Het team is ook verantwoordelijk voor de run van zijn eigen product: wie bouwt, draait ook.</p>
+  </aside>
+</section>
+
+<!-- 5 · WAARDESTROMEN -->
+<section class="dia" data-hoofdstuk="2" data-stappen="2" data-titel="Rond waardestromen">
+  <header class="diakop"><span class="hoofdstuk">2 · Samen Digitaal in vijf minuten</span><span class="nr"></span></header>
+  <h2>Rond waardestromen</h2>
+  <p class="lead">Een waardestroom is de reeks stappen waarmee waarde ontstaat voor een klant of collega. Van een vraag of gebeurtenis tot het resultaat.</p>
+  <div class="kaart vul" style="display: flex; flex-direction: column; justify-content: center">
+    <span class="label" style="margin-bottom: 6px">Voorbeeld · van contract tot factuur</span>
+    <svg viewBox="0 -10 1100 240" role="img" aria-label="De waardestroom van contract tot factuur, met de producten die hem dragen.">
+      <path class="auto-teken" pathLength="1" d="M60 60 H1040" stroke="#1473c3" stroke-width="7" stroke-linecap="round" style="--t: .2s; --d: 1.6s"/>
+      <g fill="#1473c3" stroke="#fff" stroke-width="4">
+        <circle class="auto-pop" cx="60" cy="60" r="15" style="--t: .4s"/><circle class="auto-pop" cx="256" cy="60" r="15" style="--t: .6s"/><circle class="auto-pop" cx="452" cy="60" r="15" style="--t: .8s"/><circle class="auto-pop" cx="648" cy="60" r="15" style="--t: 1s"/><circle class="auto-pop" cx="844" cy="60" r="15" style="--t: 1.2s"/><circle cx="1040" cy="60" r="18" fill="#fff" stroke="#c8261b" stroke-width="4" class="auto-pop" style="--t: 1.5s"/>
+      </g>
+      <use href="#i-document" x="46" y="2" width="28" height="28" stroke="#004077" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" class="auto-in" style="--t: 0.5s"/><use href="#i-instellen" x="242" y="2" width="28" height="28" stroke="#004077" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" class="auto-in" style="--t: 0.7s"/><use href="#i-kalender" x="438" y="2" width="28" height="28" stroke="#004077" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" class="auto-in" style="--t: 0.9s"/><use href="#i-team" x="634" y="2" width="28" height="28" stroke="#004077" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" class="auto-in" style="--t: 1.1s"/><use href="#i-grafiek" x="830" y="2" width="28" height="28" stroke="#004077" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" class="auto-in" style="--t: 1.3s"/><use href="#i-euro" x="1026" y="2" width="28" height="28" stroke="#004077" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" class="auto-in" style="--t: 1.5s"/>
+      <g class="stroom-stap" text-anchor="middle">
+        <text x="60" y="112">Contract</text><text x="60" y="132">vastleggen</text>
+        <text x="256" y="112">Dienst</text><text x="256" y="132">inrichten</text>
+        <text x="452" y="112">Werk</text><text x="452" y="132">plannen</text>
+        <text x="648" y="112">Uitvoeren</text>
+        <text x="844" y="112">Kwaliteit</text><text x="844" y="132">meten</text>
+        <text x="1040" y="112">Factureren</text>
+      </g>
+      <g data-stap="1" style="font: 600 13.5px var(--font); fill: #3e5878" text-anchor="middle">
+        <rect x="10" y="160" width="100" height="40" rx="10" fill="#f1ece9"/><text x="60" y="185">Contractbeheer</text>
+        <rect x="196" y="160" width="120" height="40" rx="10" fill="#f1ece9"/><text x="256" y="185">Planningssysteem</text>
+        <rect x="588" y="160" width="120" height="40" rx="10" fill="#f1ece9"/><text x="648" y="185">Werkbon-app</text>
+        <rect x="770" y="160" width="148" height="40" rx="10" fill="#f1ece9"/><text x="844" y="185">Kwaliteitsdashboard</text>
+        <rect x="990" y="160" width="100" height="40" rx="10" fill="#f1ece9"/><text x="1040" y="185">Facturatie</text>
+      </g>
+    </svg>
+  </div>
+  <p data-stap="2" class="lead" style="font-size: 18px"><b>Teams zijn niet gelijk aan een waardestroom.</b> Meerdere teams kunnen dezelfde stroom ondersteunen, en een team kan voor meerdere stromen werken.</p>
+  <aside class="notities">
+    <p>De stroom loopt over afdelingen heen: sales, planning, operatie en finance. Juist bij de overdrachten ontstaan wachttijd en fouten.</p>
+    <p>Voor het portfolio is dit belangrijk: we financieren en verbeteren de stroom, niet een los systeem. Een waardestroom is stabiel genoeg om er langdurig teams en budget aan te koppelen.</p>
+  </aside>
+</section>
+
+<!-- 6 · TWEE VORMEN EN DE RUN -->
+<section class="dia" data-hoofdstuk="2" data-stappen="3" data-titel="Twee vormen en de run">
+  <header class="diakop"><span class="hoofdstuk">2 · Samen Digitaal in vijf minuten</span><span class="nr"></span></header>
+  <h2>Twee vormen voor verandering, en de run eronder</h2>
+  <div style="display: grid; grid-template-columns: minmax(0, 1fr) 330px; gap: 32px; align-items: start" class="vul">
+    <div class="kaart" style="padding: 24px 28px">
+      <svg width="100%" viewBox="0 0 760 330" role="img" aria-label="Drie sporen: vast team, project met overdracht, en de run.">
+        <g>
+          <text x="0" y="22" style="font: 800 16px var(--font); fill: #1473c3">Vast team</text>
+          <path class="auto-teken" pathLength="1" d="M0 56 H760" stroke="#1473c3" stroke-width="7" stroke-linecap="round" style="--t: .2s"/>
+          <g fill="#1473c3" stroke="#fff" stroke-width="3"><circle class="auto-pop" cx="140" cy="56" r="13" style="--t: 1s"/><circle class="auto-pop" cx="270" cy="56" r="13" style="--t: 1.15s"/><circle class="auto-pop" cx="530" cy="56" r="13" style="--t: 1.3s"/><circle class="auto-pop" cx="660" cy="56" r="13" style="--t: 1.45s"/></g>
+        </g>
+        <g data-stap="1">
+          <text x="0" y="132" style="font: 800 16px var(--font); fill: #004077">Project</text>
+          <path class="teken" pathLength="1" d="M120 166 H380" stroke="#004077" stroke-width="7" fill="none"/>
+          <circle cx="120" cy="166" r="11" fill="#fff" stroke="#004077" stroke-width="4"/>
+          <circle cx="250" cy="166" r="12" fill="#004077" stroke="#fff" stroke-width="3"/>
+          <rect x="374" y="154" width="12" height="24" rx="2" fill="#004077"/>
+        </g>
+        <g data-stap="2">
+          <path class="teken" pathLength="1" d="M388 166 C 440 166 455 110 400 74" stroke="#c8261b" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+          <circle cx="400" cy="56" r="20" fill="#fff" stroke="#c8261b" stroke-width="3.5"/>
+          <circle cx="400" cy="56" r="8" fill="#c8261b"/>
+          <text x="452" y="128" style="font: 700 14px var(--font); fill: #ab2016">Overdracht</text>
+        </g>
+        <g data-stap="3">
+          <text x="0" y="252" style="font: 800 16px var(--font); fill: #3e5878">De run</text>
+          <path d="M0 286 H760" stroke="#8cc2f2" stroke-width="8" stroke-linecap="round" stroke-dasharray="0 14" fill="none"/>
+          <g fill="#8cc2f2" stroke="#004077" stroke-width="1.5"><circle cx="180" cy="286" r="12"/><circle cx="420" cy="286" r="12"/><circle cx="640" cy="286" r="12"/></g>
+          <text x="180" y="320" text-anchor="middle" style="font: 600 13px var(--font); fill: #3e5878">Servicedesk</text>
+        </g>
+      </svg>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 12px">
+      <div class="kaart" style="padding: 14px 16px"><b style="font-size: 16px; color: var(--blauw)"><svg class="ic"><use href="#i-team"/></svg> Vast team</b><p style="font-size: 14.5px; margin-top: 2px">Blijvende waarde. Bouwt, beheert en verbetert zijn product.</p></div>
+      <div class="kaart" style="padding: 14px 16px" data-stap="1"><b style="font-size: 16px"><svg class="ic"><use href="#i-vlag"/></svg> Project</b><p style="font-size: 14.5px; margin-top: 2px">Tijdelijk en afgebakend. Zes fasen, tolpoorten, een begin en een einde.</p></div>
+      <div class="kaart" style="padding: 14px 16px" data-stap="2"><b style="font-size: 16px; color: var(--titel)"><svg class="ic"><use href="#i-pijl"/></svg> Overdracht</b><p style="font-size: 14.5px; margin-top: 2px">Het resultaat van een project landt bij een vast team of de serviceorganisatie.</p></div>
+      <div class="kaart" style="padding: 14px 16px" data-stap="3"><b style="font-size: 16px; color: var(--grijs)"><svg class="ic"><use href="#i-server"/></svg> De run</b><p style="font-size: 14.5px; margin-top: 2px">ITSM onder alles. Een storing is geen initiatief en gaat niet door het portfolio.</p></div>
+    </div>
+  </div>
+  <aside class="notities">
+    <p>Dit is de kern voor deze zaal: projecten verdwijnen niet. Er zijn twee vormen voor verandering. Een vast team waar de waarde blijvend is, een project waar afbakening de doorslag geeft.</p>
+    <p>Bij de overdracht: voor de start van elk project staat vast wie het resultaat erna draait en wie de baten bewaakt.</p>
+    <p>De run is geen derde vorm. Incidenten en serviceverzoeken lopen via de servicedesk, niet via het portfolio.</p>
+  </aside>
+</section>
+
+<!-- 7 · EEN RITME -->
+<section class="dia" data-hoofdstuk="2" data-stappen="4" data-titel="Eén ritme">
+  <header class="diakop"><span class="hoofdstuk">2 · Samen Digitaal in vijf minuten</span><span class="nr"></span></header>
+  <h2>Eén ritme</h2>
+  <p class="lead">Een kwartaal, van dichtbij. Iedereen weet wanneer er gepland, getoond en besloten wordt.</p>
+  <div class="kaart vul" style="display: flex; flex-direction: column; justify-content: center; gap: 18px">
+    <div style="display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 20px; align-items: center; padding-bottom: 10px; border-bottom: 1px solid var(--rand)"><span class="label"><svg class="ic"><use href="#i-kalender"/></svg> Een kwartaal</span><div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); font-size: 14px; font-weight: 700; color: var(--grijs); text-align: center"><span>Maand 1</span><span>Maand 2</span><span>Maand 3</span></div></div>
+    <div data-stap="1" style="display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 20px; align-items: center"><div><b style="font-size: 17px"><svg class="ic" style="color: var(--blauw)"><use href="#i-klok"/></svg> Dagstart</b><div class="klein">elke werkdag, kwartier</div></div>
+      <svg viewBox="0 0 860 24" preserveAspectRatio="none" style="width: 100%; height: 24px" aria-hidden="true"><path d="M2 12 H858" stroke="#1473c3" stroke-width="10" stroke-dasharray="3 11.5" fill="none"/></svg></div>
+    <div data-stap="2" style="display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 20px; align-items: center"><div><b style="font-size: 17px"><svg class="ic" style="color: var(--blauw)"><use href="#i-sync"/></svg> Iteratie</b><div class="klein">elke twee weken: plannen, tonen, terugkijken</div></div>
+      <div style="display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px"><span style="height: 28px; border-radius: 6px; background: #1473c3"></span><span style="height: 28px; border-radius: 6px; background: #1473c3"></span><span style="height: 28px; border-radius: 6px; background: #1473c3"></span><span style="height: 28px; border-radius: 6px; background: #1473c3"></span><span style="height: 28px; border-radius: 6px; background: #1473c3"></span><span style="height: 28px; border-radius: 6px; background: #8cc2f2"></span></div></div>
+    <div data-stap="3" style="display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 20px; align-items: center"><div><b style="font-size: 17px"><svg class="ic" style="color: var(--blauw)"><use href="#i-kalender"/></svg> PI-planning</b><div class="klein">elk kwartaal, twee dagen</div></div>
+      <div style="display: flex; justify-content: space-between; align-items: center"><span class="pil" style="background: #004077; color: #fff">Samen plannen</span><span class="klein">laatste iteratie: innovatie en planning</span><span class="pil" style="background: #004077; color: #fff">Inspect &amp; Adapt</span></div></div>
+    <div data-stap="4" style="display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 20px; align-items: center"><div><b style="font-size: 17px; color: #ab2016"><svg class="ic"><use href="#i-lagen"/></svg> Portfolio-sync</b><div class="klein">elke maand</div></div>
+      <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr))"><span style="justify-self: center; width: 22px; height: 22px; border-radius: 50%; background: #c8261b"></span><span style="justify-self: center; width: 22px; height: 22px; border-radius: 50%; background: #c8261b"></span><span style="justify-self: center; width: 22px; height: 22px; border-radius: 50%; background: #c8261b"></span></div></div>
+  </div>
+  <aside class="notities">
+    <p>Bouw het van klein naar groot op. Het team stemt elke dag af en levert elke twee weken iets werkends op.</p>
+    <p>Elk kwartaal plannen alle teams van een productgroep samen, en meten ze aan het eind wat het heeft opgeleverd.</p>
+    <p>Voor deze zaal is de rode rij het belangrijkst: maandelijks bespreken de Directeuren Digitale Transformatie voortgang, waarde, risico's, capaciteit en budget van epics én klassieke projecten.</p>
+  </aside>
+</section>
+
+<!-- 8 · UITGANGSPUNTEN -->
+<section class="dia" data-hoofdstuk="2" data-stappen="4" data-titel="De uitgangspunten die voor het portfolio tellen">
+  <header class="diakop"><span class="hoofdstuk">2 · Samen Digitaal in vijf minuten</span><span class="nr"></span></header>
+  <h2>De uitgangspunten die voor het portfolio tellen</h2>
+  <p class="lead">Vier van de tien uitgangspunten uit het playbook.</p>
+  <div class="raster2 vul" style="align-content: center">
+    <div class="kaart" data-stap="1"><div class="kaart-kop"><span class="ikoon"><svg class="ic"><use href="#i-doel"/></svg></span><span class="label">Uitgangspunt 1</span></div><h3>Waarde vóór activiteit</h3><p>We starten bij het probleem, de gewenste uitkomst en de doelgroep. Opleveren is niet hetzelfde als waarde realiseren.</p></div>
+    <div class="kaart" data-stap="2"><div class="kaart-kop"><span class="ikoon"><svg class="ic"><use href="#i-lagen"/></svg></span><span class="label">Uitgangspunt 2</span></div><h3>Eén portfolio, meerdere uitvoeringsvormen</h3><p>Projecten, epics, O&amp;I-initiatieven en relevante changes worden in samenhang afgewogen.</p></div>
+    <div class="kaart" data-stap="3"><div class="kaart-kop"><span class="ikoon"><svg class="ic"><use href="#i-veer"/></svg></span><span class="label">Uitgangspunt 3</span></div><h3>Kies de lichtste passende werkwijze</h3><p>Niet ieder idee wordt een project, en niet ieder initiatief hoort op een backlog.</p></div>
+    <div class="kaart" data-stap="4"><div class="kaart-kop"><span class="ikoon"><svg class="ic"><use href="#i-grafiek"/></svg></span><span class="label">Uitgangspunt 8</span></div><h3>Beslissen op bewijs</h3><p>Portfolio- en projectbesluiten gebruiken actuele waarde-, risico- en capaciteitsinformatie.</p></div>
+  </div>
+  <aside class="notities">
+    <p>Deze vier zijn de brug naar het volgende hoofdstuk. Wijs vooral op nummer 2: projecten en epics komen in één portfolio, en worden met dezelfde vragen afgewogen.</p>
+    <p>Nummer 3 geeft ruimte: we maken niet van alles een project, en ook niet van alles een epic.</p>
+  </aside>
+</section>
+
+<!-- 9 · WAT HET IS -->
+<section class="dia blauw" data-hoofdstuk="3" data-stappen="3" data-titel="Agile portfoliomanagement in één zin">
+  <header class="diakop"><span class="hoofdstuk">3 · Agile portfoliomanagement</span><span class="nr"></span></header>
+  <h2 class="auto-in" style="font-size: 54px; max-width: 1080px; margin-top: 20px">Het portfolio verbindt de strategie met de uitvoering: we kiezen samen waarin we investeren, met welk budget en binnen welke kaders.</h2>
+  <div class="raster3" style="margin-top: auto">
+    <div data-stap="1" class="kaart" style="background: rgb(255 255 255 / .1); color: #fff"><div class="kaart-kop"><span class="ikoon"><svg class="ic"><use href="#i-trechter"/></svg></span><span class="label" style="color: var(--licht)">Kiezen</span></div><p style="font-size: 18px; color: #fff">Alle ideeën door één trechter, afgewogen op strategie, waarde en capaciteit.</p></div>
+    <div data-stap="2" class="kaart" style="background: rgb(255 255 255 / .1); color: #fff"><div class="kaart-kop"><span class="ikoon"><svg class="ic"><use href="#i-euro"/></svg></span><span class="label" style="color: var(--licht)">Financieren</span></div><p style="font-size: 18px; color: #fff">Budget per waardestroom voor vaste teams, projectbudget voor tijdelijke opgaven.</p></div>
+    <div data-stap="3" class="kaart" style="background: rgb(255 255 255 / .1); color: #fff"><div class="kaart-kop"><span class="ikoon"><svg class="ic"><use href="#i-kompas"/></svg></span><span class="label" style="color: var(--licht)">Sturen</span></div><p style="font-size: 18px; color: #fff">Op uitkomsten en bewijs, met kaders waarbinnen teams zelf beslissen.</p></div>
+  </div>
+  <p class="klein" style="color: #c9d8ea">In SAFe heet dit Lean Portfolio Management. Wij gebruiken onze eigen woorden.</p>
+  <aside class="notities">
+    <p>Eén zin om te onthouden. Daarna drie werkwoorden die we in dit hoofdstuk uitwerken: kiezen, financieren, sturen.</p>
+    <p>Benadruk: het portfolio is één portfolio. Er is geen apart projectportfolio naast een productportfolio.</p>
+  </aside>
+</section>
+
+<!-- 10 · TRECHTER (interactief) -->
+<section class="dia" data-hoofdstuk="3" data-stappen="5" data-haak="trechter" data-titel="Een epic door de portfoliokanban">
+  <header class="diakop"><span class="hoofdstuk">3 · Agile portfoliomanagement</span><span class="nr"></span></header>
+  <h2>Een epic door de portfoliokanban</h2>
+  <div class="bord">
+    <div class="rail"></div><div class="gevuld"></div>
+    <div class="kolommen">
+      <button class="kolom" data-naar="0"><span class="kn"><svg class="ic"><use href="#i-lamp"/></svg></span><span class="kt">Idee</span></button>
+      <button class="kolom" data-naar="1"><span class="kn"><svg class="ic"><use href="#i-document"/></svg></span><span class="kt">Intake</span></button>
+      <button class="kolom" data-naar="2"><span class="kn"><svg class="ic"><use href="#i-weegschaal"/></svg></span><span class="kt">Afwegen</span></button>
+      <button class="kolom" data-naar="3"><span class="kn"><svg class="ic"><use href="#i-grafiek"/></svg></span><span class="kt">Lean business case</span></button>
+      <button class="kolom" data-naar="4"><span class="kn"><svg class="ic"><use href="#i-blok"/></svg></span><span class="kt">MVP</span></button>
+      <button class="kolom" data-naar="5"><span class="kn"><svg class="ic"><use href="#i-vlag"/></svg></span><span class="kt">Besluit</span></button>
+    </div>
+    <div class="epic"><small>Epic · voorbeeld</small><b>Roosterruil in een app</b></div>
+  </div>
+  <div class="trechter-paneel wissel">
+    <div class="kaart"><span class="label"><svg class="ic"><use href="#i-lijst"/></svg> Wat er gebeurt</span><p class="t-wat"></p></div>
+    <div class="kaart"><span class="label"><svg class="ic"><use href="#i-persoon"/></svg> Wie</span><p class="t-wie"></p></div>
+    <div class="kaart streep"><span class="label" style="color: var(--grijs)"><svg class="ic"><use href="#i-klok"/></svg> Traditioneel</span><p class="t-vroeger"></p></div>
+  </div>
+  <div class="besluit kaart donker wissel">
+    <div>
+      <span class="label">Besluit op bewijs</span>
+      <p style="font-size: 18px; line-height: 1.45; color: #fff; margin: 6px 0 14px">De MVP is klaar. Wat laat het bewijs zien?</p>
+      <div style="display: flex; gap: 10px; flex-wrap: wrap">
+        <button class="knop" data-keus="door"><svg class="ic"><use href="#i-pijl"/></svg> Doorgaan</button>
+        <button class="knop" data-keus="bij"><svg class="ic"><use href="#i-sync"/></svg> Bijsturen</button>
+        <button class="knop" data-keus="stop"><svg class="ic"><use href="#i-kruis"/></svg> Stoppen</button>
+      </div>
+    </div>
+    <p class="t-uitkomst" style="font-size: 18px; line-height: 1.5; color: #e3ecf6">Kies doorgaan, bijsturen of stoppen.</p>
+  </div>
+  <aside class="notities">
+    <p>Klik door de zes stappen, of gebruik de pijltjes. Lees per stap de rechterkaart hardop: zo ging het traditioneel. Laat de zaal het verschil benoemen.</p>
+    <p>Bij afwegen: projecten en epics gaan door dezelfde drie vragen. Bij het besluit: vraag de zaal wat ze zouden kiezen, en klik dan op stoppen. Stoppen is een geldige uitkomst, geen mislukking.</p>
+  </aside>
+</section>
+
+<!-- 11 · LEAN BUSINESS CASE EN MVP -->
+<section class="dia" data-hoofdstuk="3" data-stappen="2" data-titel="Lean business case en MVP">
+  <header class="diakop"><span class="hoofdstuk">3 · Agile portfoliomanagement</span><span class="nr"></span></header>
+  <h2>Een hypothese, geen belofte</h2>
+  <div class="raster2 vul" style="align-items: stretch">
+    <div class="kaart" style="display: flex; flex-direction: column; gap: 14px">
+      <span class="label">Lean business case</span>
+      <p style="font-size: 26px; line-height: 1.35; font-weight: 700; color: var(--inkt)">We verwachten dat <span style="background: #eef5fc; padding: 0 6px; border-radius: 6px">[uitkomst]</span> voor <span style="background: #eef5fc; padding: 0 6px; border-radius: 6px">[doelgroep]</span>, en dat meten we aan <span style="background: #eef5fc; padding: 0 6px; border-radius: 6px">[indicator]</span>.</p>
+      <p>Schrijf de hypothese zo dat je achteraf kunt zeggen of hij klopt. De onderbouwing groeit mee met de omvang van de investering.</p>
+      <div class="stappenrij"><div><span class="ikoon"><svg class="ic"><use href="#i-lamp"/></svg></span>Hypothese</div><svg class="ic"><use href="#i-pijl"/></svg><div><span class="ikoon"><svg class="ic"><use href="#i-blok"/></svg></span>MVP</div><svg class="ic"><use href="#i-pijl"/></svg><div><span class="ikoon"><svg class="ic"><use href="#i-grafiek"/></svg></span>Meten</div><svg class="ic"><use href="#i-pijl"/></svg><div><span class="ikoon"><svg class="ic"><use href="#i-weegschaal"/></svg></span>Besluit</div></div>
+    </div>
+    <div class="kaart donker" data-stap="1" style="display: flex; flex-direction: column; gap: 14px">
+      <span class="label">MVP</span>
+      <p style="font-size: 24px; line-height: 1.4; font-weight: 700; color: #fff">De kleinste versie die laat zien of de hypothese klopt.</p>
+      <p>Na de MVP besluit het portfolio, op advies van de Epic Owner: doorgaan, bijsturen of stoppen.</p>
+      <div style="display: flex; flex-direction: column; gap: 10px; margin-top: auto"><span class="pil" style="background: rgb(255 255 255 / .12); color: #fff; gap: 10px; align-self: flex-start; font-size: 16px"><svg class="ic" style="color: #8cc2f2"><use href="#i-pijl"/></svg>Doorgaan: features naar de teams</span><span class="pil" style="background: rgb(255 255 255 / .12); color: #fff; gap: 10px; align-self: flex-start; font-size: 16px"><svg class="ic" style="color: #8cc2f2"><use href="#i-sync"/></svg>Bijsturen: nieuwe hypothese, volgende MVP</span><span class="pil" style="background: rgb(255 255 255 / .12); color: #fff; gap: 10px; align-self: flex-start; font-size: 16px"><svg class="ic" style="color: #8cc2f2"><use href="#i-kruis"/></svg>Stoppen: capaciteit naar het volgende idee</span></div>
+    </div>
+  </div>
+  <div class="kaart streep" data-stap="2" style="padding: 16px 22px"><p><b style="color: var(--inkt)">Traditioneel:</b> een uitgebreide business case vooraf, met vaste scope en vaste baten, die pas aan het eind wordt getoetst.</p></div>
+  <aside class="notities">
+    <p>Voor projectmanagers is dit een herkenbaar instrument in een andere vorm. Het is nog steeds een business case, maar dan als hypothese die je toetst, in plaats van een belofte die je vooraf vastlegt.</p>
+    <p>In de gereedschapskist van het playbook staat een invulbare lean business case.</p>
+  </aside>
+</section>
+
+<!-- 12 · WSJF -->
+<section class="dia" data-hoofdstuk="3" data-stappen="3" data-haak="wsjf" data-titel="Prioriteren op waarde met WSJF">
+  <header class="diakop"><span class="hoofdstuk">3 · Agile portfoliomanagement</span><span class="nr"></span></header>
+  <h2>Prioriteren op waarde</h2>
+  <div class="kaart" data-stap="1" style="display: flex; align-items: center; gap: 22px; padding: 18px 26px">
+    <span class="label" style="flex: none">WSJF</span>
+    <span style="font-size: 22px; font-weight: 700">Kosten van uitstel</span>
+    <span style="font-size: 30px; font-weight: 800; color: var(--blauw)">÷</span>
+    <span style="font-size: 22px; font-weight: 700">Omvang</span>
+    <span style="font-size: 30px; font-weight: 800; color: var(--blauw)">=</span>
+    <span style="font-size: 22px; font-weight: 800; color: var(--titel)">Volgorde</span>
+    <span class="klein" style="margin-left: auto; max-width: 320px">Kosten van uitstel: waarde, tijdkritiek en risico en kansen samen.</span>
+  </div>
+  <div class="kaart vul" data-stap="2" style="position: relative; padding: 18px 26px">
+    <div class="label" style="margin-bottom: 6px"><span class="wsjf-kop">Gesorteerd op kosten van uitstel</span> · rekenvoorbeeld</div>
+    <div style="position: relative; height: 210px">
+      <div class="wsjf-balk" data-epic="a"><b>Epic A</b><div><div class="b"></div></div><span></span></div>
+      <div class="wsjf-balk" data-epic="b"><b>Epic B</b><div><div class="b"></div></div><span></span></div>
+      <div class="wsjf-balk" data-epic="c"><b>Epic C</b><div><div class="b"></div></div><span></span></div>
+    </div>
+    <p data-stap="3" style="display: flex; gap: 10px; align-items: center; font-size: 17px; margin-top: 8px"><span class="ikoon" style="margin: 0; width: 38px; height: 38px; font-size: 20px; background: #fbe9e7; color: var(--rood)"><svg class="ic"><use href="#i-lamp"/></svg></span><span><b>Epic B gaat voor:</b> minder waarde dan C, maar veel sneller klaar. Zo komt de waarde eerder bij de gebruiker.</span></p>
+  </div>
+  <aside class="notities">
+    <p>Stap 1: de formule. Stap 2: als je alleen naar waarde kijkt, staat Epic C bovenaan. Stap 3: deel door de omvang, en Epic B schuift naar voren: veel waarde voor weinig werk.</p>
+    <p>WSJF is geen rekenmachine die beslist. Het maakt het gesprek beter, omdat iedereen dezelfde vragen beantwoordt. In de gereedschapskist staat een WSJF-rekenhulp.</p>
+  </aside>
+</section>
+
+<!-- 13 · KADERS -->
+<section class="dia" data-hoofdstuk="3" data-stappen="2" data-titel="Kaders in plaats van toestemming">
+  <header class="diakop"><span class="hoofdstuk">3 · Agile portfoliomanagement</span><span class="nr"></span></header>
+  <h2>Kaders in plaats van toestemming</h2>
+  <p class="lead">Kaders zijn de grenzen waarbinnen teams zelf beslissen, zoals budgetgrenzen, architectuurprincipes en security-eisen.</p>
+  <div class="kaart vul" style="position: relative; overflow: hidden">
+    <svg viewBox="0 0 1100 270" width="100%" role="img" aria-label="Teams bewegen vrij tussen twee kaders.">
+      <path class="auto-teken" pathLength="1" d="M20 40 H1080" stroke="#c8261b" stroke-width="6" stroke-linecap="round" style="--t: .2s"/>
+      <path class="auto-teken" pathLength="1" d="M20 230 H1080" stroke="#c8261b" stroke-width="6" stroke-linecap="round" style="--t: .4s"/>
+      <g style="font: 700 14px var(--font); fill: #ab2016"><text x="40" y="28">Budgetgrenzen</text><text x="420" y="28">Architectuurprincipes</text><text x="820" y="28">Security-eisen</text><text x="40" y="258">Privacy en compliance</text><text x="820" y="258">Spelregels van de Groep</text></g>
+      <g class="zwerf"><circle cx="250" cy="135" r="26" fill="#1473c3"/><use href="#i-team" x="237" y="122" width="26" height="26" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></g>
+      <g class="zwerf" style="animation-delay: -2s"><circle cx="560" cy="120" r="26" fill="#1473c3"/><use href="#i-team" x="547" y="107" width="26" height="26" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></g>
+      <g class="zwerf" style="animation-delay: -4s"><circle cx="840" cy="150" r="26" fill="#1473c3"/><use href="#i-team" x="827" y="137" width="26" height="26" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></g>
+    </svg>
+  </div>
+  <div class="raster2" data-stap="1">
+    <div class="kaart" style="padding: 16px 22px"><b style="font-size: 18px"><svg class="ic" style="color: var(--blauw)"><use href="#i-check"/></svg> Binnen de kaders</b><p style="margin-top: 4px">Niemand hoeft toestemming te vragen. Het team beslist hoe het werk wordt gemaakt.</p></div>
+    <div class="kaart donker" style="padding: 16px 22px" data-stap="2"><b style="font-size: 18px"><svg class="ic" style="color: #8cc2f2"><use href="#i-waarschuwing"/></svg> Buiten de kaders</b><p style="margin-top: 4px">Naar het niveau dat erover beslist, bijvoorbeeld het portfolio bij budget of de architect bij technologie.</p></div>
+  </div>
+  <aside class="notities">
+    <p>Traditioneel is de stuurgroep de plek waar toestemming wordt gegeven. In het portfolio verschuift dat naar heldere kaders vooraf. Dat scheelt wachttijd en escalaties.</p>
+    <p>Projecten houden hun stuurgroep en tolpoorten. Kaders gelden voor iedereen.</p>
+  </aside>
+</section>
+
+<!-- 14 · FINANCIEREN -->
+<section class="dia" data-hoofdstuk="3" data-stappen="2" data-titel="Van projectbudget naar capaciteit">
+  <header class="diakop"><span class="hoofdstuk">3 · Agile portfoliomanagement</span><span class="nr"></span></header>
+  <h2>Van projectbudget naar capaciteit</h2>
+  <div class="raster2" style="align-items: stretch">
+    <div class="kaart streep"><span class="label" style="color: var(--grijs)"><svg class="ic"><use href="#i-vlag"/></svg> Projectbudget</span><p style="font-size: 19px; line-height: 1.45; margin-top: 8px">Vooraf vastgelegd voor een vaste scope. Het stopt bij de oplevering, ook als het probleem dat niet doet.</p><svg viewBox="0 0 460 84" style="width: 100%; margin-top: 14px" aria-hidden="true"><g fill="#8aa0b8"><rect x="0" y="10" width="130" height="26" rx="6"/><rect x="150" y="10" width="96" height="26" rx="6"/><rect x="80" y="46" width="150" height="26" rx="6"/><rect x="270" y="46" width="120" height="26" rx="6"/><rect x="290" y="10" width="80" height="26" rx="6"/></g><g fill="#004077"><rect x="128" y="6" width="6" height="34" rx="2"/><rect x="244" y="6" width="6" height="34" rx="2"/><rect x="228" y="42" width="6" height="34" rx="2"/><rect x="388" y="42" width="6" height="34" rx="2"/><rect x="368" y="6" width="6" height="34" rx="2"/></g></svg><p class="klein">Losse budgetten die starten en stoppen</p></div>
+    <div class="kaart donker" data-stap="1"><span class="label"><svg class="ic"><use href="#i-team"/></svg> Budget voor capaciteit</span><p style="font-size: 19px; line-height: 1.45; margin-top: 8px; color: #fff">Een budget per waardestroom voor vaste teams. De Directeuren Digitale Transformatie verdelen het samen en sturen bij op de resultaten.</p><svg viewBox="0 0 460 84" style="width: 100%; margin-top: 14px" aria-hidden="true"><rect x="0" y="4" width="460" height="22" rx="6" fill="#8cc2f2"/><rect x="0" y="31" width="460" height="22" rx="6" fill="#1473c3"/><rect x="0" y="58" width="460" height="22" rx="6" fill="#fff" opacity=".55"/><g stroke="#004077" stroke-width="3" stroke-dasharray="4 4"><path d="M115 0 V84M230 0 V84M345 0 V84"/></g></svg><p class="klein" style="color: #c9d8ea">Doorlopend per waardestroom, elk kwartaal herijkt</p></div>
+  </div>
+  <div data-stap="2" style="display: flex; flex-direction: column; gap: 12px">
+    <p class="lead" style="font-size: 18px">Waar stabiele teams zijn, onderzoeken we de overgang naar financiering van capaciteit. Projectfinanciering blijft voor tijdelijke en afgebakende opgaven. Onze principes:</p>
+    <div style="display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px"><div class="kaart" style="padding: 14px; display: flex; flex-direction: column; gap: 8px"><span class="ikoon" style="margin: 0; width: 38px; height: 38px; font-size: 20px; border-radius: 11px"><svg class="ic"><use href="#i-sync"/></svg></span><b style="font-size: 15px; line-height: 1.3">We herbeoordelen vaak</b></div><div class="kaart" style="padding: 14px; display: flex; flex-direction: column; gap: 8px"><span class="ikoon" style="margin: 0; width: 38px; height: 38px; font-size: 20px; border-radius: 11px"><svg class="ic"><use href="#i-schild"/></svg></span><b style="font-size: 15px; line-height: 1.3">We werken met kaders</b></div><div class="kaart" style="padding: 14px; display: flex; flex-direction: column; gap: 8px"><span class="ikoon" style="margin: 0; width: 38px; height: 38px; font-size: 20px; border-radius: 11px"><svg class="ic"><use href="#i-lagen"/></svg></span><b style="font-size: 15px; line-height: 1.3">Financiering is stapsgewijs</b></div><div class="kaart" style="padding: 14px; display: flex; flex-direction: column; gap: 8px"><span class="ikoon" style="margin: 0; width: 38px; height: 38px; font-size: 20px; border-radius: 11px"><svg class="ic"><use href="#i-instellen"/></svg></span><b style="font-size: 15px; line-height: 1.3">Budget is flexibel</b></div><div class="kaart" style="padding: 14px; display: flex; flex-direction: column; gap: 8px"><span class="ikoon" style="margin: 0; width: 38px; height: 38px; font-size: 20px; border-radius: 11px"><svg class="ic"><use href="#i-doel"/></svg></span><b style="font-size: 15px; line-height: 1.3">Sturen op uitkomsten, niet op gedetailleerde plannen</b></div></div>
+  </div>
+  <aside class="notities">
+    <p>Wees precies: dit is een richting die we onderzoeken, geen besluit dat al genomen is. De concrete financieringsvorm wordt per route vastgesteld en sluit aan op de planning-en-controlcyclus.</p>
+    <p>Op de volgende dia kun je het verschil zelf zien.</p>
+  </aside>
+</section>
+
+<!-- 15 · BUDGET VERDELEN (interactief) -->
+<section class="dia modus-cap" data-hoofdstuk="3" data-haak="budget" data-titel="Budget verdelen">
+  <header class="diakop"><span class="hoofdstuk">3 · Agile portfoliomanagement</span><span class="nr"></span></header>
+  <div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 24px">
+    <h2>Budget verdelen</h2>
+    <div class="seg" role="group" aria-label="Weergave">
+      <button data-modus="proj">Per project</button>
+      <button data-modus="cap" class="aan">Per waardestroom</button>
+    </div>
+  </div>
+  <div class="kaart alleen-cap" style="padding: 10px 28px">
+    <div class="rij"><label for="ws-a"><svg class="ic" style="color: var(--blauw)"><use href="#i-euro"/></svg> Van contract tot factuur</label><input id="ws-a" type="range" min="0" max="8" step="1" value="4" data-ws="a"><div class="blokjes" data-blok="a"></div><span class="getal" data-getal="a"></span></div>
+    <div class="rij"><label for="ws-b"><svg class="ic" style="color: var(--blauw)"><use href="#i-kalender"/></svg> Van planning tot inzet</label><input id="ws-b" type="range" min="0" max="8" step="1" value="3" data-ws="b"><div class="blokjes" data-blok="b"></div><span class="getal" data-getal="b"></span></div>
+    <div class="rij"><label for="ws-c"><svg class="ic" style="color: var(--blauw)"><use href="#i-server"/></svg> Van melding tot oplossing</label><input id="ws-c" type="range" min="0" max="8" step="1" value="3" data-ws="c"><div class="blokjes" data-blok="c"></div><span class="getal" data-getal="c"></span></div>
+    <div class="rij"><label><svg class="ic" style="color: var(--blauw)"><use href="#i-vlag"/></svg> Ruimte voor projecten</label><span class="klein">Wat over is, voor tijdelijke en afgebakende opgaven</span><div class="blokjes vrij" data-blok="vrij"></div><span class="getal" data-getal="vrij"></span></div>
+  </div>
+  <div class="raster2 alleen-cap">
+    <div class="kaart donker" style="padding: 16px 22px"><p style="color: #fff; font-size: 16px; line-height: 1.5">Elk vast team blijft het hele jaar bij zijn product. Elk kwartaal kijken we of de verdeling nog klopt, en schuiven we op basis van de resultaten.</p></div>
+    <div class="kaart streep" style="padding: 14px 20px"><p style="font-size: 15px">Rekenvoorbeeld met 12 teams. Hoe we stabiele capaciteit financieren, onderzoeken we nog. Projectfinanciering blijft voor tijdelijke opgaven.</p></div>
+  </div>
+  <div class="kaart alleen-proj" style="padding: 22px 28px; display: flex; flex-direction: column; gap: 12px">
+    <div style="display: grid; grid-template-columns: 180px repeat(4, minmax(0, 1fr)); font-size: 13px; font-weight: 700; color: var(--grijs)"><span></span><span>Kwartaal 1</span><span>Kwartaal 2</span><span>Kwartaal 3</span><span>Kwartaal 4</span></div>
+    <div style="display: grid; grid-template-columns: 180px minmax(0, 1fr); align-items: center"><b>Project A</b><div class="tijdbalk"><span style="left: 0; width: 45%; --t: 0s">Team A, daarna uit elkaar</span></div></div>
+    <div style="display: grid; grid-template-columns: 180px minmax(0, 1fr); align-items: center"><b>Project B</b><div class="tijdbalk"><span style="left: 20%; width: 50%; --t: .25s">Team B</span></div></div>
+    <div style="display: grid; grid-template-columns: 180px minmax(0, 1fr); align-items: center"><b>Project C</b><div class="tijdbalk"><span style="left: 50%; width: 45%; --t: .5s">Team C, opnieuw opgebouwd</span></div></div>
+    <div style="display: grid; grid-template-columns: 180px minmax(0, 1fr); align-items: center"><b>Verbetering op A</b><div class="tijdbalk"><span style="left: 75%; width: 25%; --t: .75s">Nieuw team</span></div></div>
+  </div>
+  <div class="raster2 alleen-proj">
+    <div class="kaart donker" style="padding: 16px 22px"><p style="color: #fff; font-size: 16px; line-height: 1.5">Elk project krijgt een eigen budget voor een vaste scope. Na de oplevering valt het team uit elkaar en vertrekt de kennis.</p></div>
+    <div class="kaart streep" style="padding: 14px 20px"><p style="font-size: 15px">Verbeteren begint telkens opnieuw, met een nieuwe aanvraag, een nieuwe business case en een nieuw team.</p></div>
+  </div>
+  <aside class="notities">
+    <p>Begin met "Per project": vier projecten in een jaar, teams die ontstaan en weer verdwijnen. Klik dan op "Per waardestroom".</p>
+    <p>Schuif live: wat gebeurt er als planning tot inzet een extra team krijgt? De ruimte voor projecten wordt kleiner. Precies die afweging maakt het portfolio, met alle initiatieven op tafel.</p>
+  </aside>
+</section>
+
+<!-- 16 · WAARDEKETEN -->
+<section class="dia" data-hoofdstuk="3" data-titel="Van strategisch thema tot gerealiseerde waarde">
+  <header class="diakop"><span class="hoofdstuk">3 · Agile portfoliomanagement</span><span class="nr"></span></header>
+  <h2>Van strategisch thema tot gerealiseerde waarde</h2>
+  <p class="lead">Waardesturing loopt in één lijn van de strategie naar de uitvoering, en weer terug.</p>
+  <div class="kaart vul" style="display: flex; align-items: center">
+    <svg viewBox="0 -6 1100 226" width="100%" role="img" aria-label="Strategisch thema, doelstelling, key result, batenhypothese, epic, early indicator, gerealiseerde waarde.">
+      <path class="auto-teken" pathLength="1" d="M60 70 H1040" stroke="#1473c3" stroke-width="7" stroke-linecap="round" style="--t: .2s; --d: 2.4s"/>
+      <g fill="#1473c3" stroke="#fff" stroke-width="4">
+        <circle class="auto-pop" cx="60" cy="70" r="16" style="--t: .3s"/><circle class="auto-pop" cx="223" cy="70" r="16" style="--t: .65s"/><circle class="auto-pop" cx="386" cy="70" r="16" style="--t: 1s"/><circle class="auto-pop" cx="550" cy="70" r="16" style="--t: 1.35s"/><circle class="auto-pop" cx="713" cy="70" r="16" style="--t: 1.7s"/><circle class="auto-pop" cx="876" cy="70" r="16" style="--t: 2.05s"/>
+      </g>
+      <circle class="auto-pop" cx="1040" cy="70" r="20" fill="#fff" stroke="#c8261b" stroke-width="5" style="--t: 2.5s"/><use href="#i-vlag" x="45" y="6" width="30" height="30" stroke="#1473c3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" class="auto-in" style="--t: 0.40s"/><use href="#i-doel" x="208" y="6" width="30" height="30" stroke="#1473c3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" class="auto-in" style="--t: 0.75s"/><use href="#i-grafiek" x="371" y="6" width="30" height="30" stroke="#1473c3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" class="auto-in" style="--t: 1.10s"/><use href="#i-lamp" x="535" y="6" width="30" height="30" stroke="#1473c3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" class="auto-in" style="--t: 1.45s"/><use href="#i-lagen" x="698" y="6" width="30" height="30" stroke="#1473c3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" class="auto-in" style="--t: 1.80s"/><use href="#i-oog" x="861" y="6" width="30" height="30" stroke="#1473c3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" class="auto-in" style="--t: 2.15s"/><use href="#i-check" x="1025" y="6" width="30" height="30" stroke="#c8261b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none" class="auto-in" style="--t: 2.6s"/>
+      <g style="font: 700 16px var(--font); fill: #004077" text-anchor="middle">
+        <text class="auto-in" x="60" y="124" style="--t: .4s">Strategisch</text><text class="auto-in" x="60" y="146" style="--t: .4s">thema</text>
+        <text class="auto-in" x="223" y="124" style="--t: .75s">Doelstelling</text>
+        <text class="auto-in" x="386" y="124" style="--t: 1.1s">Key result</text>
+        <text class="auto-in" x="550" y="124" style="--t: 1.45s">Baten-</text><text class="auto-in" x="550" y="146" style="--t: 1.45s">hypothese</text>
+        <text class="auto-in" x="713" y="124" style="--t: 1.8s">Epic</text>
+        <text class="auto-in" x="876" y="124" style="--t: 2.15s">Early</text><text class="auto-in" x="876" y="146" style="--t: 2.15s">indicator</text>
+        <text class="auto-in" x="1040" y="124" style="--t: 2.6s; fill: #ab2016">Gerealiseerde</text><text class="auto-in" x="1040" y="146" style="--t: 2.6s; fill: #ab2016">waarde</text>
+      </g>
+      <path class="auto-teken" pathLength="1" d="M1040 170 C 1040 200 1000 205 900 205 H 200 C 100 205 60 200 60 170" stroke="#8cc2f2" stroke-width="3" stroke-dasharray="1" style="--t: 3s; --d: 1.6s"/>
+      <text class="auto-in" x="550" y="200" text-anchor="middle" style="--t: 3.6s; font: 600 13px var(--font); fill: #3e5878">Wat we leren, gaat terug naar de keuzes</text>
+    </svg>
+  </div>
+  <aside class="notities">
+    <p>Voor het PMO is dit de lijn waarlangs je rapporteert: niet alleen of een epic af is, maar of de early indicator beweegt en of de waarde komt.</p>
+    <p>Een early indicator is een vroeg signaal dat de baten eraan komen, ruim voordat de gerealiseerde waarde te meten is.</p>
+  </aside>
+</section>
+
+<!-- 17 · RITME VAN HET PORTFOLIO -->
+<section class="dia" data-hoofdstuk="3" data-stappen="2" data-titel="Het ritme van het portfolio">
+  <header class="diakop"><span class="hoofdstuk">3 · Agile portfoliomanagement</span><span class="nr"></span></header>
+  <h2>Het ritme van het portfolio</h2>
+  <div class="raster3 vul" style="align-items: stretch">
+    <div class="kaart donker auto-in" style="--t: .1s"><div class="kaart-kop"><span class="ikoon"><svg class="ic"><use href="#i-lagen"/></svg></span><span class="label">Elke maand</span></div><h3 style="color: #fff">Portfolio-sync</h3><p>De Directeuren Digitale Transformatie bespreken voortgang, waarde, risico's, capaciteit en budget van epics én klassieke projecten. Projectmanagers en opdrachtgevers sluiten aan voor hun initiatief.</p></div>
+    <div class="kaart auto-in" style="--t: .3s"><div class="kaart-kop"><span class="ikoon"><svg class="ic"><use href="#i-kalender"/></svg></span><span class="label">Elk kwartaal</span></div><h3>PI-planning</h3><p>Alle teams van een productgroep plannen in twee dagen het komende kwartaal en hun afhankelijkheden.</p></div>
+    <div class="kaart auto-in" style="--t: .5s"><div class="kaart-kop"><span class="ikoon"><svg class="ic"><use href="#i-sync"/></svg></span><span class="label">Eind van het kwartaal</span></div><h3>Inspect &amp; Adapt</h3><p>De productgroep meet de behaalde waarde en pakt één structureel probleem aan.</p></div>
+  </div>
+  <div class="kaart" data-stap="1" style="padding: 16px 22px; display: flex; gap: 16px; align-items: center"><span class="label" style="color: var(--titel); flex: none"><svg class="ic"><use href="#i-schild"/></svg> Spelregel</span><p style="font-size: 18px; color: var(--inkt)">Het portfolio-overzicht leidt tot besluiten over starten, stoppen, her-prioriteren, capaciteit en budget. Voorkom rapportage zonder besluit of bijsturing.</p></div>
+  <div class="kaart streep" data-stap="2" style="padding: 14px 22px"><p><b style="color: var(--inkt)">Traditioneel:</b> een stuurgroep per project, met eigen data en eigen ritme. Het totaalbeeld ontbreekt.</p></div>
+  <aside class="notities">
+    <p>De portfolio-sync is voor projectmanagers en het PMO het belangrijkste overleg. Hier komen projecten en epics samen op tafel.</p>
+    <p>Bron: het portfolio-overzicht uit het portfoliomanagementsysteem, plus de relevante productbacklogs.</p>
+  </aside>
+</section>
+
+<!-- 18 · TWEE MANIEREN VAN KIJKEN -->
+<section class="dia blauw" data-hoofdstuk="4" data-stappen="2" data-titel="Twee manieren van kijken">
+  <header class="diakop"><span class="hoofdstuk">4 · Traditioneel en agile</span><span class="nr"></span></header>
+  <h2>Twee manieren van kijken</h2>
+  <div class="raster2 vul" style="align-items: center">
+    <div data-stap="1" style="display: flex; flex-direction: column; align-items: center; gap: 18px">
+      <svg viewBox="0 0 360 300" width="360" aria-hidden="true">
+        <path d="M180 20 L340 280 H20 Z" fill="rgb(255 255 255 / .08)" stroke="#8aa0b8" stroke-width="3"/>
+        <text x="180" y="120" text-anchor="middle" style="font: 800 22px var(--font); fill: #fff">Scope</text>
+        <text x="180" y="146" text-anchor="middle" style="font: 600 16px var(--font); fill: #c9d8ea">ligt vast</text>
+        <text x="100" y="262" text-anchor="middle" style="font: 700 17px var(--font); fill: #c9d8ea">Tijd</text>
+        <text x="260" y="262" text-anchor="middle" style="font: 700 17px var(--font); fill: #c9d8ea">Budget</text>
+      </svg>
+      <p style="font-size: 20px; line-height: 1.45; text-align: center; color: #c9d8ea; max-width: 420px"><b style="color: #fff">Traditioneel:</b> de scope ligt vast. Tijd en budget worden geschat, en schuiven.</p>
+    </div>
+    <div data-stap="2" style="display: flex; flex-direction: column; align-items: center; gap: 18px">
+      <svg viewBox="0 0 360 300" width="360" aria-hidden="true">
+        <path d="M20 20 H340 L180 280 Z" fill="#1473c3" stroke="#8cc2f2" stroke-width="3"/>
+        <text x="110" y="70" text-anchor="middle" style="font: 800 20px var(--font); fill: #fff">Tijd</text>
+        <text x="250" y="70" text-anchor="middle" style="font: 800 20px var(--font); fill: #fff">Capaciteit</text>
+        <text x="180" y="96" text-anchor="middle" style="font: 600 15px var(--font); fill: #e3ecf6">liggen vast</text>
+        <text x="180" y="150" text-anchor="middle" style="font: 800 20px var(--font); fill: #fff">Scope</text>
+        <text x="180" y="172" text-anchor="middle" style="font: 600 15px var(--font); fill: #e3ecf6">beweegt mee</text>
+      </svg>
+      <p style="font-size: 20px; line-height: 1.45; text-align: center; color: #c9d8ea; max-width: 420px"><b style="color: #fff">Agile:</b> het ritme en de teams liggen vast. De scope beweegt mee met wat we leren.</p>
+    </div>
+  </div>
+  <aside class="notities">
+    <p>Dit is de omgekeerde driehoek. Bij een project leg je de scope vast en schat je tijd en geld. Bij vaste teams ligt de capaciteit vast en kies je steeds wat je ermee doet.</p>
+    <p>Geen van beide is fout. Ze passen bij een ander soort opgave, en daarom kiezen we per initiatief de lichtste vorm die past.</p>
+  </aside>
+</section>
+
+<!-- 19 · VERGELIJKING (interactief) -->
+<section class="dia" data-hoofdstuk="4" data-stappen="7" data-haak="vergelijk" data-titel="Naast elkaar, per onderwerp">
+  <header class="diakop"><span class="hoofdstuk">4 · Traditioneel en agile</span><span class="nr"></span></header>
+  <div style="display: flex; justify-content: space-between; align-items: flex-end; gap: 24px">
+    <h2>Naast elkaar, per onderwerp</h2>
+    <div class="seg" role="group" aria-label="Wat laat je zien?"><button data-toon="trad">Traditioneel</button><button data-toon="beide" class="aan">Naast elkaar</button><button data-toon="agile">Agile</button></div>
+  </div>
+  <div class="chips" role="group" aria-label="Onderwerp"></div>
+  <div class="vergelijk raster2 vul toon-beide" style="align-items: stretch">
+    <div class="kaart streep trad"><span class="label" style="color: var(--grijs)"><svg class="ic"><use href="#i-vlag"/></svg> Traditioneel project- en portfoliomanagement</span><div class="v-vis v-trad-vis"></div><p class="v-trad" style="color: var(--grijs)"></p></div>
+    <div class="kaart donker agile"><span class="label"><svg class="ic"><use href="#i-sync"/></svg> Agile, in Samen Digitaal</span><div class="v-vis v-agile-vis"></div><p class="v-agile" style="color: #fff"></p><span class="v-bron klein" style="margin-top: auto; color: #c9d8ea"></span></div>
+  </div>
+  <aside class="notities">
+    <p>Met de pijltjes loop je de acht onderwerpen langs. Met de knoppen rechtsboven toon je eerst alleen traditioneel, laat je de zaal raden hoe het agile werkt, en toon je dan beide.</p>
+    <p>Belangrijk bij "Sturing": projecten houden hun stuurgroep. Het portfolio stuurt daarboven op uitkomsten en kaders.</p>
+  </aside>
+</section>
+
+<!-- 20 · WAT HETZELFDE BLIJFT -->
+<section class="dia" data-hoofdstuk="4" data-titel="Wat hetzelfde blijft">
+  <header class="diakop"><span class="hoofdstuk">4 · Traditioneel en agile</span><span class="nr"></span></header>
+  <h2>Wat hetzelfde blijft</h2>
+  <p class="lead">Niet alles verandert. Veel van wat je nu doet, heeft een vaste plek in de nieuwe manier van werken.</p>
+  <div class="raster3 vul" style="align-content: center">
+    <div class="kaart auto-in" style="--t: .1s"><span class="ikoon"><svg class="ic"><use href="#i-vlag"/></svg></span><h3>Projecten</h3><p>Voor tijdelijke, voorspelbare en governance-intensieve opgaven.</p></div>
+    <div class="kaart auto-in" style="--t: .25s"><span class="ikoon"><svg class="ic"><use href="#i-lijst"/></svg></span><h3>Zes fasen en tolpoorten</h3><p>Idee, analyse, definitie, realisatie, implementatie en afsluiting, waarderealisatie. T0 tot en met T4.</p></div>
+    <div class="kaart auto-in" style="--t: .4s"><span class="ikoon"><svg class="ic"><use href="#i-document"/></svg></span><h3>De business case</h3><p>Met een onderbouwing die per fase meegroeit, en baten die je na afsluiting blijft volgen.</p></div>
+    <div class="kaart auto-in" style="--t: .55s"><span class="ikoon"><svg class="ic"><use href="#i-persoon"/></svg></span><h3>Een eigenaar per initiatief</h3><p>Met een duidelijk probleem of kans, een doel, een doelgroep en een verwacht resultaat.</p></div>
+    <div class="kaart auto-in" style="--t: .7s"><span class="ikoon"><svg class="ic"><use href="#i-grafiek"/></svg></span><h3>Verantwoording</h3><p>In het portfoliomanagementsysteem: projectregistratie, budgetbewaking en bestuurlijke sturing.</p></div>
+    <div class="kaart auto-in donker" style="--t: .85s"><span class="ikoon"><svg class="ic"><use href="#i-gebouw"/></svg></span><h3 style="color: #fff">De opdrachtgever</h3><p>Verantwoordelijk voor resultaat en waarde. De projectmanager stuurt de dagelijkse uitvoering.</p></div>
+  </div>
+  <aside class="notities">
+    <p>Deze dia geeft rust. Het projectvak blijft nodig, met dezelfde instrumenten. Wat verandert, is dat projecten in één portfolio worden afgewogen naast epics, en dat ze werk laten doen door teams die al bestaan.</p>
+  </aside>
+</section>
+
+<!-- 21 · EEN PORTFOLIO, TWEE ROUTES -->
+<section class="dia" data-hoofdstuk="4" data-stappen="3" data-titel="Eén portfolio, twee routes">
+  <header class="diakop"><span class="hoofdstuk">4 · Traditioneel en agile</span><span class="nr"></span></header>
+  <h2>Eén portfolio, twee routes</h2>
+  <div class="kaart vul" style="position: relative; padding: 0; overflow: hidden">
+    <div style="position: absolute; left: 0; top: 0; width: 1136px; height: 470px">
+      <svg width="1136" height="470" viewBox="0 0 1136 470" role="img" aria-label="Ideeën rijden door de trechter en splitsen in route 1, een vast team, en route 2, een project. Een storing rijdt buiten de trechter over de run." style="position: absolute; left: 0; top: 0">
+        <path d="M0 200 H560" stroke="#a39a96" stroke-width="7" stroke-linecap="round"/>
+        <g fill="#fff" stroke="#004077" stroke-width="3"><circle cx="140" cy="200" r="14"/><circle cx="330" cy="200" r="14"/><circle cx="520" cy="200" r="14"/></g>
+        <use href="#i-trechter" x="126.0" y="148.0" width="28" height="28" stroke="#004077" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/><use href="#i-weegschaal" x="316.0" y="148.0" width="28" height="28" stroke="#004077" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/><use href="#i-kompas" x="506.0" y="148.0" width="28" height="28" stroke="#004077" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/><g style="font: 700 14px var(--font); fill: #004077" text-anchor="middle"><text x="140" y="240">Trechter</text><text x="330" y="240">Afwegen</text><text x="520" y="240">Kies de route</text></g>
+        <g data-stap="1">
+          <path class="teken" pathLength="1" d="M560 200 C 600 200 600 100 645 100 H1136" stroke="#1473c3" stroke-width="7" stroke-linecap="round" fill="none"/>
+          <use href="#i-team" x="660.0" y="56.0" width="22" height="22" stroke="#1473c3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/><text x="690" y="74" style="font: 800 16px var(--font); fill: #1473c3">Route 1 · vast team</text>
+          <text x="660" y="140" style="font: 600 14px var(--font); fill: #3e5878">Epic → features → backlog van het team</text>
+        </g>
+        <g data-stap="2">
+          <path class="teken" pathLength="1" d="M560 200 C 600 200 600 300 645 300 H1136" stroke="#004077" stroke-width="7" stroke-linecap="round" fill="none"/>
+          <use href="#i-vlag" x="660.0" y="320.0" width="22" height="22" stroke="#004077" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/><text x="690" y="338" style="font: 800 16px var(--font); fill: #004077">Route 2 · project</text>
+          <g style="font: 700 12px var(--font); fill: #3e5878" text-anchor="middle"><text x="760" y="282">T0</text><text x="860" y="282">T1</text><text x="960" y="282">T2</text><text x="1060" y="282">T4</text></g>
+          <g fill="#004077"><rect x="754" y="290" width="12" height="20" rx="2"/><rect x="854" y="290" width="12" height="20" rx="2"/><rect x="954" y="290" width="12" height="20" rx="2"/><rect x="1054" y="290" width="12" height="20" rx="2"/></g>
+        </g>
+        <g data-stap="3">
+          <use href="#i-server" x="28.0" y="383.0" width="22" height="22" stroke="#3e5878" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/><text x="58" y="400" style="font: 800 15px var(--font); fill: #3e5878">Buiten de trechter: de run</text>
+          <path d="M0 430 H1136" stroke="#8cc2f2" stroke-width="8" stroke-linecap="round" stroke-dasharray="0 14" fill="none"/>
+          <circle cx="980" cy="430" r="14" fill="#8cc2f2" stroke="#004077" stroke-width="1.5"/>
+          <text x="980" y="462" text-anchor="middle" style="font: 700 13px var(--font); fill: #004077">Servicedesk</text>
+        </g>
+      </svg>
+      <div data-stap="1" style="position: absolute; inset: 0; transform: none"><span class="rit" style="background: #c8261b; offset-path: path('M30 200 H560 C 600 200 600 100 645 100 H1040'); --t: .4s; --d: 3.4s"></span></div>
+      <div data-stap="2" style="position: absolute; inset: 0; transform: none"><span class="rit" style="background: #004077; border-radius: 5px; offset-path: path('M30 200 H560 C 600 200 600 300 645 300 H1100'); --t: .4s; --d: 3.4s"></span></div>
+      <div data-stap="3" style="position: absolute; inset: 0; transform: none"><span class="rit" style="background: #c8261b; offset-path: path('M30 430 H980'); --t: .3s; --d: 2s"></span></div>
+    </div>
+  </div>
+  <aside class="notities">
+    <p>Stap 1: een idee dat binnen een bestaand product past, wordt een epic voor een vast team. Stap 2: een tijdelijke, afgebakende opgave wordt een project met de bekende tolpoorten. Stap 3: een storing is geen idee, die gaat via de servicedesk.</p>
+    <p>Beide routes komen uit dezelfde trechter en worden met dezelfde vragen afgewogen. In het playbook helpt een keuzehulp bij de eerste richting; het portfolio beslist na de intake.</p>
+  </aside>
+</section>
+
+<!-- 22 · MISVERSTANDEN -->
+<section class="dia" data-hoofdstuk="4" data-stappen="5" data-haak="misverstanden" data-titel="Vijf misverstanden">
+  <header class="diakop"><span class="hoofdstuk">4 · Traditioneel en agile</span><span class="nr"></span></header>
+  <h2>Vijf misverstanden</h2>
+  <div class="vul" style="display: flex; flex-direction: column; gap: 12px; justify-content: center">
+    <div class="mis"><div class="voor"><svg class="ic" style="font-size: 24px; color: #c8261b"><use href="#i-waarschuwing"/></svg><b>Misverstand</b>"Agile betekent: geen planning."</div><div class="achter"><svg class="ic" style="font-size: 24px; color: #8cc2f2"><use href="#i-check"/></svg><b style="color: var(--licht)">Zo zit het</b>We plannen elk kwartaal samen, en elke twee weken opnieuw.</div></div>
+    <div class="mis"><div class="voor"><svg class="ic" style="font-size: 24px; color: #c8261b"><use href="#i-waarschuwing"/></svg><b>Misverstand</b>"Projecten verdwijnen."</div><div class="achter"><svg class="ic" style="font-size: 24px; color: #8cc2f2"><use href="#i-check"/></svg><b style="color: var(--licht)">Zo zit het</b>Projecten blijven voor tijdelijke, afgebakende opgaven.</div></div>
+    <div class="mis"><div class="voor"><svg class="ic" style="font-size: 24px; color: #c8261b"><use href="#i-waarschuwing"/></svg><b>Misverstand</b>"Er is geen business case meer."</div><div class="achter"><svg class="ic" style="font-size: 24px; color: #8cc2f2"><use href="#i-check"/></svg><b style="color: var(--licht)">Zo zit het</b>Er is een lean business case, die meegroeit met de investering.</div></div>
+    <div class="mis"><div class="voor"><svg class="ic" style="font-size: 24px; color: #c8261b"><use href="#i-waarschuwing"/></svg><b>Misverstand</b>"Teams bepalen zelf wat ze doen."</div><div class="achter"><svg class="ic" style="font-size: 24px; color: #8cc2f2"><use href="#i-check"/></svg><b style="color: var(--licht)">Zo zit het</b>De Product Owner bepaalt de volgorde, binnen de prioriteiten van het portfolio.</div></div>
+    <div class="mis"><div class="voor"><svg class="ic" style="font-size: 24px; color: #c8261b"><use href="#i-waarschuwing"/></svg><b>Misverstand</b>"Het PMO is overbodig."</div><div class="achter"><svg class="ic" style="font-size: 24px; color: #8cc2f2"><use href="#i-check"/></svg><b style="color: var(--licht)">Zo zit het</b>Het portfolio heeft juist meer integraal inzicht nodig dan ooit.</div></div>
+  </div>
+  <aside class="notities">
+    <p>Lees elk misverstand voor en vraag eerst of iemand het herkent. Draai het dan om met de volgende klik.</p>
+    <p>Het laatste misverstand is het bruggetje naar het volgende hoofdstuk.</p>
+  </aside>
+</section>
+
+<!-- 23 · VOOR DE PROJECTMANAGER -->
+<section class="dia" data-hoofdstuk="5" data-stappen="3" data-titel="Voor de projectmanager">
+  <header class="diakop"><span class="hoofdstuk">5 · Wat betekent het voor jou</span><span class="nr"></span></header>
+  <h2>Voor de projectmanager</h2>
+  <p class="lead">Je blijft verantwoordelijk voor de integrale realisatie van een tijdelijk, afgebakend resultaat, binnen scope, tijd, budget, kwaliteit en randvoorwaarden. Drie dingen werken anders.</p>
+  <div class="raster3 vul" style="align-content: center; align-items: stretch">
+    <div class="kaart" data-stap="1"><span class="ikoon"><svg class="ic"><use href="#i-lijst"/></svg></span><h3>Eén backlog per team</h3><p>Laat je werk doen door een vast team, dan staat dat werk als epic of feature in de backlog van dat team. Naast beheer, bugs en verbeteringen.</p></div>
+    <div class="kaart" data-stap="2"><span class="ikoon"><svg class="ic"><use href="#i-schild"/></svg></span><h3>Niet buiten de prioriteiten om</h3><p>Je legt geen werk rechtstreeks bij een team neer, en niemand duwt extra werk een sprint in. Capaciteit spreek je af.</p></div>
+    <div class="kaart" data-stap="3"><span class="ikoon"><svg class="ic"><use href="#i-pijl"/></svg></span><h3>Vooraf: eigenaar van run en baten</h3><p>Voor de start staat vast wie het resultaat erna draait en wie de baten bewaakt. De overdracht hoort bij tolpoort T4.</p></div>
+  </div>
+  <aside class="notities">
+    <p>Dit zijn spelregels uit het playbook, geen wensen. Vooral de tweede vraagt gewenning: de korte lijn naar een ontwikkelaar die "even" iets doet, bestaat niet meer.</p>
+    <p>Daar staat tegenover: het team kent het product al. Je hoeft geen team op te bouwen en geen kennis over te dragen.</p>
+  </aside>
+</section>
+
+<!-- 24 · VOOR HET PMO -->
+<section class="dia" data-hoofdstuk="5" data-stappen="3" data-titel="Voor het PMO">
+  <header class="diakop"><span class="hoofdstuk">5 · Wat betekent het voor jou</span><span class="nr"></span></header>
+  <h2>Voor het PMO: van bewaken naar inzicht</h2>
+  <p class="lead" style="font-size: 19px">Het portfolio heeft iemand nodig die het geheel overziet: projecten én epics, op waarde, voortgang, risico en capaciteit. Dat is precies het vak van het PMO.</p>
+  <div class="raster3 vul" style="align-items: stretch">
+    <div class="kaart" data-stap="1"><div class="kaart-kop"><span class="ikoon"><svg class="ic"><use href="#i-check"/></svg></span><h3>Blijft</h3></div><ul style="margin: 0; padding-left: 20px; font-size: 16.5px; line-height: 1.5; color: var(--grijs)"><li>Projectregistratie en budgetbewaking in het portfoliomanagementsysteem</li><li>Tolpoorten en verantwoording voor projecten</li><li>Bestuurlijke sturing en relatie met de strategische doelen</li></ul></div>
+    <div class="kaart donker" data-stap="2"><div class="kaart-kop"><span class="ikoon"><svg class="ic"><use href="#i-plus"/></svg></span><h3 style="color: #fff">Komt erbij</h3></div><ul style="margin: 0; padding-left: 20px; font-size: 16.5px; line-height: 1.5; color: #e3ecf6"><li>Integraal inzicht: projecten én epics, met waarde, risico's, afhankelijkheden en capaciteit</li><li>Portfoliobesluiten voorbereiden: starten, doorgaan, bijsturen of stoppen</li><li>De portfolio-sync voorbereiden en de opvolging bewaken</li></ul></div>
+    <div class="kaart streep" data-stap="3"><div class="kaart-kop"><span class="ikoon"><svg class="ic"><use href="#i-min"/></svg></span><h3>Minder</h3></div><ul style="margin: 0; padding-left: 20px; font-size: 16.5px; line-height: 1.5; color: var(--grijs)"><li>Rapportage zonder besluit of bijsturing</li><li>Elk project los afwegen, buiten de capaciteit van de teams om</li><li>Voortgang in procenten van het plan, in plaats van in werkend resultaat</li></ul></div>
+  </div>
+  <p class="klein">Op basis van de rol Portfolio Manager, de portfolio-sync en de spelregels in het playbook.</p>
+  <aside class="notities">
+    <p>De rol Portfolio Manager in het playbook: zorgt voor integraal inzicht in samenstelling, waarde, voortgang, risico's, afhankelijkheden en capaciteitsbehoefte van het portfolio, bereidt portfoliobesluiten voor en bewaakt de opvolging.</p>
+    <p>Wees eerlijk: hoe het PMO precies wordt ingericht, is nog niet beschreven. Deze dia is een richting, geen functiebeschrijving.</p>
+  </aside>
+</section>
+
+<!-- 25 · WIE BESLIST WAT -->
+<section class="dia" data-hoofdstuk="5" data-titel="Wie beslist wat">
+  <header class="diakop"><span class="hoofdstuk">5 · Wat betekent het voor jou</span><span class="nr"></span></header>
+  <h2>Wie beslist wat</h2>
+  <table class="auto-in groot" style="--t: .1s">
+    <thead><tr><th>Wie</th><th><svg class="ic"><use href="#i-check"/></svg>Beslist over</th><th><svg class="ic"><use href="#i-kruis"/></svg>Beslist niet over</th></tr></thead>
+    <tbody>
+      <tr><th><svg class="ic"><use href="#i-lagen"/></svg>Portfolio</th><td>Welke grote initiatieven en epics starten, stoppen of voorrang krijgen, en welk budget en welke globale capaciteit er zijn.</td><td>De volgorde van stories, taken of sprintwerk.</td></tr>
+      <tr><th><svg class="ic"><use href="#i-doel"/></svg>Product Manager</th><td>Productdoelen en features voor de komende periode, samenhang en afhankelijkheden over teams heen.</td><td>De dagelijkse volgorde van de teambacklog.</td></tr>
+      <tr><th><svg class="ic"><use href="#i-lijst"/></svg>Product Owner</th><td>De volgorde van het teamwerk, binnen de afgesproken doelen, capaciteit en kaders.</td><td>Welke grote initiatieven organisatiebreed voorrang krijgen.</td></tr>
+      <tr><th><svg class="ic"><use href="#i-team"/></svg>Productteam</th><td>Hoeveel werk haalbaar is, hoe het wordt gemaakt en wanneer het technisch klaar is.</td><td>Budget, portfolio-prioriteit of projectmijlpalen.</td></tr>
+      <tr><th><svg class="ic"><use href="#i-vlag"/></svg>Projectgovernance</th><td>Opdrachtgever en stuurgroep sturen op resultaat, tijd, budget en risico's en besluiten over faseovergangen.</td><td>Rechtstreeks de backlog van een productteam bepalen.</td></tr>
+    </tbody>
+  </table>
+  <aside class="notities">
+    <p>Kijk samen naar de laatste rij: de projectgovernance blijft, met dezelfde verantwoordelijkheden. Wat ze niet doet: de backlog van een productteam bepalen. Dat loopt via de Product Owner, binnen de prioriteiten van het portfolio.</p>
+  </aside>
+</section>
+
+<!-- 26 · VERDRINGING -->
+<section class="dia" data-hoofdstuk="5" data-stappen="3" data-titel="Als werk elkaar verdringt">
+  <header class="diakop"><span class="hoofdstuk">5 · Wat betekent het voor jou</span><span class="nr"></span></header>
+  <h2>Als werk elkaar verdringt</h2>
+  <div class="kaart vul" style="position: relative">
+    <svg viewBox="0 0 1100 340" width="100%" role="img" aria-label="Een projectdeadline botst met bestaand teamwerk. Het besluit gaat terug naar het niveau dat de prioriteit heeft gezet.">
+      <g data-stap="1">
+        <rect x="80" y="210" width="330" height="90" rx="18" fill="#fff" stroke="#004077" stroke-width="3" stroke-dasharray="10 7"/>
+        <use href="#i-klok" x="106" y="241" width="28" height="28" stroke="#004077" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/><text x="260" y="263" text-anchor="middle" style="font: 800 22px var(--font); fill: #004077">Projectdeadline</text>
+        <rect x="690" y="210" width="330" height="90" rx="18" fill="#1473c3"/>
+        <use href="#i-team" x="708" y="241" width="28" height="28" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/><text x="870" y="263" text-anchor="middle" style="font: 800 22px var(--font); fill: #fff">Bestaand teamwerk</text>
+        <text x="550" y="262" text-anchor="middle" style="font: 800 22px var(--font); fill: #c8261b">botst met</text>
+      </g>
+      <g data-stap="2">
+        <path class="teken" pathLength="1" d="M245 205 C 245 130 400 110 470 100" stroke="#c8261b" stroke-width="4" stroke-linecap="round" fill="none"/>
+        <path class="teken" pathLength="1" d="M855 205 C 855 130 700 110 630 100" stroke="#c8261b" stroke-width="4" stroke-linecap="round" fill="none"/>
+        <rect x="380" y="40" width="340" height="80" rx="40" fill="#004077"/>
+        <use href="#i-lagen" x="398" y="66" width="28" height="28" stroke="#8cc2f2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/><text x="565" y="73" text-anchor="middle" style="font: 800 19px var(--font); fill: #fff">Het oorspronkelijke</text>
+        <text x="565" y="98" text-anchor="middle" style="font: 800 19px var(--font); fill: #fff">besluitniveau beslist</text>
+      </g>
+    </svg>
+  </div>
+  <p class="lead" data-stap="3" style="font-size: 20px">Bij een conflict tussen een projectdeadline en bestaand geprioriteerd teamwerk beslist <b>portfolio</b> welke prioriteit voorgaat. Niet de projectmanager, en niet het team.</p>
+  <aside class="notities">
+    <p>Dit is de spelregel die het meeste gedoe voorkomt. Als nieuw werk alleen kan door ander geprioriteerd werk te verdringen, gaat de keuze terug naar het niveau dat die prioriteit heeft gezet.</p>
+    <p>Voor de projectmanager betekent dit: een botsing is geen mislukking, maar een signaal dat je naar het portfolio brengt.</p>
+  </aside>
+</section>
+
+<!-- 27 · MORGEN AL -->
+<section class="dia" data-hoofdstuk="6" data-titel="Wat je morgen al kunt gebruiken">
+  <header class="diakop"><span class="hoofdstuk">6 · Afsluiting</span><span class="nr"></span></header>
+  <h2>Wat je morgen al kunt gebruiken</h2>
+  <p class="lead">In de gereedschapskist van het playbook, om direct in te vullen, te bewaren en te delen als Word of pdf.</p>
+  <div class="raster3 vul" style="align-content: center">
+    <div class="kaart auto-in" style="--t: .1s"><span class="ikoon"><svg class="ic"><use href="#i-lamp"/></svg></span><span class="label">Bij een idee</span><h3>Idee Project Kaart</h3><p>Eigenaar, probleem, doel en verwachte waarde, klaar voor de intake.</p></div>
+    <div class="kaart auto-in" style="--t: .25s"><span class="ikoon"><svg class="ic"><use href="#i-kompas"/></svg></span><span class="label">Bij een idee</span><h3>Keuzehulp</h3><p>Vast team of project? Een eerste richting in zes vragen.</p></div>
+    <div class="kaart auto-in" style="--t: .4s"><span class="ikoon"><svg class="ic"><use href="#i-grafiek"/></svg></span><span class="label">Bij een epic</span><h3>Lean business case</h3><p>De hypothese, de MVP en het besluit daarna.</p></div>
+    <div class="kaart auto-in" style="--t: .55s"><span class="ikoon"><svg class="ic"><use href="#i-document"/></svg></span><span class="label">Bij een project · T1</span><h3>Project Opdracht Kaart</h3><p>Haalbaarheid, oplossing, impact, prioriteit en een eerste inschatting.</p></div>
+    <div class="kaart auto-in" style="--t: .7s"><span class="ikoon"><svg class="ic"><use href="#i-kalender"/></svg></span><span class="label">Bij een project · T2</span><h3>Plan van Aanpak</h3><p>Scope, planning, governance, capaciteit, risico's en overdracht.</p></div>
+    <div class="kaart auto-in donker" style="--t: .85s"><span class="ikoon"><svg class="ic"><use href="#i-lagen"/></svg></span><span class="label">Bij het portfolio</span><h3 style="color: #fff">WSJF en portfoliokanban</h3><p>Prioriteren op waarde en zien waar elk initiatief staat.</p></div>
+  </div>
+  <aside class="notities">
+    <p>Laat het playbook zien als er tijd is: Ondersteunen, dan Templates of Gereedschapskist. Alles werkt in de browser en wordt alleen lokaal bewaard.</p>
+  </aside>
+</section>
+
+<!-- 28 · DRIE DINGEN -->
+<section class="dia blauw" data-hoofdstuk="6" data-stappen="3" data-titel="Drie dingen om te onthouden">
+  <header class="diakop"><span class="hoofdstuk">6 · Afsluiting</span><span class="nr"></span></header>
+  <h2 style="font-size: 52px">Drie dingen om te onthouden</h2>
+  <div style="display: flex; flex-direction: column; gap: 32px; max-width: 980px; margin-top: 10px">
+    <div data-stap="1" style="display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 22px"><span style="width: 56px; height: 56px; border-radius: 50%; background: #fff; color: var(--inkt); display: grid; place-items: center; font-size: 24px; font-weight: 800">1</span><div><h3 style="font-size: 28px; font-weight: 800; letter-spacing: -.025em; margin: 4px 0 6px">Eén portfolio voor alle verandering</h3><p style="font-size: 18px; line-height: 1.5; color: #c9d8ea">Projecten en epics worden samen afgewogen, op dezelfde schaarse capaciteit en met dezelfde vragen.</p></div></div>
+    <div data-stap="2" style="display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 22px"><span style="width: 56px; height: 56px; border-radius: 50%; background: #fff; color: var(--inkt); display: grid; place-items: center; font-size: 24px; font-weight: 800">2</span><div><h3 style="font-size: 28px; font-weight: 800; letter-spacing: -.025em; margin: 4px 0 6px">Kies de lichtste vorm die past</h3><p style="font-size: 18px; line-height: 1.5; color: #c9d8ea">Een vast team waar de waarde blijvend is, een project waar afbakening de doorslag geeft. Storingen lopen via de run.</p></div></div>
+    <div data-stap="3" style="display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 22px"><span style="width: 56px; height: 56px; border-radius: 50%; background: #fff; color: var(--inkt); display: grid; place-items: center; font-size: 24px; font-weight: 800">3</span><div><h3 style="font-size: 28px; font-weight: 800; letter-spacing: -.025em; margin: 4px 0 6px">Stuur op bewijs, niet op plan</h3><p style="font-size: 18px; line-height: 1.5; color: #c9d8ea">Klein beginnen, meten wat het oplevert, en durven bijsturen of stoppen.</p></div></div>
+  </div>
+  <svg width="440" height="170" viewBox="0 0 440 170" aria-hidden="true" style="position: absolute; right: -10px; bottom: 30px">
+    <path class="auto-teken" pathLength="1" d="M0 40 H440" stroke="#8cc2f2" stroke-width="6" stroke-linecap="round" style="--t: .3s"/>
+    <path class="auto-teken" pathLength="1" d="M60 95 H240" stroke="#fff" stroke-width="6" style="--t: .7s"/>
+    <circle class="auto-pop" cx="60" cy="95" r="9" fill="#004077" stroke="#fff" stroke-width="3.5" style="--t: .7s"/>
+    <rect class="auto-pop" x="236" y="85" width="10" height="20" rx="2" fill="#fff" style="--t: 1.5s"/>
+    <path class="auto-in" d="M0 148 H440" stroke="#3f8fd8" stroke-width="7" stroke-linecap="round" stroke-dasharray="0 13" fill="none" style="--t: 1s"/>
+  </svg>
+  <aside class="notities">
+    <p>Herhaal de drie zinnen langzaam. Als iemand maar één ding onthoudt, laat het de eerste zijn: één portfolio.</p>
+  </aside>
+</section>
+
+<!-- 29 · VRAGEN -->
+<section class="dia rood" data-hoofdstuk="6" data-titel="Vragen, en waar je meer vindt">
+  <header class="diakop"><span class="hoofdstuk">6 · Afsluiting</span><span class="nr"></span></header>
+  <h2 class="auto-in" style="font-size: 84px; letter-spacing: -.04em; margin-top: 40px">Vragen?</h2>
+  <svg class="ic auto-in" style="position: absolute; right: 90px; top: 120px; font-size: 300px; color: #fff; opacity: .2; stroke-width: 1.2; --t: .4s" aria-hidden="true"><use href="#i-gesprek"/></svg>
+  <div class="auto-in" style="--t: .3s; margin-top: auto; display: flex; flex-direction: column; gap: 14px; max-width: 900px">
+    <span style="font-size: 14px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #ffd9d4">Verder lezen in het playbook</span>
+    <div style="display: flex; flex-wrap: wrap; gap: 10px">
+      <span class="pil" style="color: var(--rood); gap: 8px"><svg class="ic"><use href="#i-pijl"/></svg>B · Manieren van werken</span>
+      <span class="pil" style="color: var(--rood); gap: 8px"><svg class="ic"><use href="#i-pijl"/></svg>C · Portfolio en routes</span>
+      <span class="pil" style="color: var(--rood); gap: 8px"><svg class="ic"><use href="#i-pijl"/></svg>C · Wie beslist wat?</span>
+      <span class="pil" style="color: var(--rood); gap: 8px"><svg class="ic"><use href="#i-pijl"/></svg>D · Sturen en financieren</span>
+      <span class="pil" style="color: var(--rood); gap: 8px"><svg class="ic"><use href="#i-pijl"/></svg>D · Templates</span>
+    </div>
+  </div>
+  <aside class="notities">
+    <p>Verwacht vragen over de financiering en over de toekomst van het PMO. Wees eerlijk over wat nog niet vaststaat: de financiering van stabiele capaciteit wordt onderzocht, en de inrichting van het PMO is nog niet beschreven.</p>
+  </aside>
+</section>
+
+</div></div>
+
+<div id="voortgang"></div>
+<div id="hulp">← → of spatie · S sprekersstand · O overzicht · B zwart · F volledig scherm</div>
+<div id="bediening"><button id="knop-terug" aria-label="Vorige">←</button><span id="teller"></span><button id="knop-verder" aria-label="Volgende">→</button></div>
+<div id="zwart"></div>
+<div id="overzicht" role="dialog" aria-label="Overzicht van alle dia's"><h2>Alle dia's</h2><ol></ol></div>
+
+<script>
+(() => {
+  const doek = document.getElementById('doek');
+  const dias = [...document.querySelectorAll('.dia')];
+  const N = dias.length;
+  const stappen = (d) => Number(d.dataset.stappen || 0);
+  let i = 0, stap = 0;
+  const haken = {};
+
+  dias.forEach((d, k) => { const nr = d.querySelector('.nr'); if (nr) nr.textContent = `${k + 1} / ${N}`; });
+
+  // Schalen naar het scherm.
+  function schaal() {
+    const s = Math.min(innerWidth / 1280, innerHeight / 720);
+    doek.style.transform = `scale(${s})`;
+  }
+  addEventListener('resize', schaal);
+  schaal();
+
+  // Tonen
+  function toon(herstart) {
+    dias.forEach((d, k) => {
+      const actief = k === i;
+      if (actief && herstart) { d.classList.remove('actief'); void d.offsetWidth; }
+      d.classList.toggle('actief', actief);
+    });
+    const d = dias[i];
+    d.querySelectorAll('[data-stap]').forEach((el) => el.classList.toggle('aan', Number(el.dataset.stap) <= stap));
+    if (d.dataset.haak && haken[d.dataset.haak]) haken[d.dataset.haak](d, stap);
+    document.getElementById('voortgang').style.width = ((i + (stappen(d) ? stap / (stappen(d) + 1) : 0)) / (N - 1)) * 100 + '%';
+    document.getElementById('teller').textContent = `${i + 1} / ${N}`;
+    try { history.replaceState(null, '', `#${i + 1}${stap ? '.' + stap : ''}`); } catch (e) {}
+    spreker();
+  }
+  function verder() {
+    if (stap < stappen(dias[i])) { stap++; toon(false); }
+    else if (i < N - 1) { i++; stap = 0; toon(true); }
+  }
+  function terug() {
+    if (stap > 0) { stap--; toon(false); }
+    else if (i > 0) { i--; stap = stappen(dias[i]); toon(true); }
+  }
+  function ga(k, s = 0) { i = Math.max(0, Math.min(N - 1, k)); stap = Math.min(s, stappen(dias[i])); toon(true); }
+  window.presentatie = { verder, terug, ga, stand: () => ({ i, stap, N }) };
+
+  // Toetsen
+  addEventListener('keydown', (e) => {
+    const t = e.target;
+    const inVeld = t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.tagName === 'SELECT');
+    if (document.body.classList.contains('overzicht') && e.key === 'Escape') { document.body.classList.remove('overzicht'); return; }
+    if (inVeld && (e.key.startsWith('Arrow'))) return;
+    if (['ArrowRight', 'PageDown', ' ', 'ArrowDown'].includes(e.key)) { e.preventDefault(); verder(); }
+    else if (['ArrowLeft', 'PageUp', 'ArrowUp'].includes(e.key)) { e.preventDefault(); terug(); }
+    else if (e.key === 'Home') ga(0);
+    else if (e.key === 'End') ga(N - 1);
+    else if (e.key === 's' || e.key === 'S') openSpreker();
+    else if (e.key === 'o' || e.key === 'O') document.body.classList.toggle('overzicht');
+    else if (e.key === 'b' || e.key === 'B' || e.key === '.') document.body.classList.toggle('zwart');
+    else if (e.key === 'f' || e.key === 'F') { if (document.fullscreenElement) document.exitFullscreen(); else document.documentElement.requestFullscreen?.(); }
+  });
+  document.getElementById('knop-verder').onclick = verder;
+  document.getElementById('knop-terug').onclick = terug;
+  let muisTimer;
+  addEventListener('mousemove', () => { document.body.classList.add('muis'); clearTimeout(muisTimer); muisTimer = setTimeout(() => document.body.classList.remove('muis'), 2200); });
+  // Vegen op een tablet
+  let x0 = null;
+  addEventListener('touchstart', (e) => { x0 = e.touches[0].clientX; }, { passive: true });
+  addEventListener('touchend', (e) => { if (x0 === null) return; const dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 60) (dx < 0 ? verder : terug)(); x0 = null; });
+
+  // Overzicht
+  const ol = document.querySelector('#overzicht ol');
+  dias.forEach((d, k) => {
+    const li = document.createElement('li');
+    const b = document.createElement('button');
+    b.innerHTML = `<small>${k + 1} · ${(d.querySelector('.hoofdstuk')?.textContent || 'Titel')}</small><b>${d.dataset.titel}</b>`;
+    b.onclick = () => { document.body.classList.remove('overzicht'); ga(k, 0); };
+    li.appendChild(b); ol.appendChild(li);
+  });
+
+  // ---------- Haken voor de interactieve dia's ----------
+  // 10 · Trechter
+  const TRECHTER = [
+    { wat: 'Iedereen kan een idee, behoefte of verbeterkans inbrengen: uit de operatie, van klanten, uit projecten of uit de digitale teams.', wie: 'Iedereen', vroeger: 'Een projectaanvraag, vaak met de oplossing er al in.' },
+    { wat: 'Het probleem of de kans en de beoogde waarde zijn duidelijk. Waar nodig met een Idee Project Kaart.', wie: 'De indiener, met de Portfolio Manager', vroeger: 'Een volledig uitgewerkt projectvoorstel voordat iemand ernaar kijkt.' },
+    { wat: 'Past het bij de strategie, biedt het genoeg waarde, rechtvaardigt het de capaciteit? Epics en projecten worden samen afgewogen.', wie: 'Portfolio, of de Directeur (Business en) Digitale Transformatie', vroeger: 'Eén keer per jaar, project voor project, in de jaarplanning.' },
+    { wat: 'Een hypothese die je kunt toetsen: wat verwachten we, en waaraan meten we het? De onderbouwing groeit mee.', wie: 'De Epic Owner', vroeger: 'Een uitgebreide business case vooraf, met vaste scope en vaste baten.' },
+    { wat: 'De kleinste versie die laat zien of de hypothese klopt. Vaste teams bouwen hem vanuit hun backlog, in hun eigen ritme.', wie: 'De vaste teams', vroeger: 'Alles in één keer opleveren, aan het eind van het project.' }
+  ];
+  const UITKOMST = {
+    door: 'De epic gaat verder. Features komen op de backlog van de teams, en het portfolio blijft volgen of de waarde komt.',
+    bij: 'De hypothese wordt aangepast en er komt een volgende MVP. Bijstellen op bewijs is geen falen.',
+    stop: 'Het geld en de capaciteit gaan naar het volgende idee. Stoppen als bewijs of waarde ontbreekt, is een geldige uitkomst.'
+  };
+  haken.trechter = (d, s) => {
+    const breed = 1136 / 6;
+    d.querySelector('.epic').style.left = Math.min(1136 - 190, Math.max(20, Math.round(20 + s * breed + breed / 2 - 85))) + 'px';
+    d.querySelector('.gevuld').style.width = Math.round((s / 5) * (1136 - 100)) + 'px';
+    d.querySelectorAll('.kolom').forEach((k, n) => k.classList.toggle('gedaan', n <= s));
+    d.classList.toggle('toon-besluit', s === 5);
+    if (s < 5) {
+      const t = TRECHTER[s];
+      const p = d.querySelector('.trechter-paneel');
+      p.classList.remove('wissel'); void p.offsetWidth; p.classList.add('wissel');
+      d.querySelector('.t-wat').textContent = t.wat;
+      d.querySelector('.t-wie').textContent = t.wie;
+      d.querySelector('.t-vroeger').textContent = t.vroeger;
+    }
+  };
+  const trechter = document.querySelector('[data-haak="trechter"]');
+  trechter.querySelectorAll('.kolom').forEach((k) => (k.onclick = () => ga(dias.indexOf(trechter), Number(k.dataset.naar))));
+  trechter.querySelectorAll('[data-keus]').forEach((k) => (k.onclick = () => {
+    trechter.querySelectorAll('[data-keus]').forEach((x) => x.classList.toggle('aan', x === k));
+    const p = trechter.querySelector('.t-uitkomst');
+    p.textContent = UITKOMST[k.dataset.keus];
+    p.classList.remove('wissel'); void p.offsetWidth; p.classList.add('wissel');
+  }));
+
+  // 12 · WSJF (rekenvoorbeeld)
+  const EPICS = { a: { kvu: 13, omvang: 8 }, b: { kvu: 8, omvang: 2 }, c: { kvu: 20, omvang: 13 } };
+  haken.wsjf = (d, s) => {
+    const opWsjf = s >= 3;
+    d.querySelector('.wsjf-kop').textContent = opWsjf ? 'Gesorteerd op WSJF' : 'Gesorteerd op kosten van uitstel';
+    const score = (k) => (opWsjf ? EPICS[k].kvu / EPICS[k].omvang : EPICS[k].kvu);
+    const volgorde = Object.keys(EPICS).sort((x, y) => score(y) - score(x));
+    const max = Math.max(...Object.keys(EPICS).map(score));
+    d.querySelectorAll('.wsjf-balk').forEach((b) => {
+      const k = b.dataset.epic;
+      b.style.transform = `translateY(${volgorde.indexOf(k) * 72}px)`;
+      const balk = b.querySelector('.b');
+      balk.style.width = (score(k) / max) * 100 + '%';
+      balk.style.background = opWsjf && volgorde[0] === k ? '#c8261b' : '#1473c3';
+      b.querySelector('span').textContent = opWsjf ? `${EPICS[k].kvu} ÷ ${EPICS[k].omvang} = ${score(k).toFixed(1).replace('.', ',')}` : `${EPICS[k].kvu}`;
+    });
+  };
+
+  // 15 · Budget
+  const budget = document.querySelector('[data-haak="budget"]');
+  const TOTAAL = 12;
+  const ws = { a: 4, b: 3, c: 3 };
+  function tekenBudget() {
+    const vrij = TOTAAL - ws.a - ws.b - ws.c;
+    for (const k of ['a', 'b', 'c', 'vrij']) {
+      const n = k === 'vrij' ? vrij : ws[k];
+      const vak = budget.querySelector(`[data-blok="${k}"]`);
+      while (vak.children.length > n) vak.lastChild.remove();
+      while (vak.children.length < n) vak.appendChild(document.createElement('i'));
+      budget.querySelector(`[data-getal="${k}"]`).textContent = n;
+    }
+  }
+  budget.querySelectorAll('input[data-ws]').forEach((inp) => {
+    inp.addEventListener('input', () => {
+      const k = inp.dataset.ws;
+      const rest = TOTAAL - (ws.a + ws.b + ws.c - ws[k]);
+      ws[k] = Math.min(Number(inp.value), rest);
+      inp.value = ws[k];
+      tekenBudget();
+    });
+  });
+  budget.querySelectorAll('[data-modus]').forEach((b) => (b.onclick = () => {
+    budget.classList.toggle('modus-cap', b.dataset.modus === 'cap');
+    budget.classList.toggle('modus-proj', b.dataset.modus === 'proj');
+    budget.querySelectorAll('[data-modus]').forEach((x) => x.classList.toggle('aan', x === b));
+  }));
+  tekenBudget();
+  haken.budget = () => {};
+
+  // 19 · Vergelijking
+  const VERGELIJK = [
+    { ic: 'euro', naam: 'Financiering', trad: 'Een budget per project, vooraf vastgelegd voor een vaste scope.', agile: 'Budget voor stabiele capaciteit per waardestroom. Projectbudget blijft bestaan voor tijdelijke opgaven.', bron: 'Playbook · Sturen en financieren' },
+    { ic: 'kalender', naam: 'Planning', trad: 'Een volledig plan vooraf, met mijlpalen tot aan de oplevering.', agile: 'Elk kwartaal samen plannen, elke twee weken opleveren en bijsturen.', bron: 'Playbook · Ritme en PI-planning' },
+    { ic: 'lijst', naam: 'Prioriteren', trad: 'Per project, vaak eens per jaar in de jaarplanning.', agile: 'Eén portfolio, doorlopend, op waarde. Epics en projecten worden samen afgewogen.', bron: 'Playbook · Portfolio en routes, WSJF' },
+    { ic: 'kompas', naam: 'Sturing', trad: 'Een stuurgroep per project stuurt op tijd, geld en scope.', agile: 'Het portfolio stuurt op uitkomsten en kaders, teams beslissen binnen die kaders. Projecten houden hun stuurgroep.', bron: 'Playbook · Wie beslist wat? en Kaders' },
+    { ic: 'doel', naam: 'Succes', trad: 'Op tijd, binnen budget en volgens scope opgeleverd.', agile: 'Aantoonbare waarde voor gebruikers. Opleveren is niet hetzelfde als waarde realiseren.', bron: 'Playbook · Uitgangspunt 1' },
+    { ic: 'team', naam: 'Teams', trad: 'Tijdelijk, rond het project. Na de oplevering vallen ze uit elkaar.', agile: 'Vaste teams bij hun product. Het werk gaat naar het team, niet andersom.', bron: 'Playbook · Teams en teaminrichting' },
+    { ic: 'schild', naam: 'Risico', trad: 'Vooraf zoveel mogelijk dichtzetten in plan en business case.', agile: 'Klein beginnen met een MVP, en stoppen of bijsturen als bewijs of waarde ontbreekt.', bron: 'Playbook · Spelregel 11' },
+    { ic: 'grafiek', naam: 'Rapportage', trad: 'Statusrapporten: hoe ver zijn we met het plan?', agile: 'Werkend resultaat in de review en de systeemdemo. Voortgang, waarde, risico en capaciteit in de portfolio-sync.', bron: 'Playbook · Ritme en portfolio-sync' }
+  ];
+
+  // Kleine beelden per onderwerp: [traditioneel, agile]. t = lijnkleur, d = donker, a = accent.
+  const VB = (x) => `<svg viewBox="0 0 420 100" aria-hidden="true">${x}</svg>`;
+  const tx = (x, y, w, c, a = 'start') => `<text x="${x}" y="${y}" text-anchor="${a}" style="font: 700 13px var(--font); fill: ${c}">${w}</text>`;
+  const T = '#8aa0b8', TD = '#3e5878', A = '#8cc2f2', AW = '#ffffff', AB = '#1473c3';
+  const VERG_VIS = {
+    Financiering: [
+      VB([[0,8,120],[140,8,90],[60,44,140],[250,44,120],[270,8,80]].map(([x,y,w]) => `<rect x="${x}" y="${y}" width="${w}" height="24" rx="6" fill="${T}"/><rect x="${x+w-5}" y="${y-4}" width="5" height="32" rx="2" fill="${TD}"/>`).join('') + tx(0, 96, 'een budget per project, met een einde', TD)),
+      VB(`<rect x="0" y="4" width="420" height="18" rx="6" fill="${A}"/><rect x="0" y="26" width="420" height="18" rx="6" fill="${AB}"/><rect x="0" y="48" width="420" height="18" rx="6" fill="${AW}" opacity=".55"/><path d="M105 0V70M210 0V70M315 0V70" stroke="#004077" stroke-width="3" stroke-dasharray="4 4"/>` + tx(0, 96, 'doorlopend per waardestroom, elk kwartaal herijkt', '#c9d8ea'))
+    ],
+    Planning: [
+      VB(`<rect x="0" y="22" width="380" height="20" rx="6" fill="${T}"/>` + [120,250,392].map((x) => `<path d="M${x} 20l12 12-12 12-12-12z" fill="${TD}"/>`).join('') + tx(0, 96, 'alles vooraf, mijlpalen tot de oplevering', TD)),
+      VB([0,1,2,3,4,5].map((k) => `<rect x="${k*70}" y="26" width="58" height="20" rx="6" fill="${k===5?AW:A}"/><path d="M${k*70+8} 20 Q ${k*70+29} 2 ${k*70+50} 20" stroke="${AW}" stroke-width="2.5" fill="none" stroke-linecap="round"/>`).join('') + tx(0, 96, 'elke twee weken opleveren, elk kwartaal samen plannen', '#c9d8ea'))
+    ],
+    Prioriteren: [
+      VB(`<path d="M40 30H380" stroke="${T}" stroke-width="4" stroke-linecap="round"/><circle cx="40" cy="30" r="11" fill="${TD}"/><circle cx="380" cy="30" r="11" fill="${TD}"/>` + tx(0, 62, 'jaarplanning', TD) + tx(420, 62, 'jaarplanning', TD, 'end') + tx(210, 22, 'een jaar wachten', TD, 'middle')),
+      VB([400,310,220,140].map((w, k) => `<rect x="0" y="${4+k*20}" width="${w}" height="14" rx="4" fill="${k===0?AW:A}"/>`).join('') + tx(0, 96, 'doorlopend, de meeste waarde eerst', '#c9d8ea'))
+    ],
+    Sturing: [
+      VB([0,145,290].map((x) => `<rect x="${x}" y="30" width="125" height="40" rx="8" fill="none" stroke="${T}" stroke-width="2.5" stroke-dasharray="6 5"/><path d="M${x+62} 6l12 18h-24z" fill="${TD}"/>`).join('') + tx(62, 55, 'stuurgroep', TD, 'middle') + tx(207, 55, 'stuurgroep', TD, 'middle') + tx(352, 55, 'stuurgroep', TD, 'middle') + tx(0, 96, 'elk project apart afgewogen en bestuurd', TD)),
+      VB(`<path d="M0 6H420M0 74H420" stroke="#e86a5f" stroke-width="4" stroke-linecap="round"/>` + [[60,40],[150,30],[250,48],[350,36]].map(([x,y]) => `<circle cx="${x}" cy="${y}" r="10" fill="${A}"/>`).join('') + tx(0, 96, 'teams beslissen zelf binnen de kaders', '#c9d8ea'))
+    ],
+    Succes: [
+      VB(['op tijd','binnen budget','volgens scope'].map((w, k) => `<path d="M${k*140+4} 30l8 8 16-18" stroke="${TD}" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>` + tx(k*140+34, 36, w, TD)).join('') + tx(0, 96, 'opgeleverd, maar levert het iets op?', TD)),
+      VB(`<path d="M0 72 C 120 70 200 56 260 38 S 360 10 420 4" stroke="${A}" stroke-width="5" fill="none" stroke-linecap="round"/>` + [[90,68],[180,58],[260,38],[340,18]].map(([x,y]) => `<circle cx="${x}" cy="${y}" r="5" fill="${AW}"/>`).join('') + tx(0, 40, 'waarde voor gebruikers', '#c9d8ea'))
+    ],
+    Teams: [
+      VB(`<path d="M0 30H160" stroke="${TD}" stroke-width="5"/><rect x="158" y="18" width="7" height="24" rx="2" fill="${TD}"/>` + [25,65,105,140].map((x) => `<circle cx="${x}" cy="30" r="8" fill="${T}"/>`).join('') + [[195,12],[215,50],[240,22],[262,56]].map(([x,y]) => `<circle cx="${x}" cy="${y}" r="7" fill="${T}" opacity=".45"/>`).join('') + `<path d="M290 30H420" stroke="${TD}" stroke-width="5"/>` + [315,355,395].map((x) => `<circle cx="${x}" cy="30" r="8" fill="${T}"/>`).join('') + tx(0, 96, 'opbouwen, opleveren, uit elkaar, opnieuw', TD)),
+      VB(`<path d="M0 30H420" stroke="${A}" stroke-width="6" stroke-linecap="round"/>` + [40,110,180,250,320,390].map((x) => `<circle cx="${x}" cy="30" r="10" fill="${AW}"/>`).join('') + tx(0, 96, 'één team, blijvend bij het product', '#c9d8ea'))
+    ],
+    Risico: [
+      VB(`<path d="M0 56H330" stroke="${T}" stroke-width="4" stroke-dasharray="6 6"/><rect x="340" y="6" width="80" height="62" rx="8" fill="${TD}"/>` + tx(380, 42, 'alles', '#fff', 'middle') + tx(0, 44, 'lang niets te zien', TD) + tx(0, 96, 'alles in één keer, aan het eind', TD)),
+      VB([0,1,2,3].map((k) => `<rect x="${k*84}" y="40" width="66" height="22" rx="6" fill="${A}"/><path d="M${k*84+22} 22l7 7 14-14" stroke="${AW}" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`).join('') + `<path d="M352 30l20 20M372 30l-20 20" stroke="#e86a5f" stroke-width="4" stroke-linecap="round"/>` + tx(384, 46, 'stop', '#e86a5f') + tx(0, 96, 'klein beginnen, bijsturen of stoppen', '#c9d8ea'))
+    ],
+    Rapportage: [
+      VB(`<rect x="0" y="16" width="340" height="28" rx="8" fill="none" stroke="${T}" stroke-width="2.5"/><rect x="0" y="16" width="230" height="28" rx="8" fill="${T}"/>` + tx(420, 37, '68%', TD, 'end') + tx(0, 96, 'hoe ver zijn we met het plan?', TD)),
+      VB([15,26,37,48,59,70].map((h, k) => `<rect x="${k*70}" y="${76-h}" width="56" height="${h}" rx="5" fill="${k===5?AW:A}"/>`).join('') + tx(0, 96, 'elke twee weken werkend resultaat', '#c9d8ea'))
+    ]
+  };
+  const vgl = document.querySelector('[data-haak="vergelijk"]');
+  const chips = vgl.querySelector('.chips');
+  VERGELIJK.forEach((o, n) => {
+    const b = document.createElement('button');
+    b.innerHTML = `<svg class="ic"><use href="#i-${o.ic}"/></svg>${o.naam}`;
+    b.onclick = () => ga(dias.indexOf(vgl), n);
+    chips.appendChild(b);
+  });
+  haken.vergelijk = (d, s) => {
+    const o = VERGELIJK[s];
+    chips.querySelectorAll('button').forEach((b, n) => { b.classList.toggle('aan', n === s); b.setAttribute('aria-pressed', n === s); });
+    d.querySelector('.v-trad-vis').innerHTML = VERG_VIS[o.naam][0];
+    d.querySelector('.v-agile-vis').innerHTML = VERG_VIS[o.naam][1];
+    for (const sel of ['.v-trad-vis', '.v-agile-vis']) { const el = d.querySelector(sel); el.classList.remove('wissel'); void el.offsetWidth; el.classList.add('wissel'); }
+    for (const [sel, tekst] of [['.v-trad', o.trad], ['.v-agile', o.agile], ['.v-bron', o.bron]]) {
+      const el = d.querySelector(sel);
+      el.textContent = tekst;
+      el.classList.remove('wissel'); void el.offsetWidth; el.classList.add('wissel');
+    }
+  };
+  vgl.querySelectorAll('[data-toon]').forEach((b) => (b.onclick = () => {
+    const box = vgl.querySelector('.vergelijk');
+    box.classList.remove('toon-trad', 'toon-beide', 'toon-agile');
+    box.classList.add('toon-' + b.dataset.toon);
+    vgl.querySelectorAll('[data-toon]').forEach((x) => x.classList.toggle('aan', x === b));
+  }));
+
+  // 22 · Misverstanden
+  haken.misverstanden = (d, s) => d.querySelectorAll('.mis').forEach((m, n) => m.classList.toggle('om', n < s));
+
+  // ---------- Sprekersstand in een tweede venster ----------
+  let venster = null;
+  let start = null;
+  function openSpreker() {
+    if (venster && !venster.closed) { venster.focus(); return; }
+    venster = open('', 'apm-spreker', 'width=1280,height=780');
+    if (!venster) return;
+    start = start || Date.now();
+    const stijl = document.querySelector('style').textContent;
+    venster.document.open();
+    venster.document.write(`<!doctype html><html lang="nl"><head><meta charset="utf-8"><title>Sprekersstand</title><style>${stijl}
+      html,body{overflow:auto;background:#002b52;color:#fff}
+      .sp{display:grid;grid-template-columns:1.55fr 1fr;grid-template-rows:auto minmax(0,1fr) auto;gap:18px;height:100vh;padding:22px 26px}
+      .kop{grid-column:1/3;display:flex;align-items:center;gap:22px}
+      .tijd{font-size:42px;font-weight:800;font-variant-numeric:tabular-nums}
+      .hst{display:flex;gap:6px;flex:1}.hst span{flex:1;height:6px;border-radius:3px;background:rgb(255 255 255/.18)}.hst span.klaar{background:#8cc2f2}.hst span.nu{background:#fff}
+      .lbl{font-size:12.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#8cc2f2;margin-bottom:8px}
+      .venster{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;border-radius:12px;box-shadow:0 0 0 3px #8cc2f2;background:#e3dcd9}
+      .venster .doekje{position:absolute;left:0;top:0;width:1280px;height:720px;transform-origin:0 0}
+      .venster .dia{visibility:visible;opacity:1;transition:none}
+      .rechts{display:flex;flex-direction:column;gap:14px;min-height:0}
+      .not{flex:1;overflow:auto;background:rgb(255 255 255/.07);border-radius:14px;padding:18px 20px}
+      .not p{font-size:19px;line-height:1.5;margin:0 0 10px}
+      .klein-venster{box-shadow:none;opacity:.9}
+      .knoppen{grid-column:1/3;display:flex;justify-content:space-between;align-items:center;font-size:14px;color:#c9d8ea}
+      .knoppen button{min-height:44px;padding:0 18px;border-radius:999px;border:1.5px solid rgb(255 255 255/.55);background:transparent;color:#fff;font-weight:700;cursor:pointer;margin-left:8px}
+      .knoppen button.vol{background:#fff;color:#002b52}
+    </style></head><body>${document.getElementById('iconen').outerHTML}<div class="sp">
+      <div class="kop"><div class="tijd" id="tijd">00:00</div><div style="font-size:14px;color:#c9d8ea">verstreken<br>van ongeveer 40 min</div><div class="hst" id="hst"></div><div id="waar" style="font-size:15px;font-weight:700"></div></div>
+      <div><div class="lbl" id="nu-lbl">Nu</div><div class="venster" id="nu"><div class="doekje"></div></div></div>
+      <div class="rechts"><div class="not" id="not"></div><div><div class="lbl" id="volg-lbl">Volgende</div><div class="venster klein-venster" id="volg"><div class="doekje"></div></div></div></div>
+      <div class="knoppen"><span>← → of spatie: stap · B: zwart scherm in de zaal · O: overzicht</span><div><button id="v-terug">Vorige</button><button id="v-verder" class="vol">Volgende</button><button id="v-reset">Timer opnieuw</button></div></div>
+    </div></body></html>`);
+    venster.document.close();
+    const vd = venster.document;
+    vd.getElementById('v-verder').onclick = verder;
+    vd.getElementById('v-terug').onclick = terug;
+    vd.getElementById('v-reset').onclick = () => { start = Date.now(); };
+    venster.addEventListener('keydown', (e) => {
+      if (['ArrowRight', 'PageDown', ' ', 'ArrowDown'].includes(e.key)) { e.preventDefault(); verder(); }
+      else if (['ArrowLeft', 'PageUp', 'ArrowUp'].includes(e.key)) { e.preventDefault(); terug(); }
+      else if (e.key === 'b' || e.key === 'B') document.body.classList.toggle('zwart');
+      else if (e.key === 'o' || e.key === 'O') document.body.classList.toggle('overzicht');
+    });
+    venster.setInterval(() => {
+      const s = Math.floor((Date.now() - start) / 1000);
+      const t = vd.getElementById('tijd');
+      if (t) t.textContent = String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0');
+    }, 500);
+    venster.addEventListener('resize', spreker);
+    spreker();
+  }
+  function kopie(vak, k, s) {
+    const doekje = vak.querySelector('.doekje');
+    doekje.innerHTML = '';
+    if (k >= N) { doekje.innerHTML = '<div style="padding:40px;font-size:40px;font-weight:800;color:#004077">Einde</div>'; return; }
+    const kloon = venster.document.importNode(dias[k], true);
+    kloon.classList.add('actief');
+    kloon.querySelectorAll('[data-stap]').forEach((el) => el.classList.toggle('aan', Number(el.dataset.stap) <= s));
+    kloon.querySelectorAll('.auto-teken').forEach((el) => (el.style.strokeDashoffset = 0));
+    kloon.querySelectorAll('.auto-pop, .auto-in').forEach((el) => (el.style.opacity = 1));
+    kloon.style.animation = 'none';
+    kloon.querySelectorAll('*').forEach((el) => (el.style.animationName = 'none'));
+    doekje.appendChild(kloon);
+    doekje.style.transform = `scale(${vak.clientWidth / 1280})`;
+  }
+  function spreker() {
+    if (!venster || venster.closed) return;
+    const vd = venster.document;
+    const d = dias[i];
+    const max = stappen(d);
+    kopie(vd.getElementById('nu'), i, stap);
+    const volgendeIs = stap < max ? [i, stap + 1] : [i + 1, 0];
+    kopie(vd.getElementById('volg'), volgendeIs[0], volgendeIs[1]);
+    vd.getElementById('nu-lbl').textContent = `Nu · dia ${i + 1} van ${N}${max ? ` · stap ${stap + 1} van ${max + 1}` : ''}`;
+    vd.getElementById('volg-lbl').textContent = volgendeIs[0] === i ? `Volgende · stap ${stap + 2} van deze dia` : volgendeIs[0] < N ? `Volgende · dia ${volgendeIs[0] + 1}: ${dias[volgendeIs[0]].dataset.titel}` : 'Volgende · einde';
+    vd.getElementById('not').innerHTML = (d.querySelector('.notities')?.innerHTML || '<p>Geen notities.</p>');
+    vd.getElementById('waar').textContent = d.dataset.titel;
+    const h = Number(d.dataset.hoofdstuk);
+    vd.getElementById('hst').innerHTML = [1, 2, 3, 4, 5, 6].map((n) => `<span class="${n < h ? 'klaar' : n === h ? 'nu' : ''}"></span>`).join('');
+  }
+
+  // Start: dia uit de url (#12 of #12.2), anders de eerste.
+  const m = location.hash.match(/^#(\d+)(?:\.(\d+))?/);
+  if (m) { i = Math.max(0, Math.min(N - 1, Number(m[1]) - 1)); stap = Math.min(Number(m[2] || 0), stappen(dias[i])); }
+  toon(true);
+})();
+</script>
+</body>
+</html>

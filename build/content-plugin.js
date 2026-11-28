@@ -1,0 +1,394 @@
+// Vite-plugin die de content/-map inleest, valideert en als `virtual:content` aanbiedt.
+// Fouten in de content (ontbrekende velden, kapotte verwijzingen) laten de build falen,
+// zodat er nooit een playbook met dode links of halve items wordt verspreid.
+import { readFileSync, readdirSync, statSync } from 'node:fs';
+import { join, relative, sep } from 'node:path';
+import yaml from 'js-yaml';
+import { ICONEN } from '../src/lib/iconen.js';
+import { marked } from 'marked';
+import { maakSkill } from './skill.js';
+
+const VIRTUAL_ID = 'virtual:content';
+const SKILL_ID = 'virtual:copilot-skill';
+const RESOLVED_ID = '\0' + VIRTUAL_ID;
+const CONTENT_DIR = 'content';
+
+const BASE_REQUIRED = ['id', 'type', 'titel', 'kern', 'status', 'eigenaar', 'bijgewerkt'];
+const STATUS = ['concept', 'review', 'vastgesteld'];
+const CADANS = ['dagelijks', 'iteratie', 'kwartaal', 'portfolio'];
+
+const TYPE_REQUIRED = {
+  pagina: ['samenvatting'],
+  laag: ['samenvatting', 'niveau', 'doel', 'beslist_over'],
+  rol: ['samenvatting', 'laag', 'niveau_label', 'in_een_zin', 'verantwoordelijkheden', 'niet_meer', 'werkt_samen_met', 'events'],
+  event: ['samenvatting', 'cadans', 'wanneer', 'duur', 'doel', 'deelnemers', 'output', 'goed_als', 'valkuilen'],
+  explainer: ['scene', 'duur', 'stappen'],
+  dilemma: ['situatie', 'vraag', 'opties', 'leerpunt'],
+  uitleg: ['samenvatting'],
+  werkvorm: ['categorie', 'niveau', 'icoon', 'duur', 'wanneer', 'wie']
+};
+
+// Gereedschapskist: categorieën (op volgorde) en niveaus.
+const CATEGORIEEN = [
+  { id: 'overstappen', titel: 'Overstappen', kern: 'Voor de transitie: wat doen we met lopend werk, en hoe delen we ons in?' },
+  { id: 'starten', titel: 'Starten', kern: 'Een team of product goed neerzetten.' },
+  { id: 'plannen', titel: 'Plannen en prioriteren', kern: 'Van wens naar werk: beschrijven, op volgorde zetten en samen plannen.' },
+  { id: 'sturen', titel: 'Sturen op het portfolio', kern: 'Kiezen waarin we investeren, en volgen of het werkt.' },
+  { id: 'verbeteren', titel: 'Verbeteren', kern: 'Samen terugkijken en beter worden.' }
+];
+const NIVEAUS = ['team', 'productgroep', 'portfolio'];
+
+const BESLIS_CODES = { B: 'Beslist', A: 'Adviseert', U: 'Voert uit', I: 'Wordt geïnformeerd' };
+const KWALITEIT = ['beste', 'kan', 'valkuil'];
+const MIJLPAAL_STATUS = ['afgerond', 'bezig', 'gepland'];
+
+// Routes die buiten de content om bestaan (pagina's in src/pages).
+const STATIC_ROUTES = ['', 'waarom', 'uitgangspunten', 'model', 'blok/A', 'blok/B', 'manieren', 'manieren/keuzehulp', 'teams', 'hulpmiddelen', 'templates', 'implementatie', 'samenwerking', 'verbeteren', 'spelregels', 'portfolio', 'rollen', 'ritme', 'sturen', 'woordenlijst', 'over', 'beslissen', 'doen', 'doen/dilemmas', 'doen/teamscan', 'doen/gereedschap', 'transitie', 'uitleg'];
+
+function walk(dir) {
+  // Mappen die met _ beginnen (zoals _sjablonen) zijn hulpmateriaal en geen content.
+  return readdirSync(dir).filter((name) => !name.startsWith('_') && !name.startsWith('.')).flatMap((name) => {
+    const full = join(dir, name);
+    return statSync(full).isDirectory() ? walk(full) : [full];
+  });
+}
+
+function parseMarkdown(file) {
+  const raw = readFileSync(file, 'utf8');
+  const match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
+  if (!match) throw new Error(`${file}: frontmatter (--- … ---) ontbreekt`);
+  const data = yaml.load(match[1]) ?? {};
+  return { ...data, body: match[2].trim() };
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[ch]);
+}
+
+function escapeRegExp(s) {
+  return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+// Zet het eerste voorkomen van elk begrip in lopende tekst om naar een link met hover-uitleg.
+function linkTerms(html, begrippen) {
+  if (!html) return html;
+  const used = new Set();
+  const skipTags = /^(a|code|pre|h1|h2|h3|h4)$/i;
+  const stack = [];
+  const patterns = begrippen
+    .flatMap((b) => [b.term, ...(b.synoniemen ?? [])].map((t) => ({ t, b })))
+    .sort((x, y) => y.t.length - x.t.length);
+
+  return html
+    .split(/(<[^>]+>)/)
+    .map((part) => {
+      const tag = part.match(/^<(\/?)([a-z0-9]+)/i);
+      if (tag) {
+        if (!part.endsWith('/>')) {
+          if (tag[1]) stack.pop();
+          else if (!/^(br|hr|img|input)$/i.test(tag[2])) stack.push(tag[2]);
+        }
+        return part;
+      }
+      if (stack.some((t) => skipTags.test(t))) return part;
+      // Verzamel eerst alle treffers in de originele tekst, zodat links elkaar niet overlappen.
+      const hits = [];
+      for (const { t, b } of patterns) {
+        if (used.has(b.id)) continue;
+        const re = new RegExp(`(^|[^\\p{L}\\p{N}-])(${escapeRegExp(t)})(?=$|[^\\p{L}\\p{N}-])`, 'giu');
+        for (const m of part.matchAll(re)) {
+          const start = m.index + m[1].length;
+          const end = start + m[2].length;
+          if (hits.some((h) => start < h.end && end > h.start)) continue;
+          hits.push({ start, end, b });
+          used.add(b.id);
+          break;
+        }
+      }
+      if (!hits.length) return part;
+      hits.sort((x, y) => x.start - y.start);
+      let out = '';
+      let pos = 0;
+      for (const h of hits) {
+        const word = part.slice(h.start, h.end);
+        out += part.slice(pos, h.start) + `<a class="term" href="#/woordenlijst/${h.b.id}" data-tip="${escapeHtml(h.b.uitleg)}">${word}</a>`;
+        pos = h.end;
+      }
+      return out + part.slice(pos);
+    })
+    .join('');
+}
+
+export function loadContent(root = process.cwd()) {
+  const dir = join(root, CONTENT_DIR);
+  const errors = [];
+  const items = [];
+  const data = {};
+
+  for (const file of walk(dir)) {
+    const rel = relative(root, file).split(sep).join('/');
+    try {
+      if (file.endsWith('.md')) items.push({ ...parseMarkdown(file), _file: rel });
+      else if (file.endsWith('.yaml') || file.endsWith('.yml')) {
+        const key = rel.split('/').pop().replace(/\.ya?ml$/, '');
+        data[key] = yaml.load(readFileSync(file, 'utf8'));
+      }
+    } catch (e) {
+      errors.push(`${rel}: ${e.message}`);
+    }
+  }
+
+  const byType = (type) => items.filter((i) => i.type === type);
+  const ids = new Set();
+
+  for (const item of items) {
+    const where = item._file;
+    for (const f of [...BASE_REQUIRED, ...(TYPE_REQUIRED[item.type] ?? [])]) {
+      if (item[f] === undefined || item[f] === null || item[f] === '') errors.push(`${where}: verplicht veld "${f}" ontbreekt`);
+    }
+    if (!TYPE_REQUIRED[item.type]) errors.push(`${where}: onbekend type "${item.type}"`);
+    if (item.status && !STATUS.includes(item.status)) errors.push(`${where}: status moet een van ${STATUS.join(', ')} zijn`);
+    if (item.kern && item.kern.length > 140) errors.push(`${where}: "kern" is ${item.kern.length} tekens (max. 140)`);
+    if (item.type === 'event' && !CADANS.includes(item.cadans)) errors.push(`${where}: cadans moet een van ${CADANS.join(', ')} zijn`);
+    if (item.type === 'explainer' && (!Array.isArray(item.stappen) || item.stappen.length < 2)) errors.push(`${where}: een explainer heeft minimaal 2 stappen`);
+    const key = `${item.type}:${item.id}`;
+    if (ids.has(key)) errors.push(`${where}: id "${item.id}" komt dubbel voor`);
+    ids.add(key);
+    if (item.bijgewerkt instanceof Date) item.bijgewerkt = item.bijgewerkt.toISOString().slice(0, 10);
+  }
+
+  const rolIds = new Set(byType('rol').map((r) => r.id));
+  const eventIds = new Set(byType('event').map((e) => e.id));
+  const laagIds = new Set(byType('laag').map((l) => l.id));
+  const explainerIds = new Set(byType('explainer').map((e) => e.id));
+  const check = (cond, msg) => cond || errors.push(msg);
+
+  for (const r of byType('rol')) {
+    check(laagIds.has(r.laag), `${r._file}: laag "${r.laag}" bestaat niet`);
+    for (const w of r.werkt_samen_met ?? []) check(rolIds.has(w.rol), `${r._file}: werkt_samen_met verwijst naar onbekende rol "${w.rol}"`);
+    for (const e of r.events ?? []) check(eventIds.has(e.event), `${r._file}: events verwijst naar onbekend event "${e.event}"`);
+  }
+  for (const e of byType('event')) {
+    for (const d of e.deelnemers ?? []) check(rolIds.has(d.rol), `${e._file}: deelnemer "${d.rol}" is geen bekende rol`);
+    if (e.laag) check(laagIds.has(e.laag), `${e._file}: laag "${e.laag}" bestaat niet`);
+    if (e.explainer) check(explainerIds.has(e.explainer), `${e._file}: explainer "${e.explainer}" bestaat niet`);
+  }
+  for (const p of byType('pagina')) {
+    if (p.explainer) check(explainerIds.has(p.explainer), `${p._file}: explainer "${p.explainer}" bestaat niet`);
+  }
+  for (const u of byType('uitleg')) {
+    for (const r of u.teamrollen ?? []) {
+      check(r.naam && r.kort, `${u._file}: elke teamrol heeft "naam" en "kort" nodig`);
+      if (r.rol_id) check(rolIds.has(r.rol_id), `${u._file}: teamrol "${r.naam}" verwijst naar onbekende rol "${r.rol_id}"`);
+    }
+    for (const n of u.niveaus ?? []) {
+      check(n.naam && n.wat, `${u._file}: elk niveau heeft "naam" en "wat" nodig`);
+      if (n.laag) check(laagIds.has(n.laag), `${u._file}: niveau "${n.naam}" verwijst naar onbekende laag "${n.laag}"`);
+    }
+    for (const v of u.voorbeelden ?? []) {
+      check(v.id && v.naam && Array.isArray(v.stappen) && v.stappen.length >= 2, `${u._file}: voorbeeld "${v.naam ?? v.id}" heeft id, naam en minstens 2 stappen nodig`);
+    }
+  }
+  for (const d of byType('dilemma')) {
+    const opties = Array.isArray(d.opties) ? d.opties : [];
+    check(opties.length >= 2 && opties.length <= 4, `${d._file}: een dilemma heeft 2 tot 4 opties`);
+    check(opties.filter((o) => o.kwaliteit === 'beste').length === 1, `${d._file}: precies één optie moet kwaliteit "beste" hebben`);
+    opties.forEach((o, i) => {
+      check(o.tekst && o.feedback, `${d._file}: optie ${i + 1} mist "tekst" of "feedback"`);
+      check(KWALITEIT.includes(o.kwaliteit), `${d._file}: optie ${i + 1} heeft kwaliteit "${o.kwaliteit}" (kies uit ${KWALITEIT.join(', ')})`);
+    });
+    for (const r of d.rollen ?? []) check(rolIds.has(r), `${d._file}: onbekende rol "${r}"`);
+  }
+
+  const beslissingen = data.beslismatrix ?? [];
+  beslissingen.forEach((b, i) => {
+    const waar = `content/data/beslismatrix.yaml (besluit ${i + 1}${b?.besluit ? `: "${b.besluit}"` : ''})`;
+    check(b?.besluit && b?.thema, `${waar}: "besluit" en "thema" zijn verplicht`);
+    if (b?.laag) check(laagIds.has(b.laag), `${waar}: laag "${b.laag}" bestaat niet`);
+    const codes = Object.entries(b?.rollen ?? {});
+    check(codes.length > 0, `${waar}: geef per rol een code (${Object.keys(BESLIS_CODES).join('/')})`);
+    check(codes.filter(([, c]) => c === 'B').length === 1, `${waar}: precies één rol beslist (code B)`);
+    for (const [rol, code] of codes) {
+      check(rolIds.has(rol), `${waar}: onbekende rol "${rol}"`);
+      check(BESLIS_CODES[code], `${waar}: code "${code}" bij ${rol} is ongeldig (kies uit ${Object.keys(BESLIS_CODES).join(', ')})`);
+    }
+  });
+
+  const scan = data.teamscan;
+  if (scan) {
+    check(Array.isArray(scan.dimensies) && scan.dimensies.length >= 3, 'content/data/teamscan.yaml: minimaal 3 dimensies nodig voor het radardiagram');
+    for (const dim of scan.dimensies ?? []) {
+      check(dim.id && dim.naam && Array.isArray(dim.vragen) && dim.vragen.length, `content/data/teamscan.yaml: dimensie "${dim.naam ?? dim.id}" mist id, naam of vragen`);
+      check(dim.laag && dim.hoog, `content/data/teamscan.yaml: dimensie "${dim.naam}" mist duiding "laag" of "hoog"`);
+    }
+  }
+
+  const SCENES = ['model', 'uitleg-product', 'uitleg-ritme', 'uitleg-epic', 'uitleg-pi', 'waardestroom', 'productteam', 'backlog', 'productgroep', 'pi', 'ritme', 'portfolio'];
+  for (const e of byType('explainer')) {
+    check(SCENES.includes(String(e.scene).replace(/^iso-/, '')), `${e._file}: onbekende scène "${e.scene}" (kies uit ${SCENES.map((x) => 'iso-' + x).join(', ')})`);
+  }
+
+  for (const u of byType('uitleg')) {
+    check(['bouwstenen', 'praktijk', undefined].includes(u.groep), `${u._file}: groep moet "bouwstenen" of "praktijk" zijn`);
+  }
+
+  // Iconen bij kenmerken en op de startpagina moeten bestaan.
+  const checkIcoon = (naam, waar) => check(naam === undefined || ICONEN[naam], `${waar}: onbekend icoon "${naam}" (kies uit ${Object.keys(ICONEN).join(', ')})`);
+  for (const u of byType('uitleg')) for (const k of u.kenmerken ?? []) checkIcoon(k.icoon, `${u._file} (kenmerk "${k.titel}")`);
+  for (const u of byType('uitleg'))
+    for (const sp of u.specialismen ?? []) {
+      check(sp.naam && sp.kort && sp.vast_als, `${u._file}: specialisme "${sp.naam ?? '?'}" mist naam, kort of vast_als`);
+      checkIcoon(sp.icoon, `${u._file} (specialisme "${sp.naam}")`);
+    }
+  for (const p of [...(data.start?.waarom?.punten ?? []), ...(data.start?.hoe?.principes ?? [])]) checkIcoon(p.icoon, `content/data/start.yaml ("${p.titel}")`);
+
+  const start = data.start;
+  check(start?.hero?.titel && start?.hero?.lead, 'content/data/start.yaml: hero mist titel of lead');
+  for (const deel of ['waarom', 'hoe', 'wat', 'doen']) check(start?.[deel]?.titel, `content/data/start.yaml: ${deel} mist een titel`);
+  check((start?.waarom?.punten ?? []).every((p) => p.titel && p.tekst), 'content/data/start.yaml: elk punt bij waarom heeft een titel en tekst nodig');
+  check((start?.hoe?.principes ?? []).every((p) => p.titel && p.tekst), 'content/data/start.yaml: elk principe bij hoe heeft een titel en tekst nodig');
+
+  (data.transitie ?? []).forEach((m, i) => {
+    check(m.fase !== undefined && m.titel && m.wat, `content/data/transitie.yaml: mijlpaal ${i + 1} mist fase, titel of wat`);
+    check(MIJLPAAL_STATUS.includes(m.status), `content/data/transitie.yaml: mijlpaal "${m.titel}" heeft status "${m.status}" (kies uit ${MIJLPAAL_STATUS.join(', ')})`);
+    for (const r of m.voor_wie ?? []) check(rolIds.has(r), `content/data/transitie.yaml: onbekende rol "${r}" bij "${m.titel}"`);
+  });
+
+  // Een komma in een niet-aangehaalde waarde binnen { … } knipt de tekst in stukken en laat lege sleutels achter. Dat vangen we af.
+  for (const key of ['manieren', 'uitgangspunten', 'portfolio', 'teams', 'rollengroepen', 'mandaten', 'hulpmiddelen']) {
+    const zoek = (o, pad) => {
+      if (Array.isArray(o)) o.forEach((x, i) => zoek(x, `${pad}[${i}]`));
+      else if (o && typeof o === 'object')
+        for (const [k, v] of Object.entries(o)) {
+          if (v === null) errors.push(`content/data/${key}.yaml${pad}: "${k.slice(0, 40)}" heeft geen waarde. Staat er een komma of dubbele punt in een tekst? Zet de tekst tussen aanhalingstekens.`);
+          else zoek(v, `${pad}.${k}`);
+        }
+    };
+    zoek(data[key], '');
+  }
+
+  // Nieuwe pagina's: manieren van werken, uitgangspunten, portfolio, teams, rollen in groepen, mandaten.
+  const m = data.manieren;
+  if (m) {
+    const kh = m.keuzehulp ?? {};
+    for (const q of [...(kh.voor ?? []), ...(kh.vragen ?? [])]) check(q.id && q.tekst && q.la && q.lb, `content/data/manieren.yaml: keuzevraag "${q.id ?? '?'}" mist id, tekst, la of lb`);
+    for (const k of ['leeg', 'servicedesk', 'drempel', 'verduidelijken', 'vast', 'project', 'gemengd']) check(kh.uitkomsten?.[k]?.titel && kh.uitkomsten?.[k]?.tekst, `content/data/manieren.yaml: uitkomst "${k}" mist titel of tekst`);
+    check((kh.vragen ?? []).length === 6, 'content/data/manieren.yaml: de keuzehulp heeft precies zes vragen (de logica rekent hiermee)');
+    for (const r of m.vergelijking?.rijen ?? []) check(r.vraag && r.vast && r.project, `content/data/manieren.yaml: elke vergelijkingsrij heeft vraag, vast en project nodig`);
+  }
+  check((data.uitgangspunten?.uitgangspunten?.punten ?? []).length > 0 && (data.uitgangspunten?.spelregels?.regels ?? []).length > 0, 'content/data/uitgangspunten.yaml: uitgangspunten en spelregels zijn verplicht');
+  for (const g of data.rollengroepen?.groepen ?? []) {
+    check(g.id && g.titel && Array.isArray(g.rollen), `content/data/rollengroepen.yaml: groep "${g.id ?? '?'}" mist id, titel of rollen`);
+    for (const r of g.rollen ?? []) {
+      if (r.rol) check(rolIds.has(r.rol), `content/data/rollengroepen.yaml: onbekende rol "${r.rol}"`);
+      else check(r.titel && r.tekst, `content/data/rollengroepen.yaml: rol zonder pagina heeft titel en tekst nodig (groep ${g.id})`);
+    }
+  }
+  if (data.rollengroepen) {
+    const inGroep = new Set((data.rollengroepen.groepen ?? []).flatMap((g) => (g.rollen ?? []).map((r) => r.rol).filter(Boolean)));
+    for (const id of rolIds) check(inGroep.has(id), `content/data/rollengroepen.yaml: rol "${id}" staat in geen enkele groep`);
+  }
+  for (const t of data.hulpmiddelen?.templates?.lijst ?? []) {
+    check(t.naam && t.wanneer && t.tekst, `content/data/hulpmiddelen.yaml: template "${t.naam ?? '?'}" mist naam, wanneer of tekst`);
+    if (t.werkvorm) check(byType('werkvorm').some((w) => w.id === t.werkvorm), `content/data/hulpmiddelen.yaml: template "${t.naam}" verwijst naar onbekende werkvorm "${t.werkvorm}"`);
+  }
+  for (const r of data.mandaten?.rijen ?? []) check(r.wie && r.over && r.niet, `content/data/mandaten.yaml: elke rij heeft wie, over en niet nodig`);
+
+  const routes = new Set([
+    ...STATIC_ROUTES,
+    ...[...rolIds].map((id) => `rollen/${id}`),
+    ...[...eventIds].map((id) => `ritme/${id}`),
+    ...byType('uitleg').map((u) => `uitleg/${u.id}`),
+    ...byType('werkvorm').map((w) => `doen/gereedschap/${w.id}`)
+  ]);
+  for (const w of byType('werkvorm')) {
+    check(CATEGORIEEN.some((c) => c.id === w.categorie), `${w._file}: categorie "${w.categorie}" bestaat niet (kies uit ${CATEGORIEEN.map((c) => c.id).join(', ')})`);
+    check(NIVEAUS.includes(w.niveau), `${w._file}: niveau "${w.niveau}" bestaat niet (kies uit ${NIVEAUS.join(', ')})`);
+    check(ICONEN[w.icoon], `${w._file}: onbekend icoon "${w.icoon}"`);
+    for (const r of w.wie ?? []) check(rolIds.has(r), `${w._file}: onbekende rol "${r}" bij wie`);
+    for (const r of w.bij ?? []) check(routes.has(r), `${w._file}: bij "${r}" is geen bestaande pagina`);
+    for (const g of w.groepen ?? []) check(g.naam && Array.isArray(g.criteria), `${w._file}: elke groep heeft een naam en criteria nodig`);
+    for (const o of w.onderwerpen ?? []) check(o.naam && o.wie && Array.isArray(o.vragen) && o.vragen.length, `${w._file}: onderwerp "${o.naam ?? '?'}" mist naam, wie of vragen`);
+    for (const r of w.retros ?? []) check(r.id && r.naam && Array.isArray(r.stappen) && r.stappen.every((st) => st.titel && st.minuten), `${w._file}: retro "${r.naam ?? '?'}" mist id, naam of stappen met titel en minuten`);
+  }
+  for (const [rol, stappen] of Object.entries(data.routes ?? {})) {
+    check(rolIds.has(rol), `content/data/routes.yaml: onbekende rol "${rol}"`);
+    for (const s of stappen) check(routes.has(s.route), `content/data/routes.yaml: route "${s.route}" bij ${rol} bestaat niet`);
+  }
+  for (const d of byType('dilemma')) {
+    for (const r of d.verwijst_naar ?? []) check(routes.has(r), `${d._file}: verwijst_naar "${r}" is geen bestaande pagina`);
+  }
+  for (const b of data.begrippen ?? []) {
+    check(b.id && b.term && b.uitleg, `content/data/begrippen.yaml: begrip ${b.id ?? '?'} mist id, term of uitleg`);
+    if (b.uitleg) check(b.uitleg.length <= 220, `content/data/begrippen.yaml: uitleg bij "${b.id}" is langer dan 220 tekens`);
+  }
+
+  if (errors.length) {
+    throw new Error(`Contentfouten (${errors.length}):\n  - ${errors.join('\n  - ')}`);
+  }
+
+  const begrippen = (data.begrippen ?? []).slice().sort((a, b) => a.term.localeCompare(b.term, 'nl'));
+  const out = { rollen: [], events: [], lagen: [], paginas: [], explainers: [], dilemmas: [], uitleg: [], werkvormen: [] };
+  const plural = { rol: 'rollen', event: 'events', laag: 'lagen', pagina: 'paginas', explainer: 'explainers', dilemma: 'dilemmas', uitleg: 'uitleg', werkvorm: 'werkvormen' };
+  for (const item of items) {
+    const { _file, body, ...rest } = item;
+    out[plural[item.type]].push({ ...rest, bron: _file, html: body ? linkTerms(marked.parse(body), begrippen) : '' });
+  }
+  out.lagen.sort((a, b) => a.niveau - b.niveau);
+  out.rollen.sort((a, b) => (a.volgorde ?? 99) - (b.volgorde ?? 99));
+  out.uitleg.sort((a, b) => (a.volgorde ?? 99) - (b.volgorde ?? 99));
+  out.werkvormen.sort((a, b) => CATEGORIEEN.findIndex((c) => c.id === a.categorie) - CATEGORIEEN.findIndex((c) => c.id === b.categorie) || (a.volgorde ?? 99) - (b.volgorde ?? 99));
+  out.events.sort((a, b) => CADANS.indexOf(a.cadans) - CADANS.indexOf(b.cadans) || (a.volgorde ?? 99) - (b.volgorde ?? 99));
+
+  return {
+    ...out,
+    begrippen,
+    verschuivingen: data.verschuivingen ?? [],
+    routes: data.routes ?? {},
+    changelog: data.changelog ?? [],
+    beslismatrix: beslissingen,
+    beslisCodes: BESLIS_CODES,
+    teamscan: scan ?? null,
+    transitie: data.transitie ?? [],
+    start: data.start ?? null,
+    manieren: data.manieren ?? null,
+    uitgangspunten: data.uitgangspunten ?? null,
+    portfolio: data.portfolio ?? null,
+    teams: data.teams ?? null,
+    rollengroepen: data.rollengroepen ?? null,
+    mandaten: data.mandaten ?? null,
+    hulpmiddelen: data.hulpmiddelen ?? null,
+    categorieen: CATEGORIEEN
+  };
+}
+
+export function contentPlugin() {
+  return {
+    name: 'playbook-content',
+    resolveId(id) {
+      if (id === VIRTUAL_ID) return RESOLVED_ID;
+      if (id === SKILL_ID) return '\0' + SKILL_ID;
+      return null;
+    },
+    load(id) {
+      // De Copilot-skill, altijd actueel, om te downloaden op "Over dit playbook".
+      if (id === '\0' + SKILL_ID) return `export default ${JSON.stringify(maakSkill(loadContent()))};`;
+      if (id !== RESOLVED_ID) return null;
+      for (const f of walk(join(process.cwd(), CONTENT_DIR))) this.addWatchFile(f);
+      return `export default ${JSON.stringify(loadContent())};`;
+    },
+    handleHotUpdate({ file, server }) {
+      if (file.includes(`${sep}${CONTENT_DIR}${sep}`)) {
+        for (const m of [RESOLVED_ID, '\0' + SKILL_ID]) {
+          const mod = server.moduleGraph.getModuleById(m);
+          if (mod) server.moduleGraph.invalidateModule(mod);
+        }
+        server.ws.send({ type: 'full-reload' });
+        return [];
+      }
+    }
+  };
+}
+
+// De regels van de contentcontrole, ook voor de generator van de Copilot-skill (build/skill.js).
+export const REGELS = { BASE_REQUIRED, STATUS, CADANS, TYPE_REQUIRED, CATEGORIEEN, NIVEAUS, BESLIS_CODES, KWALITEIT, MIJLPAAL_STATUS, STATIC_ROUTES };
